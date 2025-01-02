@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './components/forms/LoginForm';
+import RegistrationPage from './components/forms/RegistrationForm';
+import ForgotPasswordForm from './components/forms/ForgotPasswordForm';
 
-function App() {
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import DashboardLayout from './components/layout/DashboardLayout';
+
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = React.useState(true); // Mock authentication for testing.
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <ToastContainer />
+      <Routes>
+        {/* Auth Routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/forgotpwd" element={<ForgotPasswordForm />} />
+
+        {/* Protected Dashboard Routes */}
+        <Route
+          path="/dashboard/*"
+          element={
+            isAuthenticated ? (
+              <DashboardLayout />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Redirect root to dashboard */}
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

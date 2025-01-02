@@ -1,0 +1,20 @@
+.custom-button {
+    background-color: #0a1851;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .custom-button:hover {
+    background-color: #0d2476; /* Slightly lighter color on hover */
+  }
+  
+  .custom-button:disabled {
+    background-color: #b3b3b3;
+    cursor: not-allowed;
+  }
+  
