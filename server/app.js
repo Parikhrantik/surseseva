@@ -3,11 +3,11 @@ const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-const profileRoutes = require('./routes/profileRoutes');
-const competitionRoutes = require('./routes/competitionRoutes');
-const performanceRoutes = require('./routes/performanceRoutes');
+const authRoutes = require('./src/routes/authRoutes');
+const userRoutes = require('./src/routes/userRoutes');
+const profileRoutes = require('./src/routes/profileRoutes');
+const competitionRoutes = require('./src/routes/competitionRoutes');
+const performanceRoutes = require('./src/routes/performanceRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 dotenv.config();
@@ -35,8 +35,8 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB connected'))
-.catch((err) => console.log(err));
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.log(err));
 
 // const crypto = require('crypto');
 // const secret = crypto.randomBytes(64).toString('hex');
