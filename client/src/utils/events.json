@@ -1,0 +1,52 @@
+[
+    {
+      "id": "1",
+      "title": "Summer Music Festival 2024",
+      "description": "Experience an unforgettable weekend of live music featuring top artists from around the world!",
+      "mediaUrl": "https://example.com/video1.mp4",
+      "mediaType": "video",
+      "votes": 150,
+      "eventDate": "jan 5-13, 2025",
+      
+      "location": "Central Park, NY",
+      "attendees": 5000,
+      "category": "Music"
+    },
+    {
+      "id": "2",
+      "title": "Tech Innovation Summit",
+      "description": "Join industry leaders and innovators for the biggest tech conference of the year.",
+      "mediaUrl": "https://example.com/video2.mp4",
+      "mediaType": "video",
+      "votes": 120,
+      "eventDate": "July 10-12, 2025",
+      "location": "Convention Center, SF",
+      "attendees": 3000,
+      "category": "Tech"
+    },
+    {
+      "id": "3",
+      "title": "Global Art Exhibition",
+      "description": "Discover extraordinary artworks from contemporary artists worldwide.",
+      "mediaUrl": "https://example.com/video3.mp4",
+      "mediaType": "video",
+      "votes": 90,
+      "eventDate": "jan 5-14, 2025",
+      "location": "Modern Art Museum",
+      "attendees": 2000,
+      "category": "Art"
+    },
+    {
+        "id": "4",
+        "title": " Art Exhibition",
+        "description": "Discover extraordinary artworks from contemporary artists worldwide.",
+        "mediaUrl": "https://example.com/video3.mp4",
+        "mediaType": "video",
+        "votes": 90,
+        "eventDate": "feb 5-20, 2025",
+        "location": "Modern Art Museum",
+        "attendees": 2000,
+        "category": "Art"
+      }
+  ]
+  

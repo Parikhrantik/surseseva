@@ -13,7 +13,6 @@ const useAuth = () => {
   const navigate = useNavigate();
 
   const apiCall = async (url, data) => {
-    debugger
     setIsLoading(true);
     setError(null);
     setSuccess(null);
@@ -31,7 +30,7 @@ const useAuth = () => {
         toast.success(response.data.message);
 
         if (url === `${API_URL}/auth/login`) {
-          navigate('/dashboard');
+          navigate('/');
         }
 
         // Navigate to login page if registration is successful
@@ -64,7 +63,7 @@ const useAuth = () => {
   };
 
   // Forgot Password API Call
- 
+
 
   return {
     loginUser,

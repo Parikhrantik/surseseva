@@ -11,7 +11,6 @@ const LoginForm = () => {
   const { control, handleSubmit,register, formState: { errors } } = useForm();
 
   const onSubmit = async (formData) => {
-    debugger
     const loginData = {
       email: formData.email,
       password: formData.password,
@@ -19,7 +18,9 @@ const LoginForm = () => {
     };
     try {
       const response = await loginUser(loginData, formData);
-      console.log(response);
+      // console.log(response,"mmmmmmmmmmmmmmmmmmmmmmmm");
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('userId', response.data.userId);
     } catch (error) {
       console.error("login failed", error);
     }
@@ -27,7 +28,9 @@ const LoginForm = () => {
   return (
     <AuthLayout>
       <form className="max-w-lg w-full mx-auto" onSubmit={handleSubmit(onSubmit)}>
+    
         <div className="mb-12">
+        <img className="h-12 mx-auto mb-10" src="/images/SurBlack.png" alt="Logo" />
           <h3 className="text-[#0a1851] md:text-3xl text-3xl font-extrabold text-center">
             Login
           </h3>

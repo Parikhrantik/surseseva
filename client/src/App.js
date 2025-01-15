@@ -1,49 +1,123 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginPage from './components/forms/LoginForm';
 import RegistrationPage from './components/forms/RegistrationForm';
 import ForgotPasswordForm from './components/forms/ForgotPasswordForm';
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DashboardLayout from './components/layout/DashboardLayout';
+import Home from './pages/Home';
+import About from './pages/About';
+import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer';
+import Myevents from './pages/Myevents';
+import Myprofile from './pages/Myprofile';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(true); // Mock authentication for testing.
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  // Protected Route wrapper component
+  const ProtectedRoute = ({ children }) => {
+    return isAuthenticated ? children : <Navigate to="/login" replace />;
+  };
+
+  // Public Route wrapper component to redirect authenticated users
+  const PublicRoute = ({ children }) => {
+    return !isAuthenticated ? children : <Navigate to="/dashboard" replace />;
+  };
+
+  // Conditionally render Navbar and Footer
+  const ConditionalLayout = ({ children }) => {
+    const location = useLocation();
+    const showLayout = ["/", "/about","/events","/profile"].includes(location.pathname); // Add routes where Navbar/Footer should appear
+
+    return (
+      <>
+        {showLayout && <Navbar />}
+        <main className="flex-grow">{children}</main>
+        {showLayout && <Footer />}
+      </>
+    );
+  };
 
   return (
     <Router>
       <ToastContainer />
-      <Routes>
-        {/* Auth Routes */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegistrationPage />} />
-        <Route path="/forgotpwd" element={<ForgotPasswordForm />} />
+      <div className="flex flex-col min-h-screen">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ConditionalLayout>
+                <Home />
+              </ConditionalLayout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <ConditionalLayout>
+                <About />
+              </ConditionalLayout>
+            }
+          />
+          <Route
+            path="/events"
+            element={
+              <ConditionalLayout>
+                <Myevents />
+              </ConditionalLayout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ConditionalLayout>
+                <Myprofile />
+              </ConditionalLayout>
+            }
+          />
 
-        {/* Protected Dashboard Routes */}
-        <Route
-          path="/dashboard/*"
-          element={
-            isAuthenticated ? (
-              <DashboardLayout />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
+          {/* Auth Routes */}
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <RegistrationPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/forgotpwd"
+            element={
+              <PublicRoute>
+                <ForgotPasswordForm />
+              </PublicRoute>
+            }
+          />
 
-        {/* Redirect root to dashboard */}
-        <Route
-          path="/"
-          element={
-            isAuthenticated ? (
-              <Navigate to="/dashboard" replace />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-      </Routes>
+          {/* Protected Dashboard Routes */}
+          <Route
+            path="/dashboard/*"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Catch all route for 404 */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
     </Router>
   );
 };

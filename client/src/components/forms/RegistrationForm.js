@@ -12,7 +12,7 @@ const RegistrationForm = () => {
   const { control, handleSubmit,register, formState: { errors } } = useForm();
 
   const onSubmit = async (formData) => {
-    debugger
+    
     const registerData = {
       name: formData.name,
       email: formData.email,
@@ -33,6 +33,7 @@ const RegistrationForm = () => {
     <AuthLayout>
       <form className="max-w-lg w-full mx-auto" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-12">
+        <img className="h-12 mx-auto mb-10" src="/images/SurBlack.png" alt="Logo" />
           <h3 className="text-[#0a1851] md:text-3xl text-3xl font-extrabold text-center">
             Create an account
           </h3>
@@ -132,7 +133,7 @@ const RegistrationForm = () => {
             >
               <option value="">-- Select a Role --</option>
               <option value="Participant">Participant</option>
-              <option value="Organizer">Organizer</option>
+              <option value="judge">judge</option>
               <option value="Voter">Voter</option>
             </select>
             {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}

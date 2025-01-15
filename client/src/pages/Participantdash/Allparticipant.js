@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Info, Pencil, Trash2 } from 'lucide-react'; 
-import useParticipantsAuth from '../../hooks/useParticipantsAuth ';
-// import useParticipantsAuth from '../../hooks/useParticipantsAuth';
+import useParticipantsAuth from '../../hooks/useParticipantsAuth';
+
 
 const PageSizeOptions = [5, 10, 15,25,30,35,40];
 
 const Allparticipant = () => {
-  const { participants, loading } = useParticipantsAuth();
+  const { participants, loading,handleDelete } = useParticipantsAuth();
 
   const [pageSize, setPageSize] = useState(PageSizeOptions[0]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading indicator
+    return <div>Loading...</div>;
   }
 
   const start = (page - 1) * pageSize;
@@ -28,6 +28,16 @@ const Allparticipant = () => {
   const handlePageChange = (e) => {
     setPage(parseInt(e.target.value));
   };
+
+
+  const handleEdit = (id) => {
+    window.location.href = `dashboard/edit-user/${id}`;
+  };
+
+  const handleView = (id) => {
+    window.location.href = `dashboard/view-user/${id}`;
+  };
+
 
   return (
     <div className="p-4">
@@ -57,13 +67,13 @@ const Allparticipant = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <div className="flex space-x-2">
-                      <button className="p-1 hover:bg-blue-100 rounded-full">
+                      <button className="p-1 hover:bg-blue-100 rounded-full"  onClick={() => handleView(participant._id)}>
                         <Info className="w-4 h-4 text-blue-600" />
                       </button>
-                      <button className="p-1 hover:bg-green-100 rounded-full">
+                      <button className="p-1 hover:bg-green-100 rounded-full" onClick={() => handleEdit(participant._id)}>
                         <Pencil className="w-4 h-4 text-green-600" />
                       </button>
-                      <button className="p-1 hover:bg-red-100 rounded-full">
+                      <button className="p-1 hover:bg-red-100 rounded-full"   onClick={() => handleDelete(participant._id)}>
                         <Trash2 className="w-4 h-4 text-red-600" />
                       </button>
                     </div>
