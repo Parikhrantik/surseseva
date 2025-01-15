@@ -47,7 +47,7 @@ const deleteUser = async (req, res) => {
 // Update user details
 const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, email, role, password } = req.body;
+  const { name, email, role, bio, genrePreferences, contactInfo } = req.body;
 
   // Validate role if provided
   const validRoles = ['Participant', 'Organizer', 'Voter'];
@@ -56,9 +56,11 @@ const updateUser = async (req, res) => {
   }
 
   try {
-    const updateData = { name, email, role };
-    if (password) {
-      updateData.password = await bcrypt.hash(password, 12); // Hash the password if provided
+    const updateData = { name, email, role, bio, genrePreferences, contactInfo };
+
+    // Handle profile picture upload
+    if (req.file) {
+      updateData.profilePicture = `/uploads/profile-pictures/${req.file.filename}`;
     }
 
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
@@ -69,6 +71,7 @@ const updateUser = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
+
     res.status(200).json(updatedUser);
   } catch (error) {
     console.error('Error updating user:', error);
@@ -78,6 +81,7 @@ const updateUser = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 };
+
 
 module.exports = {
   getUserById,

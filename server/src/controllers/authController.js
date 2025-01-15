@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
   }
 
   // Validate role
-  const validRoles = ['Participant', 'Organizer', 'Voter'];
+  const validRoles = ['Participant', 'judge', 'Voter'];
   if (!validRoles.includes(role)) {
       return res.status(400).json({ message: 'Invalid role selected' });
   }
@@ -111,7 +111,7 @@ const verifyEmail = async (req, res) => {
       }
       // Mark the user as verified
       await User.findByIdAndUpdate(decoded.userId, { isVerified: true });
-      res.status(200).send('Email verified successfully');
+      res.redirect('http://localhost:3000/login');
     } catch (error) {
       console.error('Error verifying email:', error.message);
       return res.status(400).send('Error verifying token');
@@ -143,7 +143,7 @@ const loginUser = async (req, res) => {
         status: '200',
         message: 'Login successful',
         token,
-
+        userId: user._id // Include userId in the response
       });
     } catch (error) {
       console.error(error);
@@ -152,7 +152,7 @@ const loginUser = async (req, res) => {
       }
       res.status(500).json({ message: 'Something went wrong' });
     }
-  };
+};
 
 
 
