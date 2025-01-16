@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ThumbsUp, Share2, Calendar, MapPin, Heart, UserPlus } from 'lucide-react';
-import RegistrationModal from '../../forms/RegistrationModal/indx';
+import RegistrationModal from '../../forms/RegistrationModal';
 
 
 const EventCard = ({

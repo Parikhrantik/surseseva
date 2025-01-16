@@ -4,6 +4,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }) => {
+
+  const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
   const competitionId = competitionData._id;
   const userid = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }
   
     try {
       // Use axios or fetch to submit the form
-      const response = await axios.post('http://localhost:5000/performance/submit-performance', submissionData, {
+      const response = await axios.post(`${API_URL}/performance/submit-performance`, submissionData, {
         headers: {
           'Content-Type': 'multipart/form-data', // FormData requires this header
         },

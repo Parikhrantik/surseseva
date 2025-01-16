@@ -29,6 +29,7 @@ const usePerformanceAuth = (id) => {
         // setSuccess(response.data?.message);
         toast.success(response.data?.message);
         navigate('/');
+        window.location.reload();
       } else {
         const errorMessage = response.data?.message || `Unexpected response status: ${response.status}`;
         setError(errorMessage);
@@ -79,7 +80,7 @@ const usePerformanceAuth = (id) => {
   };
 
   const updatePerformance = async (performanceId, data) => {
-    debugger
+    // debugger
     try {
       setIsLoading(true);
       const response = await axios.put(

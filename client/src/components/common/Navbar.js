@@ -8,6 +8,7 @@ const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
@@ -159,7 +160,6 @@ const Header = () => {
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 className="nav-link flex items-center space-x-2"
                             >
-                                {/* <User size={18} /> */}
                                 <span>Account</span>
                                 <ChevronDown className={`h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
@@ -173,7 +173,6 @@ const Header = () => {
                                         <User size={16} className="mr-3 text-gray-400 group-hover:text-purple-500" />
                                         <div>
                                             <p className="font-medium group-hover:text-purple-600">My Profile</p>
-                                           
                                         </div>
                                     </Link>
                                     <Link
@@ -183,7 +182,6 @@ const Header = () => {
                                         <Calendar size={16} className="mr-3 text-gray-400 group-hover:text-purple-500" />
                                         <div>
                                             <p className="font-medium group-hover:text-purple-600">My Events</p>
-                                           
                                         </div>
                                     </Link>
                                 </div>
@@ -205,7 +203,7 @@ const Header = () => {
 
                 {/* Mobile Navigation */}
                 {isOpen && (
-                    <div className="lg:hidden py-4">
+                    <div className="lg:hidden py-4" style={{ backgroundColor: '#0a1851' }}>
                         <div className="flex flex-col space-y-4">
                             <Link to="/" className="py-2 hover:text-purple-500 transition-colors">
                                 Home

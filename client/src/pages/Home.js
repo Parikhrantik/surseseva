@@ -108,7 +108,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <MissionPage/>
+      {/* <MissionPage/> */}
       {/* Featured Events Section */}
       <div className="py-20 bg-gradient-to-b from-black to-purple-900/20">
         <div className="container mx-auto px-4">

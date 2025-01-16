@@ -6,6 +6,7 @@ import UpdateRegistrationModal from '../components/forms/UpdateRegistrationModal
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 export default function Myevents() {
+  const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -53,7 +54,7 @@ export default function Myevents() {
     const userId = localStorage.getItem('userId');
     const data = { userId, eventId };
 
-    fetch('http://localhost:5000/competition/delete-competition-registration', {
+    fetch(`${API_URL}/competition/delete-competition-registration`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
