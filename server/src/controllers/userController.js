@@ -11,7 +11,12 @@ const getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.status(200).json(user);
+    const filePath = `${process.env.BASE_URL}/get-file/${user.profilePicture}`;
+  
+    res.status(200).json({
+      ...user._doc,
+      profilePicture: filePath,
+    });
   } catch (error) {
     console.error('Error fetching user by ID:', error);
     res.status(500).json({ message: 'Something went wrong' });
@@ -48,6 +53,8 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const { name, email, role, bio, genrePreferences, contactInfo } = req.body;
+  // console.log(req.body,"uuuuuuuuuuuuuuuuu")
+  const profilePicture = req.file ? req.file.filename : null;
 
   // Validate role if provided
   const validRoles = ['Participant', 'Organizer', 'Voter'];
@@ -56,12 +63,7 @@ const updateUser = async (req, res) => {
   }
 
   try {
-    const updateData = { name, email, role, bio, genrePreferences, contactInfo };
-
-    // Handle profile picture upload
-    if (req.file) {
-      updateData.profilePicture = `/uploads/profile-pictures/${req.file.filename}`;
-    }
+    const updateData = { name, email, role, bio, genrePreferences, contactInfo, profilePicture };
 
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
       new: true,

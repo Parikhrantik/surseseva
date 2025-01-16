@@ -56,22 +56,43 @@ const useParticipantsAuth = () => {
     }
   };
 
-  // Handle participant update
-  const handleSubmit = async (e, userData) => {
-    e.preventDefault();
+ 
+  const updateUser = async (id, userData) => {
+    setLoading(true);
+    const formData = new FormData();
+  
     try {
-      await axios.put(`${API_URL}/user/updateUser/${id}`, userData);
-      toast.success('User updated successfully');
+      // Append each key to FormData
+      Object.entries(userData).forEach(([key, value]) => {
+        if (key === 'genrePreferences' && Array.isArray(value)) {
+          value.forEach((genre) => formData.append('genrePreferences[]', genre));
+        } else if (value instanceof File) {
+          formData.append(key, value); // Handle file uploads (e.g., profilePicture)
+        } else if (value) {
+          formData.append(key, value); // Other fields
+        }
+      });
+  
+      // API call
+      const response = await axios.put(`${API_URL}/user/update/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+  
+      toast.success('Profile updated successfully!');
       window.location.reload();
-      navigate('/profile')
+      return response.data;
     } catch (error) {
-      toast.error('Error updating user');
+      console.error('Error updating user:', error);
+      toast.error(
+        error.response?.data?.message || 'An error occurred while updating the profile.'
+      );
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
-
-
-  return { participants, loading, handleDelete, participant, setId, handleSubmit };
+  return { participants, loading, handleDelete, participant, setId, updateUser };
 };
 
 export default useParticipantsAuth;

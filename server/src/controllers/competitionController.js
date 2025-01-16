@@ -8,10 +8,10 @@ const Performance = require('../models/Performance');
 
 exports.competitionRegistration = async (req, res) => {
   try {
-    const { userId, eventId, competitionName, category, agreedToRules, eventDate } = req.body;
+    const { userId, eventId, competitionName, category, agreedToRules, eventDate,eventStartDate,eventEndDate } = req.body;
 
     // Validate required fields
-    if (!userId || !eventId || !competitionName || !category || !agreedToRules || !eventDate) {
+    if (!userId || !eventId || !competitionName || !category || !agreedToRules || !eventDate || !eventStartDate || !eventEndDate) {
       return res.status(400).json({
         success: false,
         message: 'All fields are required.',
@@ -52,6 +52,8 @@ exports.competitionRegistration = async (req, res) => {
       category,
       agreedToRules,
       eventDate,
+      eventStartDate,
+      eventEndDate
     });
 
     await newRegistration.save();
@@ -185,10 +187,10 @@ exports.deleteCompetitionRegistration = async (req, res) => {
 
   // Update competition registration
 exports.updateCompetitionRegistration = async (req, res) => {
-  const { userId, eventId, competitionName, category, agreedToRules, eventDate } = req.body;
+  const { userId, eventId, competitionName, category, agreedToRules,eventDate,eventStartDate,eventEndDate  } = req.body;
 
   try {
-    if (!userId || !eventId || !competitionName || !category || !agreedToRules || !eventDate) {
+    if (!userId || !eventId || !competitionName || !category || !agreedToRules|| !eventDate || !eventStartDate || !eventEndDate) {
       return res.status(400).json({
         success: false,
         message: 'All fields are required.',
@@ -212,13 +214,7 @@ exports.updateCompetitionRegistration = async (req, res) => {
 
     const updatedRegistration = await Competition.findOneAndUpdate(
       { userId: new mongoose.Types.ObjectId(userId), eventId: eventObjectId },
-      {
-        competitionName,
-        category,
-        agreedToRules,
-        eventDate,
-        updatedAt: Date.now(),
-      },
+      { competitionName, category, agreedToRules },
       { new: true }
     );
 
@@ -263,12 +259,12 @@ exports.updateCompetitionRegistration = async (req, res) => {
       // Fetch events from competition registrations
       const competitionEvents = await Competition.find({
         userId: new mongoose.Types.ObjectId(userId),
-      }).select('eventId competitionName category createdAt updatedAt');
+      }).select('eventId competitionName category');
 
       // Fetch events from performances
       const performanceEvents = await Performance.find({
         userId: new mongoose.Types.ObjectId(userId),
-      }).select('eventId performanceTitle tags description competitionId createdAt updatedAt');
+      }).select('eventId performanceTitle tags description competitionId');
       return res.status(200).json({
         success: true,
         message: 'User events retrieved successfully.',
@@ -285,3 +281,4 @@ exports.updateCompetitionRegistration = async (req, res) => {
       });
     }
   };
+  

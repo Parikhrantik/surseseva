@@ -44,7 +44,16 @@ const userSchema = new mongoose.Schema({
   agreedToTerms: {
     type: Boolean,
     default: false,
-},
+  },
+  contactInfo: {
+      type: String,
+      default: '',
+    },
+  profilePicture: {
+      type: String,
+      default: '',
+    },
+
 }, {
   timestamps: true,
 });

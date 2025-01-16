@@ -38,12 +38,17 @@ const Header = () => {
         }
     }, []);
 
+    const isHomePage = window.location.pathname === '/';
+
     return (
         <header
-            className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
-                ? 'bg-white/95 backdrop-blur-sm text-gray-800 shadow-lg'
-                : 'bg-transparent text-white'
-                }`}
+            className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white shadow-lg'
+          : isHomePage
+          ? 'bg-transparent text-white'
+          : 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white'
+      }`}
         >
             <nav className="container mx-auto px-4">
                 <div className="flex justify-between items-center py-4">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ThumbsUp, Share2, Calendar, MapPin, Users, UserPlus } from 'lucide-react';
+import { ThumbsUp, Share2, Calendar, MapPin, Heart, UserPlus } from 'lucide-react';
 import RegistrationModal from '../../forms/RegistrationModal/indx';
+
 
 const EventCard = ({
   id,
@@ -12,6 +13,8 @@ const EventCard = ({
   eventDate,
   location,
   attendees,
+  eventStartDate,
+  eventEndDate,
   category
 }) => {
   const [hasVoted, setHasVoted] = useState(false);
@@ -42,53 +45,57 @@ const EventCard = ({
 
   return (
     <>
-      <div
-        className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="relative">
-          <div className="absolute top-4 right-4 z-10">
-            <span className="px-4 py-2 bg-purple-500 text-white rounded-full text-sm font-semibold">
-              {category}
-            </span>
-          </div>
-          <div className="p-4">
-            <h3 className="text-2xl font-bold mb-2 text-gray-800">{title}</h3>
-            <p className="text-gray-600 mb-4">{description}</p>
-            <div className="flex items-center space-x-4 mb-4 text-sm text-gray-500">
-              <div className="flex items-center">
-                <Calendar className="h-4 w-4 mr-2" />
-                {/* {} */}
-                {eventDate}
-              </div>
-              <div className="flex items-center">
-                <MapPin className="h-4 w-4 mr-2" />
-                {location}
-              </div>
-              <div className="flex items-center">
-                <Users className="h-4 w-4 mr-2" />
-                {attendees} attending
-              </div>
-            </div>
+
+
+      <div className="group relative">
+        {/* Card Background with Hover Effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-2xl transform group-hover:scale-105 transition-transform duration-300"></div>
+
+        {/* Card Content */}
+        <div className="relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden">
+          {/* Event Image */}
+          <div className="relative aspect-[16/9]">
             <div className="mb-4 rounded-lg overflow-hidden">
               {mediaType === 'video' ? (
-                <video
-                  controls
-                  className="w-full rounded-lg transform transition-transform duration-300"
-                  src={mediaUrl}
-                  style={{ transform: isHovered ? 'scale(1.02)' : 'scale(1)' }}
-                />
+                <iframe src={`https://www.youtube.com/embed/${mediaUrl.split('v=')[1]}?autoplay=1`} width="640" height="300" allowFullScreen autoplay></iframe>
               ) : (
-                <audio
-                  controls
-                  className="w-full"
-                  src={mediaUrl}
-                />
+                <audio controls className="w-full" src={mediaUrl} />
               )}
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t">
+            {/* Floating Category Badge */}
+            <div className="absolute top-4 left-4">
+              <span className="px-4 py-1 bg-white/10 backdrop-blur-md rounded-full text-sm">{category}</span>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button className="p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20">
+                <Heart className="h-4 w-4" />
+              </button>
+              <button className="p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20">
+                <Share2 className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <h3 className="text-xl font-semibold mb-3">{title}</h3>
+            <p className="text-white/60 mb-4">{description}</p>
+
+            <div className="flex items-center gap-4 text-white/60 mb-4">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <span className="text-sm"> {eventStartDate}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                <span className="text-sm">{location}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+
               <div className="flex items-center space-x-2">
                 <span className="text-gray-600 font-semibold">{voteCount} votes</span>
               </div>
@@ -97,17 +104,16 @@ const EventCard = ({
                   onClick={handleShare}
                   className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
                 >
-                  <Share2 className="h-4 w-4" />
-                  <span>Share</span>
+                  <Share2 className="h-4 w-4" style={{ color: 'black' }} />
+                  <span style={{ color: 'black' }}>Share</span>
                 </button>
                 {localStorage.getItem('token') ? (
-                  <button
-                    onClick={() => {
-                      setIsRegistrationOpen(true);
-                    }}
-                    className="flex items-center space-x-2 px-6 py-2 rounded-full bg-green-600 hover:bg-green-700 text-white transition-all duration-300 transform hover:scale-105"
-                  >
-                    <UserPlus className="h-4 w-4" />
+
+
+                  <button className="px-4 py-2 flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-medium hover:opacity-90 transition-opacity" onClick={() => {
+                    setIsRegistrationOpen(true);
+                  }}>
+                    <UserPlus className="h-5 w-5" />
                     <span>Participate</span>
                   </button>
                 ) : (
@@ -115,8 +121,8 @@ const EventCard = ({
                     onClick={handleVote}
                     disabled={hasVoted}
                     className={`flex items-center space-x-2 px-6 py-2 rounded-full transition-all duration-300 ${hasVoted
-                        ? 'bg-gray-100 cursor-not-allowed'
-                        : 'bg-purple-600 hover:bg-purple-700 text-white transform hover:scale-105'
+                      ? 'bg-gray-100 cursor-not-allowed'
+                      : 'bg-purple-600 hover:bg-purple-700 text-white transform hover:scale-105'
                       }`}
                   >
                     <ThumbsUp className="h-4 w-4" />
@@ -129,15 +135,21 @@ const EventCard = ({
         </div>
       </div>
 
+
+
+
+
+
       <RegistrationModal
-        isOpen={isRegistrationOpen}
+       isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
         eventId={id}
         eventDate={eventDate}
+        eventStartDate={eventStartDate}
+        eventEndDate={eventEndDate}
       />
     </>
   );
 };
 
 export default EventCard;
-

@@ -29,6 +29,8 @@ const competitionSchema = new mongoose.Schema(
       default: Date.now,
     },
     eventDate: { type: String, required: true },
+    eventStartDate: { type: String, required: true },
+    eventEndDate: { type: String, required: true },
     createdAt: {
       type: Date,
       default: Date.now,

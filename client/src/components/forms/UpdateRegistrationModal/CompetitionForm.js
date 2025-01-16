@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import useCompetitionAuth from '../../../hooks/useCompetionAuth';
 
-const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitionId, eventDate, updatedAt }) => {
+const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitionId, eventStartDate,eventEndDate,eventDate, updatedAt }) => {
   // debugger
   console.log(updatedAt, "updatedAtupdatedAt");
 
@@ -10,7 +10,9 @@ const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitio
   const [formData, setFormData] = useState({
     userId: userId,
     eventId: eventId,
-    eventDate: eventDate,
+    eventDate:eventDate,
+    eventStartDate: eventStartDate,
+    eventEndDate: eventEndDate,
     competitionName: '',
     category: '',
     agreedToRules: false,
@@ -19,7 +21,7 @@ const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitio
   const { getCompetitionDetailsId, isLoading } = useCompetitionAuth();
   
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [buttonColor, setButtonColor] = useState('bg-gray-400'); // Default button color
+  const [buttonColor, setButtonColor] = useState('bg-gray-400');
 
   useEffect(() => {
     if (competitionId) {
@@ -28,8 +30,10 @@ const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitio
           setFormData({
             userId: data.data.userId,
             eventId: data.data.eventId,
-            competitionName: data.data.competitionName,
             eventDate: data.data.eventDate,
+            competitionName: data.data.competitionName,
+            eventStartDate: data.data.eventStartDate,
+            eventEndDate: data.data.eventEndDate,
             category: data.data.category,
             agreedToRules: data.data.agreedToRules,
           });
@@ -39,8 +43,10 @@ const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitio
       setFormData({
         userId: competitionData.userId,
         eventId: competitionData.eventId,
-        competitionName: competitionData.competitionName,
         eventDate: competitionData.eventDate,
+        competitionName: competitionData.competitionName,
+        eventStartDate: competitionData.eventStartDate,
+        eventEndDate: competitionData.eventEndDate,
         category: competitionData.category,
         agreedToRules: competitionData.agreedToRules,
       });
@@ -48,7 +54,7 @@ const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitio
 
     // Compare the eventDate with the current date
   const currentDate = new Date();
-  const eventDateDate = new Date(eventDate);
+  const eventDateDate = new Date(eventEndDate);
   const updatedAtDate = new Date(updatedAt);
   // console.log("Event Date:", eventDateDate);
   // console.log("Current Date:", currentDate);
@@ -66,11 +72,11 @@ const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitio
       setIsButtonDisabled(false); // Enable the button if updatedAt is in the future or today
     }
   }
-}, [competitionId, competitionData, eventId, userId, updatedAt, eventDate]);
+}, [competitionId, competitionData, eventId, userId, updatedAt, eventEndDate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onNext(formData); // Pass the form data to the parent component
+    onNext(formData);
   };
 
   return (

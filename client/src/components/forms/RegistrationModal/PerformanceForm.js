@@ -104,7 +104,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }
   }, [formData]);
 
   return (
-    <div className="bg-white rounded-xl p-6 w-full max-w-md">
+    <div className="bg-white rounded-xl p-6 w-full max-w-md"   style={{color:"black"}}>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Performance Details</h2>
         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
@@ -120,7 +120,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
+        <div >
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Performance Title
           </label>
@@ -141,7 +141,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }
             Upload Method
           </label>
           <div className="flex space-x-4 mb-4">
-            <label className="flex items-center">
+            <label className="flex items-center"   style={{color:"black"}}>
               <input
                 type="radio"
                 value="file"
@@ -153,7 +153,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }
               />
               Upload File
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center"   style={{color:"black"}}>
               <input
                 type="radio"
                 value="url"

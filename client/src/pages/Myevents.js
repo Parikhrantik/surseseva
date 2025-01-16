@@ -16,7 +16,7 @@ export default function Myevents() {
 
   const competitionID = userEvents?.competitionEvents?.filter(event => event?.eventId === selectedEvent?.id) || [];
   const updatedAt = userEvents?.competitionEvents?.filter(event => event?.eventId === selectedEvent?.id) || [];
-console.log('updatedAtupdatedAtupdatedAt', updatedAt)
+  console.log('updatedAtupdatedAtupdatedAt', updatedAt)
   const performanceId = userEvents?.performanceEvents?.[0]?._id;
   const competiId = userEvents?.performanceEvents?.[0]?.competitionId;
   // const updatedAt = userEvents?.competitionEvents?.[0]?.updatedAt;
@@ -62,7 +62,7 @@ console.log('updatedAtupdatedAtupdatedAt', updatedAt)
       .then((data) => {
         if (data.success) {
           toast.success('Event deleted successfully');
-       window.location.reload();
+          navigate('/events');
         } else {
           toast.error(data.message);
         }
@@ -142,12 +142,10 @@ console.log('updatedAtupdatedAtupdatedAt', updatedAt)
                 className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="relative h-48">
-                  <video
-                    controls
-                    className="w-full rounded-lg transform transition-transform duration-300"
-                    src={event.mediaUrl}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="mb-4 rounded-lg overflow-hidden">
+                <iframe src={`https://www.youtube.com/embed/${event.mediaUrl.split('v=')[1]}?autoplay=1`} width="640" height="210" allowFullScreen autoplay></iframe>
+            </div>
+                  <div className="">
                     {isEditable && (
                       <button
                         onClick={() => handleEdit(event)}
@@ -177,7 +175,7 @@ console.log('updatedAtupdatedAtupdatedAt', updatedAt)
                   <div className="space-y-2 text-sm text-gray-500">
                     <div className="flex items-center">
                       <Calendar size={16} className="mr-2 text-purple-500" />
-                      {event.eventDate}
+                      {event.eventStartDate}
                     </div>
                     <div className="flex items-center">
                       <MapPin size={16} className="mr-2 text-purple-500" />
@@ -222,6 +220,8 @@ console.log('updatedAtupdatedAtupdatedAt', updatedAt)
           competiId={competiId}
           eventDate={selectedEvent?.eventDate}
           updatedAt={competitionID[0]?.updatedAt}
+          // eventStartDate={competitionID[0]?.eventStartDate}
+          // eventEndDate={competitionID[0]?.eventEndDate}
           onEventUpdate={(updatedEvent) => setUpdatedEvent(updatedEvent)}
         />
       )}

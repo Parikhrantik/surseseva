@@ -5,11 +5,11 @@ import useCompetitionAuth from '../../../hooks/useCompetionAuth';
 import usePerformanceAuth from '../../../hooks/usePerformanceAuth';
 
 
-const RegistrationModal = ({ isOpen, onClose,eventId,eventDate}) => {
+const RegistrationModal = ({ isOpen, onClose,eventId,eventStartDate,eventEndDate,eventDate}) => {
   // debugger
   const [step, setStep] = useState(1);
   const [competitionData, setCompetitionData] = useState(null);
-  console.log(eventDate,'eventDatdddddddddddddddeeventDate')
+  // console.log(eventDate,'eventDatdddddddddddddddeeventDate')
 
   const { competitionRegistration, isLoading: isCompetitionLoading } = useCompetitionAuth();
   const { submitPerformance, isLoading: isPerformanceLoading } = usePerformanceAuth();
@@ -57,7 +57,9 @@ console.log('submitPerformance', submitPerformance)
               onClose={onClose}
               isLoading={isCompetitionLoading}
               eventId={eventId} 
-              eventDate={eventDate} 
+              eventStartDate={eventStartDate} 
+              eventEndDate={eventEndDate} 
+              eventDate={eventDate}
             />
           ) : (
             <PerformanceForm

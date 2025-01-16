@@ -5,7 +5,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-16">
+      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-16 mt-10 " >
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-4">About EventVote</h1>
           <p className="text-xl">Your trusted platform for event discovery and voting</p>

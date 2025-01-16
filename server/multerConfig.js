@@ -1,7 +1,7 @@
 const multer = require('multer');
 const path = require('path');
 
-// Configure storage
+// Configure storage for multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/profile-pictures'); // Destination folder
@@ -23,6 +23,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// Multer configuration
 const upload = multer({
   storage,
   fileFilter,

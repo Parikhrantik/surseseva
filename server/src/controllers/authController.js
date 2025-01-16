@@ -111,7 +111,7 @@ const verifyEmail = async (req, res) => {
       }
       // Mark the user as verified
       await User.findByIdAndUpdate(decoded.userId, { isVerified: true });
-      res.redirect('http://localhost:3000/login');
+      res.redirect(process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/login` : 'http://localhost:3000/login');
     } catch (error) {
       console.error('Error verifying email:', error.message);
       return res.status(400).send('Error verifying token');
