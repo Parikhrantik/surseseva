@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-const API_URL = process.env.BASE_URL || 'http://localhost:5000';
+const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
 
 const usePerformanceAuth = (id) => {
   const [isLoading, setIsLoading] = useState(false);
