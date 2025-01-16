@@ -20,9 +20,11 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(path.resolve(), 'views'));
 
 
+app.get('/node', (req, res) => {
+  res.send('Welcome!');
+});
 
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/node/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/node/auth', authRoutes);
 app.use('/node/user', userRoutes);
