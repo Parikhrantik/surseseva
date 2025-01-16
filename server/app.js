@@ -20,17 +20,17 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(path.resolve(), 'views'));
 
 
-app.get('/node', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Welcome!');
 });
 
-app.use('/node/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use('/node/auth', authRoutes);
-app.use('/node/user', userRoutes);
-app.use('/node/profile', profileRoutes);
-app.use('/node/competition', competitionRoutes);
-app.use('/node/performance', performanceRoutes);
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+app.use('/profile', profileRoutes);
+app.use('/competition', competitionRoutes);
+app.use('/performance', performanceRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -43,4 +43,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // const crypto = require('crypto');
 // const secret = crypto.randomBytes(64).toString('hex');
 // console.log(secret);
-module.exports = app;
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
