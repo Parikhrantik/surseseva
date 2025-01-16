@@ -24,11 +24,11 @@ app.set('views', path.join(path.resolve(), 'views'));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
-app.use('/profile', profileRoutes);
-app.use('/competition', competitionRoutes);
-app.use('/performance', performanceRoutes);
+app.use('/node/auth', authRoutes);
+app.use('/node/user', userRoutes);
+app.use('/node/profile', profileRoutes);
+app.use('/node/competition', competitionRoutes);
+app.use('/node/performance', performanceRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
