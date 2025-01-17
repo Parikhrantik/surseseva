@@ -8,8 +8,8 @@ performanceTitle: { type: String, required: true },
   performanceFile: { type: String }, // For uploaded files
   tags: { type: [String], default: [] },
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  eventId: { type: mongoose.Schema.Types.Mixed, required: true },
-  competitionId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  competitionId: { type: mongoose.Schema.Types.Mixed, required: true },
+  competitionRegId: { type: mongoose.Schema.Types.ObjectId, required: true },
   createdBy: { type: mongoose.Schema.Types.ObjectId, required: true },
 });
 

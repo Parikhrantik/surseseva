@@ -7,7 +7,7 @@ const competitionSchema = new mongoose.Schema(
       ref: "User", // Assuming you have a User model
       required: true,
     },
-    eventId: {
+    competitionId: {
       type: mongoose.Schema.Types.Mixed, // Can store string, number, or ObjectId depending on your use case
       required: true,
     },
@@ -28,9 +28,8 @@ const competitionSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    eventDate: { type: String, required: true },
-    eventStartDate: { type: String, required: true },
-    eventEndDate: { type: String, required: true },
+    competitionstartDate: { type: String, required: true },
+    competitionendDate: { type: String, required: true },
     createdAt: {
       type: Date,
       default: Date.now,

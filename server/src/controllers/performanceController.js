@@ -4,9 +4,10 @@ const mongoose = require('mongoose');
 exports.submitPerformance = async (req, res) => {
   // console.log("Rewwwwwwwwwwwwwwwww", req)
   try {
-    const { userId, eventId, performanceTitle, description, tags, videoLink, competitionId } = req.body;
+    const { userId, competitionId, performanceTitle, description, tags, videoLink, competitionRegId } = req.body;
+    // console.log(req.body,"hhhhhhhhhhhhhhhhhhhhhh")
 
-    if (!userId || !eventId || !performanceTitle || !description) {
+    if (!userId || !competitionId || !performanceTitle || !description) {
       return res.status(400).json({
         success: false,
         message: 'User ID, Event ID, Performance Title, and Description are required.',
@@ -20,8 +21,8 @@ exports.submitPerformance = async (req, res) => {
       performanceFile: req.file ? req.file.filename : null,
       tags: tags ? JSON.parse(tags) : [],
       userId,
-      eventId,
       competitionId,
+      competitionRegId,
       createdBy: userId,
     });
 

@@ -8,10 +8,11 @@ const Performance = require('../models/Performance');
 
 exports.competitionRegistration = async (req, res) => {
   try {
-    const { userId, eventId, competitionName, category, agreedToRules, eventDate,eventStartDate,eventEndDate } = req.body;
+    const { userId, competitionId, competitionName, category, agreedToRules,competitionstartDate,competitionendDate } = req.body;
+    console.log(req.body,"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
 
     // Validate required fields
-    if (!userId || !eventId || !competitionName || !category || !agreedToRules || !eventDate || !eventStartDate || !eventEndDate) {
+    if (!userId || !competitionId || !competitionName || !category || !agreedToRules  || !competitionstartDate || !competitionendDate) {
       return res.status(400).json({
         success: false,
         message: 'All fields are required.',
@@ -27,14 +28,14 @@ exports.competitionRegistration = async (req, res) => {
     }
 
     // Handle eventId as a regular string or number, if it's not a valid ObjectId
-    let eventObjectId = mongoose.Types.ObjectId.isValid(eventId)
-      ? new mongoose.Types.ObjectId(eventId) 
-      : eventId;
+    let eventObjectId = mongoose.Types.ObjectId.isValid(competitionId)
+      ? new mongoose.Types.ObjectId(competitionId) 
+      : competitionId;
 
     // Check if the user is already registered for the same event
     const existingRegistration = await Competition.findOne({
       userId: new mongoose.Types.ObjectId(userId),
-      eventId: eventObjectId,
+      competitionId: eventObjectId,
     });
 
     if (existingRegistration) {
@@ -47,13 +48,12 @@ exports.competitionRegistration = async (req, res) => {
     // Create a new competition registration
     const newRegistration = new Competition({
       userId: new mongoose.Types.ObjectId(userId),
-      eventId: eventObjectId,
+      competitionId: eventObjectId,
       competitionName,
       category,
       agreedToRules,
-      eventDate,
-      eventStartDate,
-      eventEndDate
+      competitionstartDate,
+      competitionendDate
     });
 
     await newRegistration.save();
@@ -132,10 +132,10 @@ exports.getCompetitionRegistrationById = async (req, res) => {
 
   // Delete a competition registration by ID
 exports.deleteCompetitionRegistration = async (req, res) => {
-  const { userId, eventId } = req.body;
+  const { userId, competitionId } = req.body;
 
   try {
-    if (!userId || !eventId) {
+    if (!userId || !competitionId) {
       return res.status(400).json({
         success: false,
         message: 'User ID and Event ID are required to delete.',
@@ -151,7 +151,7 @@ exports.deleteCompetitionRegistration = async (req, res) => {
     }
 
     // If eventId is supposed to be a number, validate it
-    if (isNaN(eventId) && !mongoose.Types.ObjectId.isValid(eventId)) {
+    if (isNaN(competitionId) && !mongoose.Types.ObjectId.isValid(competitionId)) {
       return res.status(400).json({
         success: false,
         message: 'Invalid Event ID format.',
@@ -160,7 +160,7 @@ exports.deleteCompetitionRegistration = async (req, res) => {
 
     const deletedRegistration = await Competition.findOneAndDelete({
       userId: new mongoose.Types.ObjectId(userId),
-      eventId: eventId, // Use as-is if eventId is a string or number
+      competitionId: competitionId, // Use as-is if eventId is a string or number
     });
 
     if (!deletedRegistration) {
@@ -187,10 +187,10 @@ exports.deleteCompetitionRegistration = async (req, res) => {
 
   // Update competition registration
 exports.updateCompetitionRegistration = async (req, res) => {
-  const { userId, eventId, competitionName, category, agreedToRules,eventDate,eventStartDate,eventEndDate  } = req.body;
+  const { userId, competitionId, competitionName, category, agreedToRules,competitionstartDate,competitionendDate  } = req.body;
 
   try {
-    if (!userId || !eventId || !competitionName || !category || !agreedToRules|| !eventDate || !eventStartDate || !eventEndDate) {
+    if (!userId || !competitionId || !competitionName || !category || !agreedToRules || !competitionstartDate || !competitionendDate) {
       return res.status(400).json({
         success: false,
         message: 'All fields are required.',
@@ -205,15 +205,15 @@ exports.updateCompetitionRegistration = async (req, res) => {
       });
     }
 
-    const eventObjectId = eventId;
-    if (mongoose.Types.ObjectId.isValid(eventId)) {
-      eventObjectId = new mongoose.Types.ObjectId(eventId); // If eventId is a valid ObjectId, convert it
+    const eventObjectId = competitionId;
+    if (mongoose.Types.ObjectId.isValid(competitionId)) {
+      eventObjectId = new mongoose.Types.ObjectId(competitionId); // If eventId is a valid ObjectId, convert it
     } else {
       // If eventId is not an ObjectId, treat it as is (string/number)
     }
 
     const updatedRegistration = await Competition.findOneAndUpdate(
-      { userId: new mongoose.Types.ObjectId(userId), eventId: eventObjectId },
+      { userId: new mongoose.Types.ObjectId(userId), competitionId: eventObjectId },
       { competitionName, category, agreedToRules },
       { new: true }
     );
@@ -259,12 +259,12 @@ exports.updateCompetitionRegistration = async (req, res) => {
       // Fetch events from competition registrations
       const competitionEvents = await Competition.find({
         userId: new mongoose.Types.ObjectId(userId),
-      }).select('eventId competitionName category');
+      }).select('competitionId competitionName category');
 
       // Fetch events from performances
       const performanceEvents = await Performance.find({
         userId: new mongoose.Types.ObjectId(userId),
-      }).select('eventId performanceTitle tags description competitionId');
+      }).select('competitionId performanceTitle tags description competitionId');
       return res.status(200).json({
         success: true,
         message: 'User events retrieved successfully.',

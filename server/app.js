@@ -5,9 +5,10 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRoutes = require('./src/routes/authRoutes');
 const userRoutes = require('./src/routes/userRoutes');
-const profileRoutes = require('./src/routes/profileRoutes');
+
 const competitionRoutes = require('./src/routes/competitionRoutes');
 const performanceRoutes = require('./src/routes/performanceRoutes');
+const competitionManagemenRoutes = require('./src/routes/competitionManagemenRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 dotenv.config();
@@ -33,9 +34,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
-app.use('/profile', profileRoutes);
+
 app.use('/competition', competitionRoutes);
 app.use('/performance', performanceRoutes);
+app.use('/competitionMangement', competitionManagemenRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
