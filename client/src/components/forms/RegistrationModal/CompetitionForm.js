@@ -1,17 +1,20 @@
 import React from 'react';
 import { X } from 'lucide-react';
+import useCompetitionMangementAuth from '../../../hooks/useCompetitionMangementAuth';
 
 
-const CompetitionForm = ({ onNext, onClose,eventId,eventStartDate,eventEndDate,eventDate}) => {
-  
-   console.log(eventEndDate,"eventDateeventDateeventDateeventDateeventDate")
+const CompetitionForm = ({ onNext, onClose, competitionId, competitionstartDate, competitionendDate }) => {
+  const { competitions } = useCompetitionMangementAuth();
+  console.log(competitions, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+
+  //  console.log(eventEndDate,"eventDateeventDateeventDateeventDateeventDate")
   const userid = localStorage.getItem("userId");
   const [formData, setFormData] = React.useState({
-    userId:userid,
-    eventId: eventId,
-    eventDate:eventDate,
-    eventStartDate:new Date(eventStartDate).toISOString().split('T')[0],
-    eventEndDate:new Date(eventEndDate).toISOString().split('T')[0],
+    userId: userid,
+    competitionId: competitionId,
+
+    competitionstartDate: competitionstartDate,
+    competitionendDate: competitionendDate,
     competitionName: '',
     category: '',
     agreedToRules: false,
@@ -41,12 +44,18 @@ const CompetitionForm = ({ onNext, onClose,eventId,eventStartDate,eventEndDate,e
             value={formData.competitionName}
             onChange={(e) => setFormData({ ...formData, competitionName: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          style={{color:"black"}}
+            style={{ color: "black" }}
           >
             <option value="">Select Competition</option>
-            <option value="singing">Singing Competition</option>
-            <option value="dancing">Dancing Competition</option>
-            <option value="music">Music Competition</option>
+            {competitions?.data?.length > 0 ? (
+              competitions.data.map((competition, index) => (
+                <option key={index} value={competition.name}>
+                  {competition.name}
+                </option>
+              ))
+            ) : (
+              <option value="">No Competitions Found</option>
+            )}
           </select>
         </div>
 
@@ -59,12 +68,18 @@ const CompetitionForm = ({ onNext, onClose,eventId,eventStartDate,eventEndDate,e
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            style={{color:"black"}}
+            style={{ color: "black" }}
           >
             <option value="">Select Category</option>
-            <option value="amateur">Amateur</option>
-            <option value="professional">Professional</option>
-            <option value="student">Student</option>
+            {competitions?.data?.length > 0 ? (
+              competitions.data.map((competition, index) => (
+                <option key={index} value={competition.categories}>
+                  {competition.categories}
+                </option>
+              ))
+            ) : (
+              <option value="">No Categories Found</option>
+            )}
           </select>
         </div>
 

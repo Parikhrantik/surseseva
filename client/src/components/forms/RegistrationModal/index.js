@@ -5,15 +5,14 @@ import useCompetitionAuth from '../../../hooks/useCompetionAuth';
 import usePerformanceAuth from '../../../hooks/usePerformanceAuth';
 
 
-const RegistrationModal = ({ isOpen, onClose,eventId,eventStartDate,eventEndDate,eventDate}) => {
+const RegistrationModal = ({ isOpen, onClose,competitionId,competitionstartDate,competitionendDate}) => {
+  console.log(competitionendDate,"competitioncompetitioncompetition")
   // debugger
   const [step, setStep] = useState(1);
   const [competitionData, setCompetitionData] = useState(null);
-  // console.log(eventDate,'eventDatdddddddddddddddeeventDate')
-
   const { competitionRegistration, isLoading: isCompetitionLoading } = useCompetitionAuth();
   const { submitPerformance, isLoading: isPerformanceLoading } = usePerformanceAuth();
-console.log('submitPerformance', submitPerformance)
+// console.log('submitPerformance', submitPerformance)
   if (!isOpen) return null;
 
   const handleCompetitionSubmit = async (data) => {
@@ -27,7 +26,7 @@ console.log('submitPerformance', submitPerformance)
   };
 
   const handlePerformanceSubmit = async (data) => {
-    debugger
+    // debugger
     try {
       await submitPerformance(data);
       console.log('Performance Data:', data);
@@ -56,10 +55,9 @@ console.log('submitPerformance', submitPerformance)
               onNext={handleCompetitionSubmit}
               onClose={onClose}
               isLoading={isCompetitionLoading}
-              eventId={eventId} 
-              eventStartDate={eventStartDate} 
-              eventEndDate={eventEndDate} 
-              eventDate={eventDate}
+              competitionId={competitionId} 
+              competitionstartDate={competitionstartDate} 
+              competitionendDate={competitionendDate}
             />
           ) : (
             <PerformanceForm
@@ -67,7 +65,7 @@ console.log('submitPerformance', submitPerformance)
               onBack={() => setStep(1)}
               onClose={onClose}
               isLoading={isPerformanceLoading}
-              eventId={eventId} 
+              competitionId={competitionId} 
               competitionData={competitionData} // Pass competitionDat
            
             />

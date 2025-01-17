@@ -83,7 +83,7 @@ const EventCard = ({
             <h3 className="text-xl font-semibold mb-3">{title}</h3>
             <p className="text-white/60 mb-4">{description}</p>
 
-            <div className="flex items-center gap-4 text-white/60 mb-4">
+            {/* <div className="flex items-center gap-4 text-white/60 mb-4">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
                 <span className="text-sm"> {eventStartDate}</span>
@@ -92,14 +92,14 @@ const EventCard = ({
                 <MapPin className="h-4 w-4" />
                 <span className="text-sm">{location}</span>
               </div>
-            </div>
+            </div> */}
 
             <div className="flex items-center justify-between">
 
               <div className="flex items-center space-x-2">
                 <span className="text-gray-600 font-semibold">{voteCount} votes</span>
               </div>
-              <div className="flex space-x-3">
+              {/* <div className="flex space-x-3">
                 <button
                   onClick={handleShare}
                   className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
@@ -129,7 +129,7 @@ const EventCard = ({
                     <span>{hasVoted ? 'Voted' : 'Vote'}</span>
                   </button>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

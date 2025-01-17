@@ -43,13 +43,12 @@ const Header = () => {
 
     return (
         <header
-            className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white shadow-lg'
-          : isHomePage
-          ? 'bg-transparent text-white'
-          : 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white'
-      }`}
+            className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
+                    ? 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white shadow-lg'
+                    : isHomePage
+                        ? 'bg-transparent text-white'
+                        : 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white'
+                }`}
         >
             <nav className="container mx-auto px-4">
                 <div className="flex justify-between items-center py-4">
@@ -155,40 +154,40 @@ const Header = () => {
                         )}
 
                         {isLoggedIn ? (
-                        <div className="relative">
-                            <button
-                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="nav-link flex items-center space-x-2"
-                            >
-                                <span>Account</span>
-                                <ChevronDown className={`h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                            </button>
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                    className="nav-link flex items-center space-x-2"
+                                >
+                                    <span>Account</span>
+                                    <ChevronDown className={`h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                                </button>
 
-                            {isDropdownOpen && (
-                                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-10 transform transition-all duration-300 ease-out">
-                                    <Link
-                                        to="/profile"
-                                        className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 group"
-                                    >
-                                        <User size={16} className="mr-3 text-gray-400 group-hover:text-purple-500" />
-                                        <div>
-                                            <p className="font-medium group-hover:text-purple-600">My Profile</p>
-                                        </div>
-                                    </Link>
-                                    <Link
-                                        to="/events"
-                                        className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 group"
-                                    >
-                                        <Calendar size={16} className="mr-3 text-gray-400 group-hover:text-purple-500" />
-                                        <div>
-                                            <p className="font-medium group-hover:text-purple-600">My Events</p>
-                                        </div>
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                          "" 
+                                {isDropdownOpen && (
+                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-10 transform transition-all duration-300 ease-out">
+                                        <Link
+                                            to="/profile"
+                                            className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 group"
+                                        >
+                                            <User size={16} className="mr-3 text-gray-400 group-hover:text-purple-500" />
+                                            <div>
+                                                <p className="font-medium group-hover:text-purple-600">My Profile</p>
+                                            </div>
+                                        </Link>
+                                        <Link
+                                            to="/my-competitions"
+                                            className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 group"
+                                        >
+                                            <Calendar size={16} className="mr-3 text-gray-400 group-hover:text-purple-500" />
+                                            <div>
+                                                <p className="font-medium group-hover:text-purple-600">Competitions</p>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            ""
                         )}
                     </div>
 

@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
-import { 
-  Calendar, 
-  Star,
-  Clock,
-  MapPin,
-  Users,
+import {
   ArrowRight,
   Search,
-  Heart,
-  Share2,
   Play,
-  ChevronRight,
   Sparkles
 } from 'lucide-react';
 import EventCard from '../components/common/Cards/EventCard';
 import events from "../utils/events.json"
-import MissionPage from './MissionPage';
+import CompetitionEvents from './CompetitionEvents';
+// import MissionPage from './MissionPage';
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const featuredEvents = events.slice(0, 3)
- 
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Ultra Modern Hero Section */}
@@ -53,7 +46,7 @@ const Home = () => {
               <div className="flex gap-2">
                 <div className="flex-1 relative">
                   <Search className="absolute left-4 top-3.5 h-5 w-5 text-white/40" />
-                  <input 
+                  <input
                     type="text"
                     placeholder="Search your next experience..."
                     className="w-full bg-white/5 text-white placeholder-white/40 pl-12 pr-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
@@ -72,11 +65,10 @@ const Home = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat.toLowerCase())}
-                className={`px-6 py-2 rounded-full transition-all transform hover:scale-105 ${
-                  selectedCategory === cat.toLowerCase()
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-500/25'
-                    : 'bg-white/5 hover:bg-white/10 backdrop-blur-lg'
-                }`}
+                className={`px-6 py-2 rounded-full transition-all transform hover:scale-105 ${selectedCategory === cat.toLowerCase()
+                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-500/25'
+                  : 'bg-white/5 hover:bg-white/10 backdrop-blur-lg'
+                  }`}
               >
                 {cat}
               </button>
@@ -90,7 +82,7 @@ const Home = () => {
               { label: 'Happy Users', value: '150K+' },
               { label: 'Total Reviews', value: '45K+' }
             ].map((stat, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 transform hover:-translate-y-1 transition-all"
               >
@@ -108,6 +100,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <CompetitionEvents/>
       {/* <MissionPage/> */}
       {/* Featured Events Section */}
       <div className="py-20 bg-gradient-to-b from-black to-purple-900/20">
@@ -126,53 +119,11 @@ const Home = () => {
               <EventCard key={event.id} {...event} />
             ))}
           </div>
-         
+
         </div>
       </div>
 
-      {/* Trending Section with 3D Cards */}
-      <div className="py-20 bg-black">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-full text-sm mb-4">
-              <Star className="h-4 w-4 inline mr-2 text-yellow-400" />
-              Hot & Trending
-            </span>
-            <h2 className="text-4xl font-bold">Most Popular Events</h2>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((item) => (
-              <div 
-                key={item}
-                className="group bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transform hover:-translate-y-2 transition-all duration-300"
-              >
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
-                      #{item}
-                    </div>
-                  </div>
-                  <span className="text-xs bg-white/10 px-3 py-1 rounded-full">
-                    Trending
-                  </span>
-                </div>
-
-                <h3 className="text-lg font-semibold mb-3">Tech Conference 2025</h3>
-                <p className="text-white/60 text-sm mb-4">The biggest tech event of the year</p>
-
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-purple-400" />
-                    <span className="text-sm text-white/60">1.2k interested</span>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-purple-400 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* CTA Section */}
       <div className="relative py-32 bg-gradient-to-b from-purple-900/20 to-black overflow-hidden">
@@ -185,7 +136,7 @@ const Home = () => {
           <span className="inline-block px-6 py-2 bg-white/5 backdrop-blur-lg rounded-full text-sm mb-8">
             🎉 Join 50,000+ Event Creators
           </span>
-          
+
           <h2 className="text-5xl font-bold mb-8">Create Your Own Event</h2>
           <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">
             Join the future of event hosting and reach millions of potential attendees

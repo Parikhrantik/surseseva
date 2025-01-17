@@ -3,17 +3,18 @@ import { X, Upload, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }) => {
+const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competitionData }) => {
 
   const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
-  const competitionId = competitionData._id;
+// const API_URL = process.env.BASE_URL || 'http://localhost:5000';
+  const competitionRegId = competitionData._id;
   const userid = localStorage.getItem("userId");
   const navigate = useNavigate();
   const [success, setSuccess] = useState(null);
   const [formData, setFormData] = useState({
     performanceTitle: '',
     userId: userid,
-    eventId: eventId,
+    competitionId: competitionId,
     mediaType: 'file',
     videoLink: '',
     description: '',
@@ -27,22 +28,19 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-  
     const submissionData = new FormData(); // Create FormData instance
     submissionData.append('userId', userid);
-    submissionData.append('eventId', eventId);
     submissionData.append('competitionId', competitionId);
+    submissionData.append('competitionRegId', competitionRegId);
     submissionData.append('performanceTitle', formData.performanceTitle);
     submissionData.append('description', formData.description);
     submissionData.append('tags', JSON.stringify(formData.tags));
-  
     // Append the file or URL based on media type
     if (formData.mediaType === 'file' && formData.performanceFile) {
       submissionData.append('performanceFile', formData.performanceFile); // Attach file
     } else if (formData.mediaType === 'url') {
       submissionData.append('videoLink', formData.videoLink);
     }
-  
     try {
       // Use axios or fetch to submit the form
       const response = await axios.post(`${API_URL}/performance/submit-performance`, submissionData, {
@@ -52,14 +50,14 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, eventId, competitionData }
       });
       console.log(response.data); // Debug response
        toast.success(response.data?.message);
-       window.location.reload();
+      //  window.location.reload();
+      navigate("/my-competitions")
     } catch (err) {
       setError('Submission failed. Please try again.');
       console.error(err);
       toast.error(err);
     }
   };
-  
   const handleFileChange = (e) => {
     const file = e.target?.files[0];
     if (file) {
