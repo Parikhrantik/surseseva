@@ -3,10 +3,12 @@ import { X, Upload, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import {AuthToken, Role} from '../../../utils/constants';
 const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competitionData }) => {
 
-  const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
-// const API_URL = process.env.BASE_URL || 'http://localhost:5000';
+  
+  const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+  // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
   const competitionRegId = competitionData._id;
   const userid = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -22,12 +24,15 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
     performanceFile: null,
     uploadProgress: 0,
   });
+  const [loading, setLoading] = useState(false);
+
 
   const [tagInput, setTagInput] = useState('');
   const [error, setError] = useState(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     const submissionData = new FormData(); // Create FormData instance
     submissionData.append('userId', userid);
     submissionData.append('competitionId', competitionId);
@@ -42,32 +47,41 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
       submissionData.append('videoLink', formData.videoLink);
     }
     try {
-      // Use axios or fetch to submit the form
-      const response = await axios.post(`${API_URL}/performance/submit-performance`, submissionData, {
+      const config = {
         headers: {
-          'Content-Type': 'multipart/form-data', // FormData requires this header
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${AuthToken}`,
+          'role': Role
         },
-      });
-      console.log(response.data); // Debug response
-       toast.success(response.data?.message);
-      //  window.location.reload();
+      };
+      const response = await axios.post(`${API_URL}/performance/submit-performance`, submissionData, config);
+      console.log(response.data, 'comp000000'); // Debug response
+      toast.success(response.data?.message);
+      setLoading(false);
       navigate("/my-competitions")
     } catch (err) {
+      setLoading(false);
       setError('Submission failed. Please try again.');
       console.error(err);
       toast.error(err);
     }
   };
+
   const handleFileChange = (e) => {
     const file = e.target?.files[0];
     if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      if (fileSizeInMB > 100) {
+        setError("File size should be less than 100MB");
+        return;
+      }
       setFormData((prevData) => ({
         ...prevData,
         performanceFile: file,
         uploadProgress: 0,
       }));
       setError(null);
-
+  
       // Simulating file upload progress
       simulateUploadProgress();
     }
@@ -101,10 +115,10 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
 
   useEffect(() => {
     console.log('formData', formData);
-  }, [formData]);
+  }, [formData,Error]);
 
   return (
-    <div className="bg-white rounded-xl p-6 w-full max-w-md"   style={{color:"black"}}>
+    <div className="bg-white rounded-xl p-6 w-full max-w-md" style={{ color: "black" }}>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Performance Details</h2>
         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
@@ -141,7 +155,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
             Upload Method
           </label>
           <div className="flex space-x-4 mb-4">
-            <label className="flex items-center"   style={{color:"black"}}>
+            <label className="flex items-center" style={{ color: "black" }}>
               <input
                 type="radio"
                 value="file"
@@ -153,7 +167,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
               />
               Upload File
             </label>
-            <label className="flex items-center"   style={{color:"black"}}>
+            <label className="flex items-center" style={{ color: "black" }}>
               <input
                 type="radio"
                 value="url"
@@ -277,6 +291,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
         </div>
 
         <div className="flex justify-end space-x-4">
+        {!loading &&
           <button
             type="button"
             onClick={onBack}
@@ -284,11 +299,13 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
           >
             Back
           </button>
+        }
           <button
             type="submit"
+            disabled={loading}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>

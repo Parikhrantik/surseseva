@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const API_URL = process.env.BASE_URL || 'http://localhost:5000';
+const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+
 
 const useCompetitionMangementAuth = () => {
   const [isLoading, setIsLoading] = useState(false);

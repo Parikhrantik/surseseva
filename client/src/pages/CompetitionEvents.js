@@ -35,7 +35,7 @@ const CompetitionEvents = () => {
               <Star className="h-4 w-4 inline mr-2 text-yellow-400" />
               Hot & Trending
             </span>
-            <h2 className="text-4xl font-bold">Competition Events</h2>
+            <h2 className="text-4xl font-bold">Competition</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -72,9 +72,10 @@ const CompetitionEvents = () => {
                         Share
                       </button>
                       <button className="bg-white/10 px-4 py-2 rounded-full text-sm text-white/60 hover:bg-purple-500/20 transition-colors" onClick={() => openRegistrationModal(competition._id, competition.startDate, competition.endDate)}>
-                        Participants
+                        Participate
                       </button>
                     </div>
+
                   </div>
                 </div>
               ))

@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+import { Role,AuthToken } from '../utils/constants';
+// const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
 
 const usePerformanceAuth = (id) => {
@@ -19,26 +22,35 @@ const usePerformanceAuth = (id) => {
     setSuccess(null);
 
     try {
+      
       const response = await axios.post(url, data, {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Accept': 'application/json',
+          'Authorization': `Bearer ${AuthToken}`,
+          'role':Role
+
         },
       });
 
       if (response.status === 200 || response.status === 201) {
         // setSuccess(response.data?.message);
         toast.success(response.data?.message);
+        setIsLoading(false);
         navigate('/');
         window.location.reload();
       } else {
         const errorMessage = response.data?.message || `Unexpected response status: ${response.status}`;
         setError(errorMessage);
+        setIsLoading(false);
+
         toast.error(errorMessage);
       }
 
       return response;
     } catch (err) {
+      setIsLoading(false);
+
       const errorMessage = err.response?.data?.message || err.message;
       // setError(errorMessage);
       toast.error(errorMessage);
