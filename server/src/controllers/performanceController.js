@@ -2,10 +2,11 @@ const Performance = require('../models/Performance');
 const mongoose = require('mongoose');
 
 exports.submitPerformance = async (req, res) => {
-  // console.log("Rewwwwwwwwwwwwwwwww", req)
+  console.log("req.performance", req)
   try {
+   
     const { userId, competitionId, performanceTitle, description, tags, videoLink, competitionRegId } = req.body;
-    // console.log(req.body,"hhhhhhhhhhhhhhhhhhhhhh")
+  
 
     if (!userId || !competitionId || !performanceTitle || !description) {
       return res.status(400).json({
@@ -25,6 +26,7 @@ exports.submitPerformance = async (req, res) => {
       competitionRegId,
       createdBy: userId,
     });
+    console.log(newPerformance,"newPerformance")
 
     await newPerformance.save();
 
@@ -36,6 +38,7 @@ exports.submitPerformance = async (req, res) => {
         performanceTitle,
       },
     });
+    console.log(res,"res")
   } catch (error) {
     console.error('Error submitting performance:', error);
     return res.status(500).json({ success: false, message: 'Internal server error.' });
