@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRoutes = require('./src/routes/authRoutes');
 const userRoutes = require('./src/routes/userRoutes');
+const presentEvntRoutes = require('./src/routes/presentEventRoutes');
 
 const competitionRoutes = require('./src/routes/competitionRoutes');
 const performanceRoutes = require('./src/routes/performanceRoutes');
@@ -34,6 +35,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/events', presentEvntRoutes);
 
 app.use('/competition', competitionRoutes);
 app.use('/performance', performanceRoutes);
