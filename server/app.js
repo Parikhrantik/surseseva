@@ -9,6 +9,7 @@ const presentEvntRoutes = require('./src/routes/presentEventRoutes');
 
 const competitionRoutes = require('./src/routes/competitionRoutes');
 const performanceRoutes = require('./src/routes/performanceRoutes');
+const contactUsRoutes = require('./src/routes/contactUsRoutes');
 const competitionManagemenRoutes = require('./src/routes/competitionManagemenRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -36,7 +37,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/events', presentEvntRoutes);
-
+app.use('/contact', contactUsRoutes);
 app.use('/competition', competitionRoutes);
 app.use('/performance', performanceRoutes);
 app.use('/competitionMangement', competitionManagemenRoutes);
