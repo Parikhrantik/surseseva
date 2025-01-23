@@ -8,11 +8,11 @@ import Spinner from "../common/Spinner.js";
 
 
 const RegistrationForm = () => {
-  const { registerUser,isLoading } = useAuth();
-  const { control, handleSubmit,register, formState: { errors } } = useForm();
+  const { registerUser, isLoading } = useAuth();
+  const { control, handleSubmit, register, formState: { errors } } = useForm();
 
   const onSubmit = async (formData) => {
-    
+
     const registerData = {
       name: formData.name,
       email: formData.email,
@@ -33,7 +33,7 @@ const RegistrationForm = () => {
     <AuthLayout>
       <form className="max-w-lg w-full mx-auto" onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-12">
-        <img className="h-12 mx-auto mb-10" src="/images/SurBlack.png" alt="Logo" />
+          <img className="h-12 mx-auto mb-10" src="/images/SurBlack.png" alt="Logo" />
           <h3 className="text-[#0a1851] md:text-3xl text-3xl font-extrabold text-center">
             Create an account
           </h3>
@@ -49,9 +49,9 @@ const RegistrationForm = () => {
               placeholder="Enter name"
             />
             <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-4 h-4 absolute right-4" viewBox="0 0 24 24">
-                  <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
-                  <path d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z" data-original="#000000"></path>
-                </svg>
+              <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
+              <path d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z" data-original="#000000"></path>
+            </svg>
             {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
           </div>
         </div>
@@ -59,7 +59,7 @@ const RegistrationForm = () => {
         <div className="mt-6">
           <label className="text-gray-800 text-sm block mb-2">Email Address</label>
           <div className="relative flex items-center">
-          <input
+            <input
               id="email"
               name="email"
               type="text"
@@ -87,7 +87,7 @@ const RegistrationForm = () => {
             {errors.email && (
               <span className="text-red-500 text-xs">{errors.email.message}</span>
             )}
-           
+
           </div>
         </div>
 
@@ -100,7 +100,7 @@ const RegistrationForm = () => {
               className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 px-2 py-3 outline-none"
               placeholder="Enter password"
             />
-             <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
               <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
             </svg>
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
@@ -116,7 +116,7 @@ const RegistrationForm = () => {
               className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 px-2 py-3 outline-none"
               placeholder="Confirm your password"
             />
-             <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
               <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
             </svg>
             {errors.confirmPassword && (
@@ -133,7 +133,7 @@ const RegistrationForm = () => {
             >
               <option value="">-- Select a Role --</option>
               <option value="Participant">Participant</option>
-              <option value="judge">judge</option>
+              {/* <option value="judge">judge</option> */}
               <option value="Voter">Voter</option>
             </select>
             {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
@@ -157,13 +157,13 @@ const RegistrationForm = () => {
 
 
         <div className="mt-12">
-        <Button
-          text={isLoading ? <Spinner /> : "Create an account"}
-          style={{ width: "100%" }}
-          disabled={isLoading}
-        >
-          {isLoading && <Spinner />}
-        </Button>
+          <Button
+            text={isLoading ? <Spinner /> : "Create an account"}
+            style={{ width: "100%" }}
+            disabled={isLoading}
+          >
+            {isLoading && <Spinner />}
+          </Button>
           <p className="text-sm mt-6 text-gray-800">
             Already have an account?{" "}
             <Link to="/" className="text-blue-500 font-semibold hover:underline ml-1">

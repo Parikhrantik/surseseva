@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { Role,AuthToken } from '../utils/constants';
+import { Role, AuthToken } from '../utils/constants';
 
 // const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
 const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
@@ -29,13 +29,13 @@ const useCompetitionAuth = () => {
     setSuccess(null);
 
     try {
-    
+
       const config = {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Accept': 'application/json',
-          'Authorization': `Bearer ${AuthToken}`,
-          'role':Role
+          'Authorization': `Bearer ${AuthToken}` || localStorage.getItem('authToken'),
+          'role': Role || localStorage.getItem('role')
         },
       };
       const response = await axios({

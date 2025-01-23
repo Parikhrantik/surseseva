@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Search, Bell, LogIn, LogOut, User, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useParticipantsAuth from '../../hooks/useParticipantsAuth';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const id = localStorage.getItem('userId');
+    const isHomePage = window.location.pathname === '/';
 
+    const { setId, loading, participant } = useParticipantsAuth();
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
@@ -27,10 +31,11 @@ const Header = () => {
     };
 
     const handleLogOutClick = () => {
+        localStorage.clear()
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         setIsLoggedIn(false);
-        navigate('/login'); 
+        navigate('/login');
     };
 
     useEffect(() => {
@@ -39,16 +44,19 @@ const Header = () => {
             setIsLoggedIn(true);
         }
     }, []);
-
-    const isHomePage = window.location.pathname === '/';
+    useEffect(() => {
+        if (id) {
+            setId(id);
+        }
+    }, [id, setId]);
 
     return (
         <header
             className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
-                    ? 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white shadow-lg'
-                    : isHomePage
-                        ? 'bg-transparent text-white'
-                        : 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white'
+                ? 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white shadow-lg'
+                : isHomePage
+                    ? 'bg-transparent text-white'
+                    : 'bg-gradient-to-r from-[#0a1851] to-[#1f2a63] text-white'
                 }`}
         >
             <nav className="container mx-auto px-4">
@@ -136,15 +144,8 @@ const Header = () => {
                             </span>
                         </button>
 
-                        {isLoggedIn ? (
-                            <button
-                                className="flex items-center space-x-2 px-4 py-2 rounded-full border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition-colors"
-                                onClick={handleLogOutClick}
-                            >
-                                <LogOut className="h-4 w-4" />
-                                <span>Logout</span>
-                            </button>
-                        ) : (
+                        {!isLoggedIn &&
+
                             <button
                                 className="flex items-center space-x-2 px-4 py-2 rounded-full border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition-colors"
                                 onClick={handleSignInClick}
@@ -152,20 +153,21 @@ const Header = () => {
                                 <LogIn className="h-4 w-4" />
                                 <span>Sign In</span>
                             </button>
-                        )}
+                        }
 
                         {isLoggedIn ? (
-                            <div className="relative">
+                            <div className=" relative">
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="nav-link flex items-center space-x-2"
+                                    className="flex items-center space-x-2 px-4 py-2 rounded-full border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition-colors nav-link flex items-center space-x-2"
                                 >
-                                    <span>Account</span>
+                                    <User className="h-4 w-4" />
+                                    {participant.name}
                                     <ChevronDown className={`h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                                 </button>
 
                                 {isDropdownOpen && (
-                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-10 transform transition-all duration-300 ease-out">
+                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-10 transform transition-all duration-300 ease-out" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                                         <Link
                                             to="/profile"
                                             className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 group"
@@ -184,6 +186,15 @@ const Header = () => {
                                                 <p className="font-medium group-hover:text-purple-600">Competitions</p>
                                             </div>
                                         </Link>
+
+                                        <hr className="my-2 border-gray-200" />
+                                        <button
+                                            className="flex items-center space-x-2 px-4 py-3 rounded-full  text-purple-600 hover:bg-purple-600 hover:text-white transition-colors"
+                                            onClick={handleLogOutClick}
+                                        >
+                                            <LogOut className="h-4 w-4" />
+                                            <span>Logout</span>
+                                        </button>
                                     </div>
                                 )}
                             </div>

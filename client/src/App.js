@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginPage from './components/forms/LoginForm';
 import RegistrationPage from './components/forms/RegistrationForm';
@@ -14,6 +14,7 @@ import Myevents from './pages/Myevents';
 import Myprofile from './pages/Myprofile';
 import CompetitionEventsDetails from './pages/CompetitionEventsDetails';
 import MyCompetitions from './pages/MyCompetitions';
+import ParticipantCompetitionDetails from './pages/participantCompetitionDetails';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -32,8 +33,8 @@ const App = () => {
   const ConditionalLayout = ({ children }) => {
     const location = useLocation();
     const showLayout =
-      ["/", "/about", "/events", "/profile","/my-competitions"].includes(location.pathname) ||
-      location.pathname.startsWith("/competition-events-details");
+      ["/", "/about", "/events", "/profile", "/my-competitions"].includes(location.pathname) ||
+      location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details");
 
     return (
       <>
@@ -43,7 +44,12 @@ const App = () => {
       </>
     );
   };
-
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
   return (
     <Router>
       <ToastContainer />
@@ -90,10 +96,20 @@ const App = () => {
             }
           />
           <Route
+            path="/competition-details/:id"
+            element={
+              <ConditionalLayout>
+                <ParticipantCompetitionDetails />
+              </ConditionalLayout>
+            }
+          />
+          <Route
             path="/profile"
             element={
               <ConditionalLayout>
-                <Myprofile />
+                <ProtectedRoute>
+                  <Myprofile />
+                </ProtectedRoute>
               </ConditionalLayout>
             }
           />
@@ -125,14 +141,14 @@ const App = () => {
           />
 
           {/* Protected Dashboard Routes */}
-          <Route
+          {/* <Route
             path="/dashboard/*"
             element={
               <ProtectedRoute>
                 <DashboardLayout />
               </ProtectedRoute>
             }
-          />
+          /> */}
 
           {/* Catch all route for 404 */}
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, AlertCircle } from 'lucide-react';
-import usePerformanceAuth from '../../../hooks/usePerformanceAuth';
+import { X, Upload, AlertCircle, EditIcon } from 'lucide-react';
+import usePerformanceAuth, { updateParticipantPerformanceById } from '../../../hooks/usePerformanceAuth';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const PerformanceForm = ({
   onSubmit,
@@ -11,6 +13,7 @@ const PerformanceForm = ({
   userId,
   competiId,
   error,
+  performanceData
 }) => {
   const [formData, setFormData] = useState({
     performanceTitle: '',
@@ -22,25 +25,30 @@ const PerformanceForm = ({
     description: '',
     tags: [],
     competitionId: competiId,
+    uploadProgress: 0,
   });
 
   const [tagInput, setTagInput] = useState('');
   const [currentFile, setCurrentFile] = useState('');
-  
+  const navigate = useNavigate()
   const { getPerformanceById, isLoading } = usePerformanceAuth();
-
+  const [isEditingFile, setIsEditingFile] = useState(false);
+  const [Error, setError] = useState(null);
   useEffect(() => {
     const fetchPerformanceData = async () => {
+
       if (performanceId) {
         try {
-          const response = await getPerformanceById(performanceId);
-          if (response.success && response.data) {
-            const data = response.data;
-            
+          // const response = await getPerformanceById(performanceId);
+          if (performanceData) {
+            console.log('performanceData', performanceData)
+
+            const data = performanceData;
+            console.log('data', data)
             // Determine media type based on performanceFile or videoLink
             const mediaType = data.performanceFile ? 'file' : 'url';
             const videoLink = mediaType === 'url' ? data.performanceFile : '';
-            
+
             setFormData({
               performanceTitle: data.performanceTitle || '',
               userId: data.userId || userId,
@@ -50,9 +58,9 @@ const PerformanceForm = ({
               tags: data.tags || [],
               mediaType: mediaType,
               videoLink: videoLink,
-              performanceFile: null // Reset file input
+              performanceFile: data.performanceFile || null, // Reset file input
             });
-            
+
             // Store current file URL for display
             if (data.performanceFile && mediaType === 'file') {
               setCurrentFile(data.performanceFile);
@@ -70,31 +78,53 @@ const PerformanceForm = ({
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFormData(prev => ({
-        ...prev,
+      const fileSizeInMB = file.size / (1024 * 1024);
+      if (fileSizeInMB > 100) {
+        setError("File size should be less than 100MB");
+        return;
+      }
+      setFormData((prevData) => ({
+        ...prevData,
         performanceFile: file,
-        videoLink: '', // Clear video link when file is selected
-        mediaType: 'file'
+        uploadProgress: 0,
       }));
-    }
-  };
+      setError(null);
+      simulateUploadProgress()
+    };
+  }
 
-  const handleSubmit = (e) => {
+  console.log('formData', formData)
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Create FormData for submission
     const submissionData = new FormData();
-    Object.keys(formData).forEach(key => {
-      if (key === 'tags') {
-        submissionData.append(key, JSON.stringify(formData[key]));
-      } else if (key === 'performanceFile' && formData[key]) {
-        submissionData.append(key, formData[key]);
-      } else if (key !== 'performanceFile') {
-        submissionData.append(key, formData[key]);
-      }
-    });
-
-    onSubmit(submissionData);
+    submissionData.append('userId', formData.userId);
+    submissionData.append('eventId', formData.eventId);
+    submissionData.append('competitionId', formData.competitionId);
+    submissionData.append('performanceTitle', formData.performanceTitle);
+    submissionData.append('performanceFile', formData.performanceFile);
+    submissionData.append('description', formData.description);
+    submissionData.append('tags', JSON.stringify(formData.tags));
+    submissionData.append('videoLink', formData.videoLink);
+    submissionData.append('mediaType', formData.mediaType);
+    debugger
+    // Object.keys(formData).forEach(key => {
+    //   if (key === 'tags') {
+    //     submissionData.append(key, JSON.stringify(formData[key]));
+    //   } else if (key === 'performanceFile' && formData[key]) {
+    //     submissionData.append(key, formData[key]);
+    //   } else if (key !== 'performanceFile') {
+    //     submissionData.append(key, formData[key]);
+    //   }
+    // });
+    const response = await updateParticipantPerformanceById(performanceId, userId, submissionData)
+    if (response.success) {
+      toast.success('Updated successfully')
+      onClose()
+      // navigate('/my-competitions')
+    }
+    // onSubmit(submissionData);
   };
 
   const addTag = () => {
@@ -113,7 +143,17 @@ const PerformanceForm = ({
       tags: prev.tags.filter(tag => tag !== tagToRemove)
     }));
   };
-
+  const simulateUploadProgress = () => {
+    let progress = 0;
+    const interval = setInterval(() => {
+      if (progress >= 100) {
+        clearInterval(interval);
+      } else {
+        progress += 10;
+        setFormData((prevData) => ({ ...prevData, uploadProgress: progress }));
+      }
+    }, 500);
+  };
   return (
     <div className="bg-white rounded-xl p-6 w-full max-w-md">
       <div className="flex justify-between items-center mb-6">
@@ -125,10 +165,10 @@ const PerformanceForm = ({
         </button>
       </div>
 
-      {error && (
+      {Error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-700">
           <AlertCircle className="h-5 w-5 mr-2" />
-          {error}
+          {Error}
         </div>
       )}
 
@@ -149,15 +189,16 @@ const PerformanceForm = ({
           />
         </div>
 
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Upload Method
           </label>
           <div className="flex space-x-4 mb-4">
             <label className="flex items-center">
+
               <input
                 type="radio"
-                value="file"
+                value={formData.performanceFile}
                 checked={formData.mediaType === 'file'}
                 onChange={(e) =>
                   setFormData(prev => ({
@@ -168,6 +209,7 @@ const PerformanceForm = ({
                 }
                 className="mr-2"
               />
+
               Upload File
             </label>
             <label className="flex items-center">
@@ -187,7 +229,13 @@ const PerformanceForm = ({
               Provide URL
             </label>
           </div>
-
+          {performanceData && performanceData.performanceFile && (
+            <video controls className="mr-2">
+              <source src={`${performanceData.performanceFile}`} />
+              Your browser does not support the video tag.
+            </video>
+          )}
+        
           {formData.mediaType === 'file' ? (
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
               <Upload className="h-8 w-8 mx-auto mb-4 text-gray-400" />
@@ -221,6 +269,124 @@ const PerformanceForm = ({
               value={formData.videoLink}
               onChange={(e) =>
                 setFormData(prev => ({ ...prev, videoLink: e.target.value }))
+              }
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              placeholder="Enter video/audio URL"
+            />
+          )}
+        </div> */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Upload Method
+          </label>
+          <div className="flex space-x-4 mb-4">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                value="file"
+                checked={formData.mediaType === 'file'}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    mediaType: e.target.value,
+                    videoLink: '',
+                  }))
+                }
+                className="mr-2"
+              />
+              Upload File
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                value="url"
+                checked={formData.mediaType === 'url'}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    mediaType: e.target.value,
+                    performanceFile: null,
+                  }))
+                }
+                className="mr-2"
+              />
+              Provide URL
+            </label>
+          </div>
+
+          {formData.mediaType === 'file' && (
+            <div>
+              {performanceData.performanceFile && !isEditingFile ? (
+                <div className="relative w-full h-56 border rounded-lg overflow-hidden">
+                  {/* <video controls className="w-full h-full object-cover">
+                    <source src={URL.createObjectURL(formData.performanceFile)} />
+                    Your browser does not support the video tag.
+                  </video> */}
+                  <video controls className="w-full h-full object-cover">
+                    <source src={`${performanceData.performanceFile}`} />
+                    Your browser does not support the video tag.
+                  </video>
+                  <button
+                    type="button"
+                    onClick={() => setIsEditingFile(true)}
+                    className="absolute top-2 right-2 bg-gray-700 text-white rounded-full p-2 hover:bg-gray-800 transition"
+                  >
+                    <EditIcon className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <Upload className="h-8 w-8 mx-auto mb-4 text-gray-400" />
+                  <input
+                    type="file"
+                    accept="video/*,audio/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label
+                    htmlFor="file-upload"
+                    className="cursor-pointer text-purple-600 hover:text-purple-700"
+                  >
+                    Click to upload
+                  </label>
+                  {/* {currentFile && !formData.performanceFile && (
+                    <p className="text-sm text-gray-500 mt-2">
+                      Current file: {currentFile}
+                    </p>
+                  )} */}
+                  {formData.performanceFile && (
+                    <p className="text-sm text-gray-500 mt-2">
+                      Selected file: {formData.performanceFile.name}
+                    </p>
+                  )}
+                  {formData.uploadProgress > 0 && (
+                    <div className="mt-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-500">Progress:</span>
+                        <span className="text-sm text-gray-500">
+                          {formData.uploadProgress}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 h-2 rounded mt-1">
+                        <div
+                          className="bg-purple-500 h-2 rounded"
+                          style={{ width: `${formData.uploadProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {formData.mediaType === 'url' && (
+            <input
+              type="url"
+              value={formData.videoLink}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, videoLink: e.target.value }))
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               placeholder="Enter video/audio URL"
@@ -285,13 +451,13 @@ const PerformanceForm = ({
         </div>
 
         <div className="flex space-x-4">
-          <button
+          {/* <button
             type="button"
             onClick={onBack}
             className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
           >
             Back
-          </button>
+          </button> */}
           <button
             type="submit"
             className="flex-1 py-3 px-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"

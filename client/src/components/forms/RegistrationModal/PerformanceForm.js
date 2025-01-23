@@ -3,10 +3,10 @@ import { X, Upload, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import {AuthToken, Role} from '../../../utils/constants';
+import { AuthToken, Role } from '../../../utils/constants';
 const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competitionData }) => {
 
-  
+
   const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
   // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
   const competitionRegId = competitionData._id;
@@ -50,8 +50,8 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
       const config = {
         headers: {
           'Accept': 'application/json',
-          'Authorization': `Bearer ${AuthToken}`,
-          'role': Role
+          'Authorization': `Bearer ${AuthToken}` || localStorage.getItem('authToken'),
+          'role': Role || localStorage.getItem('role'),
         },
       };
       const response = await axios.post(`${API_URL}/performance/submit-performance`, submissionData, config);
@@ -81,7 +81,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
         uploadProgress: 0,
       }));
       setError(null);
-  
+
       // Simulating file upload progress
       simulateUploadProgress();
     }
@@ -115,7 +115,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
 
   useEffect(() => {
     console.log('formData', formData);
-  }, [formData,Error]);
+  }, [formData, Error]);
 
   return (
     <div className="bg-white rounded-xl p-6 w-full max-w-md" style={{ color: "black" }}>
@@ -291,15 +291,15 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
         </div>
 
         <div className="flex justify-end space-x-4">
-        {!loading &&
-          <button
-            type="button"
-            onClick={onBack}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
-          >
-            Back
-          </button>
-        }
+          {!loading &&
+            <button
+              type="button"
+              onClick={onBack}
+              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+            >
+              Back
+            </button>
+          }
           <button
             type="submit"
             disabled={loading}

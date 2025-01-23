@@ -38,9 +38,10 @@ const useAuth = () => {
         // toast.success(response.data.message);
 
         if (url === `${API_URL}/auth/login`) {
+
           localStorage.setItem('authToken', response.data.token);
           localStorage.setItem('role', response.data.role);
-          
+
           navigate('/');
         }
 
