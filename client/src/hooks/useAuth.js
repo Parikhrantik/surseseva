@@ -4,8 +4,15 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
-// const API_URL = process.env.BASE_URL || 'http://localhost:5000';
+// const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+// eslint-disable-next-line no-undef
+// const API_URL = process.env.LIVE_BASE_URL|| LOCAL_BASE_URL;
+
+
+const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+console.log('Using API_URL:', API_URL);
+
+//  = process.env.BASE_URL || 'http://localhost:5000';
 
 const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,9 +35,13 @@ const useAuth = () => {
 
       if (response.status === 200 || response.status === 201) {
         setSuccess(response.data.message);
-        toast.success(response.data.message);
+        // toast.success(response.data.message);
 
         if (url === `${API_URL}/auth/login`) {
+
+          localStorage.setItem('authToken', response.data.token);
+          localStorage.setItem('role', response.data.role);
+
           navigate('/');
         }
 

@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { Role, AuthToken } from '../utils/constants';
 
-const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+// const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
 
 const useCompetitionAuth = () => {
@@ -26,10 +29,13 @@ const useCompetitionAuth = () => {
     setSuccess(null);
 
     try {
+
       const config = {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Accept': 'application/json',
+          'Authorization': `Bearer ${AuthToken}` || localStorage.getItem('authToken'),
+          'role': Role || localStorage.getItem('role')
         },
       };
       const response = await axios({
@@ -60,7 +66,7 @@ const useCompetitionAuth = () => {
     if (userId) {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${API_URL}/competition/user-events/${userId}`);
+        const response = await axios.get(`${API_URL}/competition/user-registration/${userId}`);
         setUserEvents(response.data?.data || []);
       } catch (error) {
         console.error('Error fetching participant data:', error);
@@ -78,62 +84,74 @@ const useCompetitionAuth = () => {
   }, [id]);
 
   const competitionRegistration = async (competitionData) => {
-    return await apiCall(`${API_URL}/competition/register-competition`, competitionData);
+    debugger
+
+    try {
+
+      debugger
+      return await apiCall(`${API_URL}/competition/register-competition`, competitionData);
+
+    } catch (error) {
+      debugger
+
+      console.error(error);
+      throw error;
+    }
   };
 
- // Function to fetch competition details by id
- const getCompetitionDetailsId = async (competitionId) => {
-  
-  if (competitionId) {
+  // Function to fetch competition details by id
+  const getCompetitionDetailsId = async (competitionId) => {
+
+    if (competitionId) {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${API_URL}/competition/get-competition-registration/${competitionId}`);
+        if (response.status === 200) {
+          // debugger
+          setCompetitionData(response.data?.data || null);
+          return response.data;
+        } else if (response.status === 404) {
+          // debugger
+          setError(response.data.message);
+          toast.error(response.data.message);
+          return null;
+        } else {
+          throw new Error(`Error fetching competition details: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching competition details:', error);
+        toast.error('Error fetching competition details');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  // Function to update competition details
+  const updateCompetition = async (competitionId, data) => {
+    // debugger
     try {
       setIsLoading(true);
-      const response = await axios.get(`${API_URL}/competition/get-competition-registration/${competitionId}`);
-      if (response.status === 200) {
-        // debugger
-        setCompetitionData(response.data?.data || null);
-        return response.data;
-      } else if (response.status === 404) {
-        // debugger
-        setError(response.data.message);
-        toast.error(response.data.message);
-        return null;
-      } else {
-        throw new Error(`Error fetching competition details: ${response.status}`);
-      }
+      const response = await axios.put(
+        `${API_URL}/competition/update-competition-registration/${competitionId}`,
+        data
+      );
+      setCompetitionData(response.data?.data || null); // Update competition data after success
+      return response.data;
     } catch (error) {
-      console.error('Error fetching competition details:', error);
-      toast.error('Error fetching competition details');
+      console.error('Error updating competition:', error);
+      toast.error('Error updating competition');
+      throw error;
     } finally {
       setIsLoading(false);
     }
-  }
-};
+  };
 
-// Function to update competition details
-const updateCompetition = async (competitionId, data) => {
-  // debugger
-  try {
-    setIsLoading(true);
-    const response = await axios.put(
-      `${API_URL}/competition/update-competition-registration/${competitionId}`,
-      data
-    );
-    setCompetitionData(response.data?.data || null); // Update competition data after success
-    return response.data;
-  } catch (error) {
-    console.error('Error updating competition:', error);
-    toast.error('Error updating competition');
-    throw error;
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-useEffect(() => {
-  if (competitionId) {
-    getCompetitionDetailsId(competitionId);
-  }
-}, [competitionId]);
+  useEffect(() => {
+    if (competitionId) {
+      getCompetitionDetailsId(competitionId);
+    }
+  }, [competitionId]);
 
 
   return {

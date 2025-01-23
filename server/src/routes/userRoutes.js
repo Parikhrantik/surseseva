@@ -3,6 +3,7 @@ const userController = require('../controllers/userController');
 const multer = require('multer');
 const path = require('path');
 const router = express.Router();
+const { participantMiddleware } = require('../middleware/participant');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads'); // Folder to store uploaded files
@@ -16,10 +17,10 @@ const upload = multer({ storage });
 
 router.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 
-router.get('/getUserById/:id', userController.getUserById);
-router.get('/getAllUserDetails', userController.getAllUserDetails);
-router.delete('/deleteUser/:id', userController.deleteUser);
-router.put('/update/:id', upload.single('profilePicture'), userController.updateUser);
+router.get('/getUserById/:id', participantMiddleware, userController.getUserById);
+router.get('/getAllUserDetails', participantMiddleware, userController.getAllUserDetails);
+router.delete('/deleteUser/:id', participantMiddleware, userController.deleteUser);
+router.put('/update/:id', participantMiddleware, upload.single('profilePicture'), userController.updateUser);
 
 router.get('/get-file/:filename', (req, res) => {
     const { filename } = req.params;

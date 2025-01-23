@@ -1,8 +1,10 @@
 // src/controllers/authController.js
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const User = require('../models/User');
 const sendEmail = require('../utils/sendEmail');
 const jwtUtils = require('../utils/jwtUtils');
+const  jwt  = require('jsonwebtoken');
 
 // Register a new user
 const registerUser = async (req, res) => {
@@ -120,38 +122,39 @@ const verifyEmail = async (req, res) => {
 
 // Login user
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-      // Find user by email
-      const user = await User.findOne({ email });
-      if (!user) {
-        return res.status(400).json({ message: 'Invalid credentials' });
-      }
-      // Check if the password is correct
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        return res.status(400).json({ message: 'Invalid credentials' });
-      }
-      // Check if the user is verified
-      if (!user.isVerified) {
-        return res.status(400).json({ message: 'Please verify your email' });
-      }
-      // Generate JWT token
-      const { sign } = require('jsonwebtoken');
-      const token = sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.status(200).json({
-        status: '200',
-        message: 'Login successful',
-        token,
-        userId: user._id // Include userId in the response
-      });
-    } catch (error) {
-      console.error(error);
-      if (error.name === 'ValidationError') {
-        return res.status(400).json({ message: 'Invalid data provided' });
-      }
-      res.status(500).json({ message: 'Something went wrong' });
+  const { email, password } = req.body;
+  try {
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
+    // Check if the password is correct
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+    // Check if the user is verified
+    if (!user.isVerified) {
+      return res.status(400).json({ message: 'Please verify your email' });
+    }
+    // Generate JWT token
+    const tokenId = crypto.randomBytes(16).toString('hex'); // generate a unique token id
+    const token = jwt.sign({ userId: user._id, role: user.role, tokenId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.status(200).json({
+      status: '200',
+      message: 'Login successful',
+      token,
+      userId: user._id, 
+      role: user.role
+    });
+  } catch (error) {
+    console.error(error);
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: 'Invalid data provided' });
+    }
+    res.status(500).json({ message: 'Something went wrong' });
+  }
 };
 
 

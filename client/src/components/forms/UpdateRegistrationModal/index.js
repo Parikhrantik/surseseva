@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CompetitionForm from './CompetitionForm';
 import PerformanceForm from './PerformanceForm';
 import useCompetitionAuth from '../../../hooks/useCompetionAuth';
-import usePerformanceAuth from '../../../hooks/usePerformanceAuth';
+import usePerformanceAuth, { updateParticipantPerformanceById } from '../../../hooks/usePerformanceAuth';
 
-const RegistrationModal = ({ isOpen, onClose, eventId,competitionId,performanceId,competiId,eventDate,eventStartDate,eventEndDate,updatedAt, }) => {
+const RegistrationModal = ({ isOpen, onClose, eventId, competitionId, performanceId, competiId, eventDate, eventStartDate, eventEndDate, updatedAt, isEditing, performance }) => {
   // debugger
-    // console.log(updatedAt,"updatedAtupdatedAtupdatedAtupdatedAtupdatedAt")
+  // console.log(updatedAt,"updatedAtupdatedAtupdatedAtupdatedAtupdatedAt")
   const [step, setStep] = useState(1);
   const [competitionData, setCompetitionData] = useState();
   const [performanceData, setPerformanceData] = useState();
@@ -28,9 +28,9 @@ const RegistrationModal = ({ isOpen, onClose, eventId,competitionId,performanceI
 
 
   const handlePerformanceSubmit = async (data) => {
-    // debugger
+    debugger
     try {
-      const response = await updatePerformance(performanceId, data);
+      const response = await updateParticipantPerformanceById(performanceId, performance.userId, data);
       setPerformanceData(response.data);
       onClose();
       setStep(1);
@@ -38,6 +38,13 @@ const RegistrationModal = ({ isOpen, onClose, eventId,competitionId,performanceI
       console.error('Error submitting performance:', error);
     }
   };
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    if (isEditing) {
+      setStep(2)
+    }
+  }, [])
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -68,11 +75,12 @@ const RegistrationModal = ({ isOpen, onClose, eventId,competitionId,performanceI
               onSubmit={handlePerformanceSubmit}
               onBack={() => setStep(1)}
               onClose={onClose}
-              isLoading={isPerformanceLoading}
               eventId={eventId}
-              performanceData={performanceData}
               performanceId={performanceId}
+              userId={performance.userId}
               competiId={competiId}
+              isLoading={isPerformanceLoading}
+              performanceData={isEditing ? performance : performanceData}
             />
           )}
         </div>

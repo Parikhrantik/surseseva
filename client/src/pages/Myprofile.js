@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Edit2, Camera, Briefcase, Link as LinkIcon, Twitter, Instagram } from 'lucide-react';
+import { Edit2, Camera, Briefcase, Link as LinkIcon, Twitter, Instagram, User, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useParticipantsAuth from '../hooks/useParticipantsAuth';
 import { useForm } from 'react-hook-form';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 export default function Myprofile() {
   const id = localStorage.getItem('userId');
   const { participant, setId, loading, updateUser } = useParticipantsAuth();
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [tempProfilePicture, setTempProfilePicture] = useState(null);
   const [userData, setUserData] = useState({
+    name: '',
     role: '',
     profilePicture: null,
     bio: '',
@@ -30,28 +33,39 @@ export default function Myprofile() {
     if (participant && participant._id === id) {
       setUserData(participant);
     }
-  }, [participant, id]);
+  }, [participant, id, isEditing]);
 
   // Handle form submission
-// Handle form submission
-const onSubmit = async (data) => {
-  try {
-    const updatedData = {
-      ...userData,
-      ...data, // Merge form data with existing userData
-    };
-    await updateUser(id, updatedData);
-    setIsEditing(false);
-    navigate('/profile'); // Redirect to profile page
-  } catch (error) {
-    console.error('Error updating profile:', error);
-  }
-};
+  // Handle form submission
+  const onSubmit = async (data) => {
+    try {
+      const updatedData = {
+        ...userData,
+        ...data, // Merge form data with existing userData
+      };
+      debugger
+      const res = await updateUser(id, updatedData);
+      debugger
+      if (res.success) {
+        toast.success('Profile updated successfully!');
+        setIsEditing(false);
+        navigate('/profile');
+
+
+      }
+      // navigate('/profile'); // Redirect to profile page
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
+  };
 
   // Handle file change (for profile picture)
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const url = URL.createObjectURL(file);
+      setTempProfilePicture(url);
+      debugger
       setUserData((prev) => ({
         ...prev,
         profilePicture: file, // Store the file
@@ -74,12 +88,22 @@ const onSubmit = async (data) => {
               {/* Left Column - Profile Info */}
               <div className="md:w-1/3">
                 <div className="relative">
-                  <img
-                    src={userData.profilePicture || '/images/default-avatar.png'}
-                   
-                    alt="Profile"
-                    className="w-40 h-40 rounded-2xl border-4 border-white shadow-lg mx-auto md:mx-0"
-                  />
+                  {tempProfilePicture ? (
+                    <img
+                      src={tempProfilePicture}
+                      alt="Profile"
+                      className="w-40 h-40 rounded-2xl border-4 border-white shadow-lg mx-auto md:mx-0"
+                    />
+                  ) : (
+
+                    <img
+                      src={userData.profilePicture || '/images/default-avatar.png'}
+
+                      alt="Profile"
+                      className="w-40 h-40 rounded-2xl border-4 border-white shadow-lg mx-auto md:mx-0"
+                    />
+                  )
+                  }
                   {isEditing && (
                     <>
                       <label
@@ -90,6 +114,7 @@ const onSubmit = async (data) => {
                       </label>
                       <input
                         id="profilePictureInput"
+                        // src={userData.profilePicture}
                         type="file"
                         accept="image/*"
                         className="hidden"
@@ -101,18 +126,18 @@ const onSubmit = async (data) => {
 
                 <div className="mt-6 space-y-4">
                   <div className="flex items-center space-x-2 text-gray-600">
-                    <Briefcase size={18} />
+                    <User size={18} />
                     <span>{participant.role}</span>
                   </div>
                 </div>
-                <div className="mt-6 flex space-x-4">
+                {/* <div className="mt-6 flex space-x-4">
                   <a href="#" className="text-gray-600 hover:text-purple-600">
                     <Twitter size={20} />
                   </a>
                   <a href="#" className="text-gray-600 hover:text-purple-600">
                     <Instagram size={20} />
                   </a>
-                </div>
+                </div> */}
               </div>
 
               {/* Right Column - Main Content */}
@@ -120,7 +145,7 @@ const onSubmit = async (data) => {
                 <div className="flex justify-between items-start">
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900">{participant.name}</h1>
-                    <p className="mt-2 text-gray-600">{participant.email}</p>
+                    <span className="mt-2 text-gray-600"><Mail size={16} className="inline-block mr-2" />{participant.email}</span>
                   </div>
                   {!isEditing && (
                     <button
@@ -136,7 +161,7 @@ const onSubmit = async (data) => {
                 <div className="mt-8 grid grid-cols-3 gap-4">
                   <div className="bg-purple-50 rounded-2xl p-4 text-center">
                     <div className="text-2xl font-bold text-purple-600">{participant.stats?.eventsCreated || 0}</div>
-                    <div className="text-sm text-gray-600">Events Created</div>
+                    <div className="text-sm text-gray-600">Participated Competition</div>
                   </div>
                   <div className="bg-pink-50 rounded-2xl p-4 text-center">
                     <div className="text-2xl font-bold text-pink-600">{participant.stats?.attendees || 0}</div>
@@ -151,6 +176,15 @@ const onSubmit = async (data) => {
                 {isEditing ? (
                   <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
                     {/* Bio */}
+                    <div>
+                      <label className="block text-gray-700 font-medium text-sm">Name</label>
+                      <input
+                        {...register("name")}
+                        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-sm"
+                        value={userData.name}
+                        onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+                      />
+                    </div>
                     <div>
                       <label className="block text-gray-700 font-medium text-sm">Bio/About Me</label>
                       <textarea
@@ -215,10 +249,20 @@ const onSubmit = async (data) => {
                     </div>
                   </form>
                 ) : (
-                  <div className="mt-8">
-                    <h2 className="text-xl font-semibold text-gray-900">About</h2>
+                  <><div className="mt-8">
+                    <h2 className="text-xl font-semibold text-gray-900">Bio/About Me</h2>
                     <p className="mt-4 text-gray-600 leading-relaxed">{participant.bio || "No bio available."}</p>
                   </div>
+                    <div className="mt-8">
+                      <h2 className="text-xl font-semibold text-gray-900">Singing Genre Preferences</h2>
+                      <p className="mt-4 text-gray-600 leading-relaxed">{participant.genrePreferences || "No bio available."}</p>
+                    </div>
+                    <div className="mt-8">
+                      <h2 className="text-xl font-semibold text-gray-900">Contact Information</h2>
+                      <p className="mt-4 text-gray-600 leading-relaxed">{participant.contactInfo || "No bio available."}</p>
+                    </div>
+
+                  </>
                 )}
               </div>
             </div>

@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+import { Role, AuthToken } from '../utils/constants';
+// const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
 
 const usePerformanceAuth = (id) => {
@@ -11,7 +14,7 @@ const usePerformanceAuth = (id) => {
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(true);
   const [performanceData, setPerformanceData] = useState([]);
-  console.log(performanceData,"Yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+  console.log(performanceData, "Yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
   const navigate = useNavigate();
   const apiCall = async (url, data) => {
     setIsLoading(true);
@@ -19,26 +22,35 @@ const usePerformanceAuth = (id) => {
     setSuccess(null);
 
     try {
+
       const response = await axios.post(url, data, {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Accept': 'application/json',
+          'Authorization': `Bearer ${AuthToken || localStorage.getItem('authToken')}`,
+          'role': Role || localStorage.getItem('role')
+
         },
       });
 
       if (response.status === 200 || response.status === 201) {
         // setSuccess(response.data?.message);
         toast.success(response.data?.message);
+        setIsLoading(false);
         navigate('/');
         window.location.reload();
       } else {
         const errorMessage = response.data?.message || `Unexpected response status: ${response.status}`;
         setError(errorMessage);
+        setIsLoading(false);
+
         toast.error(errorMessage);
       }
 
       return response;
     } catch (err) {
+      setIsLoading(false);
+
       const errorMessage = err.response?.data?.message || err.message;
       // setError(errorMessage);
       toast.error(errorMessage);
@@ -59,6 +71,32 @@ const usePerformanceAuth = (id) => {
       try {
         setIsLoading(true);
         const response = await axios.get(`${API_URL}/performance/get-performance-by-id/${performanceId}`);
+        if (response.status === 200) {
+          // debugger
+          setPerformanceData(response.data?.data || null);
+          return response.data;
+        } else if (response.status === 404) {
+          // debugger
+          setError(response.data.message);
+          toast.error(response.data.message);
+          return null;
+        } else {
+          throw new Error(`Error fetching Performance details: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching Performance details:', error);
+        toast.error('Error fetching Performance details');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+  const getParticipantPerformanceById = async (performanceId, userID) => {
+    // debugger
+    if (performanceId) {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${API_URL}/performance/get-participant-performance/${performanceId},${userID}`);
         if (response.status === 200) {
           // debugger
           setPerformanceData(response.data?.data || null);
@@ -108,7 +146,72 @@ const usePerformanceAuth = (id) => {
     loading,
     updatePerformance,
     getPerformanceById,
+    getParticipantPerformanceById,
   };
 }
 
 export default usePerformanceAuth
+export const getParticipantPerformanceById = async (competitionId, userID) => {
+  if (competitionId) {
+    try {
+      const config = {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${AuthToken || localStorage.getItem('authToken')}`,
+          'role': Role || localStorage.getItem('role'),
+        },
+        params: { userID },
+      };
+
+      const response = await axios.get(
+        `${API_URL}/performance/get-participant-performance/${competitionId}`,
+        config
+      );
+
+      if (response.status === 200) {
+        return response.data;
+      } else if (response.status === 404) {
+        toast.error(response.data.message);
+        return response.data.message;
+      } else {
+        throw new Error(`Error fetching Performance details: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error fetching Performance details:', error);
+      toast.error('Error fetching Performance details');
+    }
+  }
+};
+export const updateParticipantPerformanceById = async (competitionId, userID, data) => {
+  debugger
+  if (competitionId) {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${AuthToken || localStorage.getItem('authToken')}`,
+          'role': Role || localStorage.getItem('role'),
+        },
+        params: { userID },
+      };
+      debugger
+      const response = await axios.put(
+        `${API_URL}/performance/update-performance/${competitionId}`, data,
+        config
+      );
+
+      if (response.status === 200) {
+        return response.data;
+      } else if (response.status === 404) {
+        toast.error(response.data.message);
+        return response.data.message;
+      } else {
+        throw new Error(`Error fetching Performance details: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error fetching Performance details:', error);
+      toast.error('Error fetching Performance details');
+    }
+  }
+};
