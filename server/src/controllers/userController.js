@@ -12,7 +12,7 @@ const getUserById = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
     const filePath = `${process.env.BASE_URL}/get-file/${user.profilePicture}`;
-  
+
     res.status(200).json({
       ...user._doc,
       profilePicture: filePath,
@@ -52,9 +52,9 @@ const deleteUser = async (req, res) => {
 // Update user details
 const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, email, role, bio, genrePreferences, contactInfo } = req.body;
-  // console.log(req.body,"uuuuuuuuuuuuuuuuu")
-  const profilePicture = req.file ? req.file.filename : null;
+  const { name, email, role, bio, genrePreferences, contactInfo, profilePicture } = req.body;
+  console.log(req.body, "uuuuuuuuuuuuuuuuu")
+  const profilePic = req.file ? req.file.filename : profilePicture;
 
   // Validate role if provided
   const validRoles = ['Participant', 'Organizer', 'Voter'];
@@ -63,7 +63,7 @@ const updateUser = async (req, res) => {
   }
 
   try {
-    const updateData = { name, email, role, bio, genrePreferences, contactInfo, profilePicture };
+    const updateData = { name, email, role, bio, genrePreferences, contactInfo, profilePicture: profilePic };
 
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
       new: true,
@@ -74,7 +74,7 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json(updatedUser);
+    res.status(200).json({ data: updatedUser, success: true, message: 'User updated successfully' });
   } catch (error) {
     console.error('Error updating user:', error);
     if (error.name === 'ValidationError') {
