@@ -14,7 +14,9 @@ import Myevents from './pages/Myevents';
 import Myprofile from './pages/Myprofile';
 import CompetitionEventsDetails from './pages/CompetitionEventsDetails';
 import MyCompetitions from './pages/MyCompetitions';
-import ParticipantCompetitionDetails from './pages/participantCompetitionDetails';
+import ParticipantCompetitionDetails from './pages/ParticipantCompetitionDetails';
+import AllEvents from './pages/allevents/allevents';
+import EventDetail from './pages/allevents/eventdetails';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -32,9 +34,8 @@ const App = () => {
   // Conditionally render Navbar and Footer
   const ConditionalLayout = ({ children }) => {
     const location = useLocation();
-    const showLayout =
-      ["/", "/about", "/events", "/profile", "/my-competitions"].includes(location.pathname) ||
-      location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details");
+    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions", "/allevents", "/events_details"].includes(location.pathname) ||
+      location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details") || location.pathname.startsWith("/events_details");
 
     return (
       <>
@@ -72,10 +73,26 @@ const App = () => {
             }
           />
           <Route
+            path="/allevents"
+            element={
+              <ConditionalLayout>
+                <AllEvents />
+              </ConditionalLayout>
+            }
+          />
+          <Route
             path="/events"
             element={
               <ConditionalLayout>
                 <Myevents />
+              </ConditionalLayout>
+            }
+          />
+          <Route
+            path="/events_details/:id"
+            element={
+              <ConditionalLayout>
+                <EventDetail />
               </ConditionalLayout>
             }
           />

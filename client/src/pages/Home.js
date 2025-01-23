@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ArrowRight,
   Search,
@@ -8,10 +8,51 @@ import {
 import EventCard from '../components/common/Cards/EventCard';
 import events from "../utils/events.json"
 import CompetitionEvents from './CompetitionEvents';
+import usePresentEventApi from '../hooks/presentEvent';
+import { useLocation, useNavigate } from 'react-router-dom';
 // import MissionPage from './MissionPage';
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  // const featuredEvents = events.slice(0, 3)
+  const navigate = useNavigate();
+  const location = useLocation();
+
+
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { getAllEvents } = usePresentEventApi();
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const allEvents = await getAllEvents();
+        setEvents(allEvents);  // Store events in state
+        setLoading(false);  // Set loading state to false after events are fetched
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        setLoading(false);
+        setError('Failed to load events. Please try again later.');
+      }
+    };
+
+    fetchEvents(); 
+  }, []);
+
   const featuredEvents = events.slice(0, 3)
+
+  const handleView = (id) => {
+    navigate(`/events_details/${id}`);
+  };
+
+
+  const handleViewAllClick = () => {
+    // setShowAllEvents(true); 
+    if (location.pathname !== '/allevents') {
+      navigate('/allevents');
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -31,17 +72,18 @@ const Home = () => {
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-1">
               <div className="flex items-center gap-2 px-4 py-2">
                 <Sparkles className="h-4 w-4 text-yellow-400" />
-                <span className="text-sm font-medium">Experience The Future of Events</span>
+                <span className="text-sm font-medium">Mission</span>
               </div>
+
             </div>
           </div>
 
-          <h1 className="text-7xl font-bold mb-8 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-            Discover Epic Events
+          <h1 className="text-7xl font-bold mb-8 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent" style={{ fontFamily: 'cursive' }}>
+            Sur and Sangeet is a Gift of God
           </h1>
 
           {/* Glass Search Bar */}
-          <div className="max-w-3xl mx-auto mb-12">
+          {/* <div className="max-w-3xl mx-auto mb-12">
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-2">
               <div className="flex gap-2">
                 <div className="flex-1 relative">
@@ -57,10 +99,10 @@ const Home = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Scrolling Categories */}
-          <div className="flex justify-center gap-4 mb-12">
+          {/* <div className="flex justify-center gap-4 mb-12">
             {['All', 'Music', 'Tech', 'Sports', 'Arts'].map((cat) => (
               <button
                 key={cat}
@@ -73,10 +115,10 @@ const Home = () => {
                 {cat}
               </button>
             ))}
-          </div>
+          </div> */}
 
           {/* Floating Stats */}
-          <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
+          {/* <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
             {[
               { label: 'Active Events', value: '2.5K+' },
               { label: 'Happy Users', value: '150K+' },
@@ -90,7 +132,81 @@ const Home = () => {
                 <div className="text-white/60">{stat.label}</div>
               </div>
             ))}
+          </div> */}
+
+          {/* <div className="inline-block animate-bounce mb-8">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-1">
+              <div className="flex items-center gap-2 px-4 py-2">
+                <Sparkles className="h-4 w-4 text-yellow-400" />
+                <span className="text-sm font-medium">Mission</span>
+              </div>
+            </div>
           </div>
+
+          <h1 className="text-7xl font-bold mb-8 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+          Sur and Sangeet is a Gift of God
+          </h1> */}
+
+          {/* Main Content */}
+          {/* <div className="container mx-auto px-4 max-w-4xl"> */}
+          {/* Title Section */}
+          {/* <div className="text-center mb-8" style={{paddingTop:"4rem"}}>
+                <h1 className="text-yellow-300 text-2xl font-semibold mb-4">
+                  Mission
+                </h1>
+                <h2 className="text-4xl md:text-5xl font-bold mb-12 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent" 
+                style={{fontFamily: 'cursive'}}
+                >
+                Sur and Sangeet is a Gift of God
+                </h2>
+              </div> */}
+
+
+          {/* Main Content */}
+          <div className="space-y-8 text-lg leading-relaxed" style={{ textAlign: 'justify' }}>
+            <p className="text-white/90">
+              Sur Se Seva is a non-profit New Jersey entity, an Art and Musicloving community that is dedicated to promoting and empowering
+              the arts in all its forms. Music and Aart are gifts from God and have the power to heal and unite people across cultures, Language,
+              Religions and Borders. We strive to use these gifts to serve our community through Seva (Selfless Service). Our foundation, Sur Se Seva
+              (SSS), is committed to organizing events and performances that showcase various forms of art and craft. While our primary
+              focus is music, we also aim to promote dance, painting, theater, drama, poetry, literature, comedy, spirituality, and more.
+            </p>
+
+            <p className="text-white/90">
+              When we organize an event, after covering all expenses associated with the event, any surplus funds that we generate are donated
+              back to the community thru our Non-Profit Sur Se Seva Foundation. This will ensure that any charitable cause in the community
+              that requires our assistance can benefit from the resources generated through our events and performances. Our sole purpose is
+              to use Sur (or any other form of Indian art and craft) to do Seva and to give back to the community, both locally and internationally.
+            </p>
+
+            <p className="text-white/90">
+              Our events and performances are not just a showcase of talent but a celebration of diversity and inclusivity. We believe that
+              everyone has something unique to offer, and our community is a platform where all voices can be heard. We are committed to
+              promoting emerging artists and providing them with opportunities to showcase their talent. We believe that by nurturing young
+              artists, we can create a community that is passionate about the arts and committed to promoting them. Working together, we can
+              make a difference in the world and create a more harmonious and beautiful society.
+            </p>
+
+            <p className="text-white/90">
+              We invite all music and art lovers from USA and beyond to join us in celebrating the beauty of the arts. Whether you're a musician,
+              dancer, artist, poet, or simply a music enthusiast, there's a place for you in our community. So, join us in celebrating the beauty of
+              the arts and the power of Sur Seva. Let us come together to create a world where art and music are celebrated, respected, and
+              valued. Click on the link below to become a member and join our Elite and most happening music and art group.
+            </p>
+            <p className="text-white/90">
+              <a
+                href=" https://forms.gle/rdXPgGcivvNWvknL6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underlin"
+              >
+                <span> https://forms.gle/rdXPgGcivvNWvknL6</span>
+              </a>
+            </p>
+
+          </div>
+          {/* </div> */}
+
         </div>
 
         {/* Scroll Indicator */}
@@ -100,24 +216,41 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <CompetitionEvents/>
-      {/* <MissionPage/> */}
-      {/* Featured Events Section */}
+      <CompetitionEvents />
+      {/* Present Events Section */}
       <div className="py-20 bg-gradient-to-b from-black to-purple-900/20">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <div>
-              <h2 className="text-4xl font-bold mb-4">Featured Events</h2>
-              <p className="text-white/60">Discover the most exciting upcoming experiences</p>
+              <h2 className="text-4xl font-bold mb-4">Present Events</h2>
+              <p className="text-white/60">Discover the most exciting  experiences</p>
             </div>
-            <button className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+            <button onClick={handleViewAllClick} className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
               View All <ArrowRight className="h-4 w-4" />
             </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredEvents.map(event => (
+            {/* {featuredEvents.map(event => (
               <EventCard key={event.id} {...event} />
-            ))}
+            ))} */}
+            {featuredEvents.length > 0 ? (
+              featuredEvents.map(event => (
+                <EventCard
+                  // key={event.id}
+                  id={event._id}
+                  bannerImage={event.bannerImage}
+                  title={event.title}
+                  handleView={handleView}
+
+                />
+              ))
+            ) : (
+              <p>
+              {/* Loading events... */}
+              No data Found
+              </p> // Show loading text until the events are fetched
+            )}
+
           </div>
 
         </div>

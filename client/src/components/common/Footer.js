@@ -117,19 +117,27 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-center text-gray-400">
                 <MapPin className="h-5 w-5 mr-3 text-purple-500" />
-                <span>123 Event Street, NY 10001</span>
+                <span>P.O. Box 4514, Warren. NJ 07059</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <Phone className="h-5 w-5 mr-3 text-purple-500" />
-                <span>+1 (234) 567-890</span>
+                <span>+91 732-803-1119</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <Mail className="h-5 w-5 mr-3 text-purple-500" />
-                <span>info@eventvote.com</span>
+                <span> For any details related to SurSeSeva, Email us</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <Globe className="h-5 w-5 mr-3 text-purple-500" />
-                <span>www.eventvote.com</span>
+                {/* <span>https://www.surseseva.org</span> */}
+                <a
+                  href="https://www.surseseva.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underlin"
+                >
+                  <span>https://www.surseseva.org</span>
+                </a>
               </li>
             </ul>
           </div>
@@ -139,7 +147,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} EventVote. All rights reserved.
+              Copyright © {new Date().getFullYear()} SurSeSeva. All Rights Reserved.
             </p>
             <div className="flex space-x-6 text-sm text-gray-400">
               <a href="#" className="hover:text-purple-500 transition-colors">Privacy Policy</a>
