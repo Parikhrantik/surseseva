@@ -47,12 +47,12 @@ const EventCard = ({
 
   return (
     <>
-      <div className="group relative">
+      <div className="event-card group relative">
         {/* Card Background with Hover Effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-2xl transform group-hover:scale-105 transition-transform duration-300"></div>
 
         {/* Card Content */}
-        <div className="relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden">
+        <div className="h-100 relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden">
           {/* Event Image */}
           <div className="relative aspect-[16/9]">
             <div className="mb-4 rounded-lg overflow-hidden  cursor-pointer" onClick={() => handleView(id)}>

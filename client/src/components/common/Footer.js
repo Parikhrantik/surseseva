@@ -12,7 +12,7 @@ const Footer = () => {
           <p className="text-gray-400 mb-8">
             Subscribe to our newsletter for the latest events and exclusive offers
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+          <div className="newsletter flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
             <input
               type="email"
               placeholder="Enter your email"
@@ -25,7 +25,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-md-12 mb-16">
           {/* Company Info */}
           <div>
             <Link to="/" className="inline-block mb-6">
@@ -36,7 +36,7 @@ const Footer = () => {
             <p className="text-gray-400 mb-6">
               Your premier platform for discovering and voting on amazing events worldwide.
             </p>
-            <div className="flex space-x-4">
+            <div className="social-media flex space-x-4">
               <a href="#" className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
@@ -125,7 +125,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center text-gray-400">
                 <Mail className="h-5 w-5 mr-3 text-purple-500" />
-                <span> For any details related to SurSeSeva, Email us</span>
+                <span> For any details related to SurSeSeva, Email us : surseseva@gmail.com</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <Globe className="h-5 w-5 mr-3 text-purple-500" />
@@ -149,7 +149,7 @@ const Footer = () => {
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
               Copyright © {new Date().getFullYear()} SurSeSeva. All Rights Reserved.
             </p>
-            <div className="flex space-x-6 text-sm text-gray-400">
+            <div className="footer-inner flex space-x-6 text-sm text-gray-400">
               <a href="#" className="hover:text-purple-500 transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-purple-500 transition-colors">Terms of Service</a>
               <a href="#" className="hover:text-purple-500 transition-colors">Cookie Policy</a>
