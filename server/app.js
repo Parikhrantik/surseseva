@@ -32,7 +32,9 @@ app.get('/', (req, res) => {
 app.use(userRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+// Increase the body size limit for incoming requests (default 100kb)
+app.use(bodyParser.json({ limit: '100mb' })); // or '100mb' based on your file size
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);

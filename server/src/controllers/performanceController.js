@@ -2,7 +2,7 @@ const Performance = require('../models/Performance');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 exports.submitPerformance = async (req, res) => {
-  console.log("req.performance", req)
+
   try {
 
     const { userId, competitionId, performanceTitle, description, tags, videoLink, competitionRegId } = req.body;
@@ -19,7 +19,7 @@ exports.submitPerformance = async (req, res) => {
       performanceTitle,
       description,
       videoLink,
-      performanceFile: req.file ? req.file.filename : null,
+      performanceFile: req.fileUrl ? req.fileUrl : null,
       tags: tags ? JSON.parse(tags) : [],
       userId,
       competitionId,
@@ -104,14 +104,14 @@ exports.getPerformanceById = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Performance not found.' });
     }
 
-    const filePath = `${process.env.BASE_URL}/get-file/${performance.performanceFile}`;
+    // const filePath = `${process.env.BASE_URL}/get-file/${performance.performanceFile}`;
     // console.log(filePath,"kkkkkkkkkkkkkkkk")
 
     return res.status(200).json({
       success: true,
       data: {
         ...performance._doc,
-        performanceFile: filePath,
+        // performanceFile: filePath,
       },
     });
   } catch (error) {
@@ -194,7 +194,7 @@ exports.updatePerformance = async (req, res) => {
   try {
     const { id } = req.params;
     const data = req.body;
-    const performanceFile = req.file ? req.file.filename : req.body.performanceFile
+    const performanceFile = req.fileUrl ? req.fileUrl : req.body.performanceFile
     const tags = data.tags ? JSON.parse(data.tags) : JSON.parse(req.body.tags)
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
