@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Middleware to check for authentication token and user role
 exports.participantMiddleware = (req, res, next) => {
-  console.log('req', req.headers)
+  // console.log('req', req.headers)
   const authHeader = req?.headers.authorization;
   const authRole = req?.headers.role;
   if (!authHeader) {

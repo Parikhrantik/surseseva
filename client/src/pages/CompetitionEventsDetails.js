@@ -29,7 +29,7 @@ function CompetitionEventsDetails() {
       </div>
     );
   }
-
+// console.log(competitionData,"competitionData")
   return (
     <>
 

@@ -71,7 +71,7 @@ const Event = require('../models/Event');
 // };
 exports.createEvent = async (req, res) => {
   try {
-    const { title, bannerImage, videoUrls } = req.body;
+    const { title, bannerImage, videoUrls, eventType } = req.body;
 
     // Validate required fields
     if (!title || (!bannerImage && !req.file)) {
@@ -114,12 +114,13 @@ exports.createEvent = async (req, res) => {
         invalidUrls,
       });
     }
-
+    const eventTypeToSave = eventType && ['past', 'present', 'future'].includes(eventType) ? eventType : 'present';
     // Create new event
     const newEvent = new Event({
       title,
       bannerImage: req.file ? req.file.filename : bannerImage, // Use multer for file uploads
-      videoUrls: videoUrlArray, // Save the processed array of video URLs
+      videoUrls: videoUrlArray,
+      eventType: eventTypeToSave,  // Save the processed array of video URLs
     });
 
     await newEvent.save();
@@ -128,6 +129,7 @@ exports.createEvent = async (req, res) => {
       success: true,
       message: 'Event created successfully.',
       data: newEvent,
+       // Save event type (default to "present")
     });
   } catch (error) {
     console.error('Error in event creation:', error);

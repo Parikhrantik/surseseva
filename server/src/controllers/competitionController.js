@@ -147,6 +147,7 @@ exports.getCompetitionRegistrationById = async (req, res) => {
 
 // Delete a competition registration by ID
 exports.deleteCompetitionRegistration = async (req, res) => {
+  console.log(req.body)
   const { userId, competitionId } = req.body;
 
   try {
@@ -175,9 +176,14 @@ exports.deleteCompetitionRegistration = async (req, res) => {
 
     const deletedRegistration = await Competition.findOneAndDelete({
       userId: new mongoose.Types.ObjectId(userId),
-      competitionId: competitionId, // Use as-is if eventId is a string or number
+       _id: new mongoose.Types.ObjectId(competitionId),
     });
 
+const deletePerfomance = await Performance.findOneAndDelete({
+  competitionRegId: new mongoose.Types.ObjectId(competitionId),
+  
+});
+      console.log(deletePerfomance,'hyyyyyy')
     if (!deletedRegistration) {
       return res.status(404).json({
         success: false,

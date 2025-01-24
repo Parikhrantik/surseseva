@@ -156,7 +156,75 @@ const loginUser = async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 };
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Generate a password reset token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+    // Save token and expiration in the database
+    user.passwordResetToken = resetTokenHash;
+    user.passwordResetExpires = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+    // Send reset email
+    await sendEmail.sendResetPasswordEmail(email, resetToken);
+    
+
+    res.status(200).json({ message: 'Password reset link sent to your email' });
+  } catch (error) {
+    console.error('Error in forgotPassword:', error);
+    res.status(500).json({ message: 'Something went wrong, please try again later' });
+  }
+};
+
+// Reset Password
+const resetPassword = async (req, res) => {
+  console.log(req.body)
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword) {
+    return res.status(400).json({ message: 'Token and new password are required' });
+  }
+
+  try {
+    // Hash the token and find the user
+    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+    const user = await User.findOne({
+      passwordResetToken: tokenHash,
+      passwordResetExpires: { $gt: Date.now() }, // Ensure token is not expired
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+    // Hash the new password and update the user
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    user.password = hashedPassword;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.status(200).json({ message: 'Password reset successfully. You can now log in.' });
+  } catch (error) {
+    console.error('Error in resetPassword:', error);
+    res.status(500).json({ message: 'Something went wrong, please try again later' });
+  }
+};
 
 
 
-module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink };
+// module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink };
+module.exports = { registerUser, verifyEmail,loginUser,sendVerificationLink,resetPassword,forgotPassword };
