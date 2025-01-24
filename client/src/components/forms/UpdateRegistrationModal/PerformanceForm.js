@@ -108,7 +108,7 @@ const PerformanceForm = ({
     submissionData.append('tags', JSON.stringify(formData.tags));
     submissionData.append('videoLink', formData.videoLink);
     submissionData.append('mediaType', formData.mediaType);
-    debugger
+
     // Object.keys(formData).forEach(key => {
     //   if (key === 'tags') {
     //     submissionData.append(key, JSON.stringify(formData[key]));

@@ -66,17 +66,17 @@ const usePerformanceAuth = (id) => {
 
 
   const getPerformanceById = async (performanceId) => {
-    // debugger
+    // 
     if (performanceId) {
       try {
         setIsLoading(true);
         const response = await axios.get(`${API_URL}/performance/get-performance-by-id/${performanceId}`);
         if (response.status === 200) {
-          // debugger
+          // 
           setPerformanceData(response.data?.data || null);
           return response.data;
         } else if (response.status === 404) {
-          // debugger
+          // 
           setError(response.data.message);
           toast.error(response.data.message);
           return null;
@@ -92,17 +92,17 @@ const usePerformanceAuth = (id) => {
     }
   };
   const getParticipantPerformanceById = async (performanceId, userID) => {
-    // debugger
+    // 
     if (performanceId) {
       try {
         setIsLoading(true);
         const response = await axios.get(`${API_URL}/performance/get-participant-performance/${performanceId},${userID}`);
         if (response.status === 200) {
-          // debugger
+          // 
           setPerformanceData(response.data?.data || null);
           return response.data;
         } else if (response.status === 404) {
-          // debugger
+          // 
           setError(response.data.message);
           toast.error(response.data.message);
           return null;
@@ -119,7 +119,7 @@ const usePerformanceAuth = (id) => {
   };
 
   const updatePerformance = async (performanceId, data) => {
-    // debugger
+    // 
     try {
       setIsLoading(true);
       const response = await axios.put(
@@ -183,7 +183,7 @@ export const getParticipantPerformanceById = async (competitionId, userID) => {
   }
 };
 export const updateParticipantPerformanceById = async (competitionId, userID, data) => {
-  debugger
+
   if (competitionId) {
     try {
       const config = {
@@ -195,7 +195,7 @@ export const updateParticipantPerformanceById = async (competitionId, userID, da
         },
         params: { userID },
       };
-      debugger
+
       const response = await axios.put(
         `${API_URL}/performance/update-performance/${competitionId}`, data,
         config

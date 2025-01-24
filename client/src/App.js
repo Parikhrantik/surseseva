@@ -35,7 +35,7 @@ const App = () => {
   // Conditionally render Navbar and Footer
   const ConditionalLayout = ({ children }) => {
     const location = useLocation();
-    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions", "/allevents", "/events_details",'/contact-us'].includes(location.pathname) ||
+    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions", "/allevents", "/events_details", '/contact-us'].includes(location.pathname) ||
       location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details") || location.pathname.startsWith("/events_details");
 
     return (
@@ -74,7 +74,7 @@ const App = () => {
             }
           />
 
-<Route
+          <Route
             path="/contact-us"
             element={
               <ConditionalLayout>
@@ -137,9 +137,9 @@ const App = () => {
             path="/profile"
             element={
               <ConditionalLayout>
-                <ProtectedRoute>
-                  <Myprofile />
-                </ProtectedRoute>
+
+                <Myprofile />
+
               </ConditionalLayout>
             }
           />

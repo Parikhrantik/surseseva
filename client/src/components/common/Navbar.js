@@ -25,9 +25,9 @@ const Header = () => {
     const location = useLocation();
 
     const handleSignInClick = () => {
-        if (location.pathname !== '/login') {
-            navigate('/login');
-        }
+
+        navigate('/login');
+
     };
 
     const handleLogOutClick = () => {
@@ -43,7 +43,7 @@ const Header = () => {
         if (token) {
             setIsLoggedIn(true);
         }
-    }, []);
+    }, [isLoggedIn]);
     useEffect(() => {
         if (id) {
             setId(id);

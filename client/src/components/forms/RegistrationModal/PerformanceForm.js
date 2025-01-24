@@ -7,8 +7,8 @@ import { AuthToken, Role } from '../../../utils/constants';
 const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competitionData }) => {
 
 
-  const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-  // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
+  // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+  const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
   const competitionRegId = competitionData._id;
   const userid = localStorage.getItem("userId");
   const navigate = useNavigate();

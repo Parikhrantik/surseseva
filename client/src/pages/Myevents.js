@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 export default function Myevents() {
   // const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
-  const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-  // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
+  // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+  const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -45,7 +45,7 @@ export default function Myevents() {
       }
     }
   }, [userEvents, loading, updatedEvent,]);
- 
+
 
   const handleEdit = (event) => {
     setSelectedEvent(event);
@@ -135,8 +135,8 @@ export default function Myevents() {
               event.status === 'Upcoming'
                 ? 'bg-green-100 text-green-800'
                 : event.status === 'Open'
-                ? 'bg-blue-100 text-blue-800'
-                : 'bg-purple-100 text-purple-800';
+                  ? 'bg-blue-100 text-blue-800'
+                  : 'bg-purple-100 text-purple-800';
 
 
             return (
@@ -145,9 +145,9 @@ export default function Myevents() {
                 className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="relative h-48">
-                <div className="mb-4 rounded-lg overflow-hidden">
-                <iframe src={`https://www.youtube.com/embed/${event.mediaUrl.split('v=')[1]}?autoplay=1`} width="640" height="210" allowFullScreen autoplay></iframe>
-            </div>
+                  <div className="mb-4 rounded-lg overflow-hidden">
+                    <iframe src={`https://www.youtube.com/embed/${event.mediaUrl.split('v=')[1]}?autoplay=1`} width="640" height="210" allowFullScreen autoplay></iframe>
+                  </div>
                   <div className="">
                     {isEditable && (
                       <button

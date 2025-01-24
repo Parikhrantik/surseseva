@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Role, AuthToken } from '../utils/constants';
 
 const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
- // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+// const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
 
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
 
@@ -84,15 +84,15 @@ const useCompetitionAuth = () => {
   }, [id]);
 
   const competitionRegistration = async (competitionData) => {
-    debugger
+
 
     try {
 
-      debugger
+
       return await apiCall(`${API_URL}/competition/register-competition`, competitionData);
 
     } catch (error) {
-      debugger
+
 
       console.error(error);
       throw error;
@@ -107,11 +107,11 @@ const useCompetitionAuth = () => {
         setIsLoading(true);
         const response = await axios.get(`${API_URL}/competition/get-competition-registration/${competitionId}`);
         if (response.status === 200) {
-          // debugger
+          // 
           setCompetitionData(response.data?.data || null);
           return response.data;
         } else if (response.status === 404) {
-          // debugger
+          // 
           setError(response.data.message);
           toast.error(response.data.message);
           return null;
@@ -129,7 +129,7 @@ const useCompetitionAuth = () => {
 
   // Function to update competition details
   const updateCompetition = async (competitionId, data) => {
-    // debugger
+    // 
     try {
       setIsLoading(true);
       const response = await axios.put(

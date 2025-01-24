@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ThumbsUp, Share2, Calendar, MapPin, Heart, UserPlus } from 'lucide-react';
 import RegistrationModal from '../../forms/RegistrationModal';
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
-const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
 const EventCard = ({
   id,
   title,
@@ -17,7 +17,7 @@ const EventCard = ({
   eventEndDate,
   category,
   bannerImage,
-  handleView 
+  handleView
 }) => {
   const [hasVoted, setHasVoted] = useState(false);
   const [voteCount, setVoteCount] = useState(votes);
@@ -55,19 +55,19 @@ const EventCard = ({
         <div className="relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden">
           {/* Event Image */}
           <div className="relative aspect-[16/9]">
-            <div className="mb-4 rounded-lg overflow-hidden  cursor-pointer"  onClick={() => handleView(id)}>
+            <div className="mb-4 rounded-lg overflow-hidden  cursor-pointer" onClick={() => handleView(id)}>
               {/* {mediaType === 'video' ? (
                 <iframe src={`https://www.youtube.com/embed/${mediaUrl.split('v=')[1]}?autoplay=1`} width="640" height="300" allowFullScreen autoplay></iframe>
               ) : (
                 <audio controls className="w-full" src={mediaUrl} />
               )} */}
               <img
-              // src={`${API_URL}/get-file/${bannerImage}`}
-              src={`${API_URL}/get-file/${bannerImage}`} //
-              alt={title} // Use event title for the alt text
-              // className="w-full h-full object-cover"
-             className="w-full h-[369px] object-cover mx-auto"
-            />
+                // src={`${API_URL}/get-file/${bannerImage}`}
+                src={`${API_URL}/get-file/${bannerImage}`} //
+                alt={title} // Use event title for the alt text
+                // className="w-full h-full object-cover"
+                className="w-full h-[369px] object-cover mx-auto"
+              />
             </div>
 
             {/* Floating Category Badge */}
@@ -143,7 +143,7 @@ const EventCard = ({
       </div>
 
       <RegistrationModal
-       isOpen={isRegistrationOpen}
+        isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
         eventId={id}
         eventDate={eventDate}
