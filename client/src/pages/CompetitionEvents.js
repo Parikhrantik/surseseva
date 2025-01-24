@@ -39,12 +39,12 @@ const CompetitionEvents = () => {
             <h3 className="text-4xl font-bold">Present Competition</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array.isArray(competitions?.data) && competitions.data.length > 0 ? (
               competitions.data.map((competition) => (
                 <div
                   key={competition._id}
-                  className="group bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transform hover:-translate-y-2 transition-all duration-300"
+                  className="invition-card group bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transform hover:-translate-y-2 transition-all duration-300"
                 >
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">

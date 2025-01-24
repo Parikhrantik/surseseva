@@ -30,6 +30,8 @@ const AllEvents = () => {
     const handleView = (id) => {
         navigate(`/events_details/${id}`);
     };
+
+    
     
 
     return (
@@ -41,11 +43,11 @@ const AllEvents = () => {
                         <div className="flex justify-between items-center mb-12">
                             <div>
                                 <h2 className="text-4xl font-bold mb-4">All  Events</h2>
-                                <p className="text-white/60">Discover the most exciting  experiences</p>
+                                <p className="text-white p-8/60">Discover the most exciting  experiences</p>
                             </div>
 
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
                             {loading ? (
                                 <div className="flex justify-center items-center">

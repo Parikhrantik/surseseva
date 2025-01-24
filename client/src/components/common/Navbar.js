@@ -159,7 +159,7 @@ const Header = () => {
                             <div className=" relative">
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="flex items-center space-x-2 px-4 py-2 rounded-full border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition-colors nav-link flex items-center space-x-2"
+                                    className="flex items-center space-x-2 px-4 py-2 rounded-full text-white border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition-colors nav-link flex items-center space-x-2"
                                 >
                                     <User className="h-4 w-4" />
                                     {participant.name}

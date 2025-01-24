@@ -22,6 +22,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { getAllEvents } = usePresentEventApi();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -39,7 +40,7 @@ const Home = () => {
     fetchEvents(); 
   }, []);
 
-  const featuredEvents = events.slice(0, 3)
+  const featuredEvents = events.slice(0, 4)
 
   const handleView = (id) => {
     navigate(`/events_details/${id}`);
@@ -51,6 +52,10 @@ const Home = () => {
     if (location.pathname !== '/allevents') {
       navigate('/allevents');
     }
+  };
+
+  const toggleReadMore = () => {
+    setIsExpanded(!isExpanded); // Toggle between showing full text and a single paragraph
   };
 
 
@@ -66,10 +71,10 @@ const Home = () => {
         </div>
 
         {/* Content */}
-        <div className="relative container mx-auto px-4 text-center">
+        <div className="hero-section relative container mx-auto px-4 text-center">
           {/* Floating Badge */}
           <div className="inline-block animate-bounce mb-8">
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-1">
+            <div className="mission-btn bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-1">
               <div className="flex items-center gap-2 px-4 py-2">
                 <Sparkles className="h-4 w-4 text-yellow-400" />
                 <span className="text-sm font-medium">Mission</span>
@@ -172,7 +177,10 @@ const Home = () => {
               focus is music, we also aim to promote dance, painting, theater, drama, poetry, literature, comedy, spirituality, and more.
             </p>
 
-            <p className="text-white/90">
+            {isExpanded && (
+              <>
+
+            <p className="text-white/90 mt-2">
               When we organize an event, after covering all expenses associated with the event, any surplus funds that we generate are donated
               back to the community thru our Non-Profit Sur Se Seva Foundation. This will ensure that any charitable cause in the community
               that requires our assistance can benefit from the resources generated through our events and performances. Our sole purpose is
@@ -193,16 +201,10 @@ const Home = () => {
               the arts and the power of Sur Seva. Let us come together to create a world where art and music are celebrated, respected, and
               valued. Click on the link below to become a member and join our Elite and most happening music and art group.
             </p>
-            <p className="text-white/90">
-              <a
-                href=" https://forms.gle/rdXPgGcivvNWvknL6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underlin"
-              >
-                <span> https://forms.gle/rdXPgGcivvNWvknL6</span>
-              </a>
-            </p>
+            </>
+            )}
+            <button onClick={toggleReadMore} class="px-2 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r
+             from-purple-600 to-blue-600 shadow-lg shadow-purple-500/25"> {isExpanded ? 'Show Less' : 'Read More'}</button>
 
           </div>
           {/* </div> */}
@@ -229,7 +231,7 @@ const Home = () => {
               View All <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* {featuredEvents.map(event => (
               <EventCard key={event.id} {...event} />
             ))} */}
@@ -279,7 +281,7 @@ const Home = () => {
             <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-medium hover:opacity-90 transition-opacity transform hover:-translate-y-1">
               Get Started Now
             </button>
-            <button className="px-8 py-4 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl font-medium hover:bg-white/10 transition-all transform hover:-translate-y-1">
+            <button className="demo-btn px-8 py-4 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl font-medium hover:bg-white/10 transition-all transform hover:-translate-y-1">
               <Play className="h-5 w-5 inline mr-2" />
               Watch Demo
             </button>
