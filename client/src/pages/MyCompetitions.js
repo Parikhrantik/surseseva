@@ -11,7 +11,9 @@ const MyCompetitions = () => {
   const userId = localStorage.getItem('userId');
   // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
   // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-  const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
+  // const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
+  const API_URL = process.env.LOCAL_BASE_URL || 'http://localhost:5000';
+  // const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,10 +29,10 @@ const MyCompetitions = () => {
   // Extracting competitionEvents
   const competitionEvents = userEvents?.competitionEvents || [];
 
-  const handleDelete = (eventId) => {
+  const handleDelete = (competitionId) => {
     const userId = localStorage.getItem('userId');
-    const data = { userId, eventId };
-
+    const data = { userId, competitionId };
+// debugger
     fetch(`${API_URL}/competition/delete-competition-registration`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },

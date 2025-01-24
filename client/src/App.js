@@ -18,6 +18,7 @@ import ParticipantCompetitionDetails from './pages/ParticipantCompetitionDetails
 import AllEvents from './pages/allevents/allevents';
 import EventDetail from './pages/allevents/eventdetails';
 import ContactUs from './pages/contactUs';
+import ResetPasswordForm from './components/forms/ResetPassword';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -166,6 +167,15 @@ const App = () => {
             element={
               <PublicRoute>
                 <ForgotPasswordForm />
+              </PublicRoute>
+            }
+          />
+
+<Route
+            path="/reset-password"
+            element={
+              <PublicRoute>
+                <ResetPasswordForm />
               </PublicRoute>
             }
           />

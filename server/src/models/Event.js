@@ -18,6 +18,11 @@ const eventSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    eventType: {
+      type: String,
+      enum: ["past", "present", "future"], // Restrict to only these values
+      default: "present", // Default value is "present"
+    },
     updatedAt: {
       type: Date,
       default: Date.now,

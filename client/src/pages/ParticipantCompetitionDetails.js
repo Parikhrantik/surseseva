@@ -27,7 +27,7 @@ const ParticipantCompetitionDetails = () => {
     );
   }
 
-
+console.log('userEvents',userEvents)
   return (
 
 

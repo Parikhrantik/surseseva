@@ -76,14 +76,26 @@ const useAuth = () => {
 
   // Forgot Password API Call
 
+  const forgotPassword = async (emailData) => {
+    return await apiCall(`${API_URL}/auth/forgot-password`, emailData);
+  };
+
+  // Reset Password API Call
+  const resetPassword = async (resetData) => {
+    // debugger
+    return await apiCall(`${API_URL}/auth/reset-password`, resetData);
+  };
 
   return {
     loginUser,
     registerUser,
+    forgotPassword,
+    resetPassword,
     isLoading,
     error,
     success,
   };
 };
+
 
 export default useAuth;
