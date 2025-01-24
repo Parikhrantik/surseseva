@@ -37,7 +37,7 @@ const Home = () => {
       }
     };
 
-    fetchEvents(); 
+    fetchEvents();
   }, []);
 
   const featuredEvents = events.slice(0, 9)
@@ -58,7 +58,7 @@ const Home = () => {
     setIsExpanded(!isExpanded); // Toggle between showing full text and a single paragraph
   };
 
-console.log(featuredEvents)
+  console.log(featuredEvents)
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Ultra Modern Hero Section */}
@@ -71,7 +71,7 @@ console.log(featuredEvents)
         </div>
 
         {/* Content */}
-        <div className="hero-section relative container mx-auto px-4 text-center">
+        <div className="hero-section relative container mx-auto px-4 text-center" id="about-section">
           {/* Floating Badge */}
           <div className="inline-block animate-bounce mb-8">
             <div className="mission-btn bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-1">
@@ -168,7 +168,7 @@ console.log(featuredEvents)
 
 
           {/* Main Content */}
-          <div className="space-y-8 text-lg leading-relaxed" style={{ textAlign: 'justify' }}>
+          <div className="space-y-8 text-lg leading-relaxed" style={{ textAlign: 'justify' }} >
             <p className="text-white/90">
               Sur Se Seva is a non-profit New Jersey entity, an Art and Musicloving community that is dedicated to promoting and empowering
               the arts in all its forms. Music and Aart are gifts from God and have the power to heal and unite people across cultures, Language,
@@ -180,28 +180,28 @@ console.log(featuredEvents)
             {isExpanded && (
               <>
 
-            <p className="text-white/90 mt-2">
-              When we organize an event, after covering all expenses associated with the event, any surplus funds that we generate are donated
-              back to the community thru our Non-Profit Sur Se Seva Foundation. This will ensure that any charitable cause in the community
-              that requires our assistance can benefit from the resources generated through our events and performances. Our sole purpose is
-              to use Sur (or any other form of Indian art and craft) to do Seva and to give back to the community, both locally and internationally.
-            </p>
+                <p className="text-white/90 mt-2">
+                  When we organize an event, after covering all expenses associated with the event, any surplus funds that we generate are donated
+                  back to the community thru our Non-Profit Sur Se Seva Foundation. This will ensure that any charitable cause in the community
+                  that requires our assistance can benefit from the resources generated through our events and performances. Our sole purpose is
+                  to use Sur (or any other form of Indian art and craft) to do Seva and to give back to the community, both locally and internationally.
+                </p>
 
-            <p className="text-white/90">
-              Our events and performances are not just a showcase of talent but a celebration of diversity and inclusivity. We believe that
-              everyone has something unique to offer, and our community is a platform where all voices can be heard. We are committed to
-              promoting emerging artists and providing them with opportunities to showcase their talent. We believe that by nurturing young
-              artists, we can create a community that is passionate about the arts and committed to promoting them. Working together, we can
-              make a difference in the world and create a more harmonious and beautiful society.
-            </p>
+                <p className="text-white/90">
+                  Our events and performances are not just a showcase of talent but a celebration of diversity and inclusivity. We believe that
+                  everyone has something unique to offer, and our community is a platform where all voices can be heard. We are committed to
+                  promoting emerging artists and providing them with opportunities to showcase their talent. We believe that by nurturing young
+                  artists, we can create a community that is passionate about the arts and committed to promoting them. Working together, we can
+                  make a difference in the world and create a more harmonious and beautiful society.
+                </p>
 
-            <p className="text-white/90">
-              We invite all music and art lovers from USA and beyond to join us in celebrating the beauty of the arts. Whether you're a musician,
-              dancer, artist, poet, or simply a music enthusiast, there's a place for you in our community. So, join us in celebrating the beauty of
-              the arts and the power of Sur Seva. Let us come together to create a world where art and music are celebrated, respected, and
-              valued. Click on the link below to become a member and join our Elite and most happening music and art group.
-            </p>
-            </>
+                <p className="text-white/90">
+                  We invite all music and art lovers from USA and beyond to join us in celebrating the beauty of the arts. Whether you're a musician,
+                  dancer, artist, poet, or simply a music enthusiast, there's a place for you in our community. So, join us in celebrating the beauty of
+                  the arts and the power of Sur Seva. Let us come together to create a world where art and music are celebrated, respected, and
+                  valued. Click on the link below to become a member and join our Elite and most happening music and art group.
+                </p>
+              </>
             )}
             <button onClick={toggleReadMore} class="px-2 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r
              from-purple-600 to-blue-600 shadow-lg shadow-purple-500/25"> {isExpanded ? 'Show Less' : 'Read More'}</button>
@@ -236,20 +236,37 @@ console.log(featuredEvents)
               <EventCard key={event.id} {...event} />
             ))} */}
             {events.length > 0 ? (
-  events
-    .filter(event => event.eventType === null || event.eventType === 'present').slice(0, 4) // Limit to the first 4 events// Filter events with eventType null or present
-    .map(event => (
-      <EventCard
-        key={event._id} // Adding a unique key for each component
-        id={event._id}
-        bannerImage={event.bannerImage}
-        title={event.title}
-        handleView={handleView}
-      />
-    ))
-) : (
-  <p>No events available.</p>
-)}
+              events
+                .filter(event => event.eventType === null || event.eventType === 'present').slice(0, 4) // Limit to the first 4 events// Filter events with eventType null or present
+                .map(event => (
+                  <EventCard
+                    key={event._id} // Adding a unique key for each component
+                    id={event._id}
+                    bannerImage={event.bannerImage}
+                    title={event.title}
+                    handleView={handleView}
+                  />
+                ))
+            ) : (
+              <p>No events available.</p>
+            )}
+            {featuredEvents.length > 0 ? (
+              featuredEvents.map(event => (
+                <EventCard
+                  // key={event.id}
+                  id={event._id}
+                  bannerImage={event.bannerImage}
+                  title={event.title}
+                  handleView={handleView}
+
+                />
+              ))
+            ) : (
+              <p>
+                {/* Loading events... */}
+                No data Found
+              </p> // Show loading text until the events are fetched
+            )}
 
           </div>
 
@@ -272,20 +289,20 @@ console.log(featuredEvents)
               <EventCard key={event.id} {...event} />
             ))} */}
             {events.length > 0 ? (
-  events
-    .filter(event => event.eventType === 'past').slice(0, 4) // Limit to the first 4 events// Filter events with eventType null or present
-    .map(event => (
-      <EventCard
-        key={event._id} // Adding a unique key for each component
-        id={event._id}
-        bannerImage={event.bannerImage}
-        title={event.title}
-        handleView={handleView}
-      />
-    ))
-) : (
-  <p>No events available.</p>
-)}
+              events
+                .filter(event => event.eventType === 'past').slice(0, 4) // Limit to the first 4 events// Filter events with eventType null or present
+                .map(event => (
+                  <EventCard
+                    key={event._id} // Adding a unique key for each component
+                    id={event._id}
+                    bannerImage={event.bannerImage}
+                    title={event.title}
+                    handleView={handleView}
+                  />
+                ))
+            ) : (
+              <p>No events available.</p>
+            )}
 
           </div>
 

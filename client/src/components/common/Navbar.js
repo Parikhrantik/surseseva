@@ -118,10 +118,27 @@ const Header = () => {
                         </div>
 
                         <Link
-                            to="/about"
+                            href="#about-section"
                             className="relative group py-2"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const aboutSection = document.getElementById('about-section');
+                                aboutSection.scrollIntoView({ behavior: 'smooth' });
+                            }}
                         >
                             <span className="hover:text-purple-500 transition-colors">About</span>
+                            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+                        </Link>
+                        <Link
+                            href="#competition-section"
+                            className="relative group py-2"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const aboutSection = document.getElementById('competition-section');
+                                aboutSection.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                        >
+                            <span className="hover:text-purple-500 transition-colors">Competitions</span>
                             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></span>
                         </Link>
                     </div>
@@ -183,7 +200,7 @@ const Header = () => {
                                         >
                                             <Calendar size={16} className="mr-3 text-gray-400 group-hover:text-purple-500" />
                                             <div>
-                                                <p className="font-medium group-hover:text-purple-600">Competitions</p>
+                                                <p className="font-medium group-hover:text-purple-600">My Competitions</p>
                                             </div>
                                         </Link>
 
@@ -222,6 +239,7 @@ const Header = () => {
                             <Link to="/events/music" className="py-2 hover:text-purple-500 transition-colors">
                                 Music Events
                             </Link>
+
                             <Link to="/events/tech" className="py-2 hover:text-purple-500 transition-colors">
                                 Tech Events
                             </Link>

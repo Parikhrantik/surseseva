@@ -9,7 +9,7 @@ import { getParticipantPerformanceById } from '../hooks/usePerformanceAuth';
 const MyCompetitions = () => {
   const { setId, loading, userEvents } = useCompetitionAuth();
   const userId = localStorage.getItem('userId');
-  
+
   const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
   // const API_URL = process.env.LOCAL_BASE_URL || 'http://localhost:5000';
 
@@ -31,7 +31,7 @@ const MyCompetitions = () => {
   const handleDelete = (competitionId) => {
     const userId = localStorage.getItem('userId');
     const data = { userId, competitionId };
-// debugger
+    // debugger
     fetch(`${API_URL}/competition/delete-competition-registration`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -66,89 +66,94 @@ const MyCompetitions = () => {
   }
   return (
 
-    <div className="py-20 bg-black pt-20">
+    <div className="py-20 bg-black">
       <div className="container mx-auto px-4">
-        <div className="p-6" >
-          <div style={{ alignItems: "center" }}>
-            <h1 className="text-2xl font-bold mb-6 text-white">My Competitions</h1>
-            <p className="text-white mt-2">Manage and track your events</p>
-
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6" >
-            {competitionEvents.length > 0 ? (
-              competitionEvents.map((competition, index) => (
-                <div
-                  key={competition._id}
-                  style={{ cursor: 'pointer' }}
-                  className="group bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transform hover:-translate-y-2 transition-all duration-300"
 
 
-                >
+        <div className=" mb-16">
 
-                  <div className="flex items-center justify-end space-x-2">
-                    <div>
-                      {!competition.competitionendDate ||
-                        new Date(competition.competitionendDate) > new Date() ? (
-                        <button
-                          // onClick={() => handleEdit(competition._id)}
-                          className="p-1 bg-white rounded-xl text-purple-600 hover:bg-purple-600 hover:text-white transition-colors shadow-lg"
-                          onClick={() => handleEdit(competition)}
+          <h3 className="text-4xl font-bold" style={{ color: 'white' }}>My Competition</h3>
+          <p className="text-white mt-2">Manage and track your events</p>
 
-                        >
-                          <Edit2 size={18} />
-                        </button>
-                      ) : null}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" >
+          {competitionEvents.length > 0 ? (
+            competitionEvents.map((competition, index) => (
+              <div
+                key={competition._id}
+                style={{ cursor: 'pointer' }}
+                className="group invition-card bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transform hover:-translate-y-2 transition-all duration-300"
+
+
+              >
+
+                <div className="flex items-center justify-end space-x-2">
+                  <div>
+                    {!competition.competitionendDate ||
+                      new Date(competition.competitionendDate) > new Date() ? (
                       <button
-                        onClick={() => handleDelete(competition._id)}
+                        // onClick={() => handleEdit(competition._id)}
                         className="p-1 bg-white rounded-xl text-purple-600 hover:bg-purple-600 hover:text-white transition-colors shadow-lg"
+                        onClick={() => handleEdit(competition)}
+
                       >
-                        <Trash size={18} />
+                        <Edit2 size={18} />
                       </button>
+                    ) : null}
+                    <button
+                      onClick={() => handleDelete(competition._id)}
+                      className="p-1 bg-white rounded-xl text-purple-600 hover:bg-purple-600 hover:text-white transition-colors shadow-lg"
+                    >
+                      <Trash size={18} />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mb-6" onClick={() => navigateHandler(competition._id)}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+                      {index + 1}
                     </div>
                   </div>
+                  <span className="text-lg text-white px-3 py-1 rounded-full capitalize">
+                    {competition.competitionName}
 
-                  <div className="flex items-center justify-between mb-6" onClick={() => navigateHandler(competition._id)}>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
-                        {index + 1}
-                      </div>
-                    </div>
-                    <span className="text-lg text-white px-3 py-1 rounded-full capitalize">
-                      {competition.competitionName}
+                  </span>
+                </div>
 
-                    </span>
-                  </div>
+                <h3 className="text-sm text-white px-3 py-1 rounded-full capitalize">
+                  {competition.category}
+                </h3>
 
-                  <h3 className="text-sm text-white px-3 py-1 rounded-full capitalize">
-                    {competition.category}
-                  </h3>
-
-                  {/* <p className="text-white/60 text-sm mb-4">
+                {/* <p className="text-white/60 text-sm mb-4">
                   Competition ID: {competition.competitionId}
                 </p> */}
 
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-white ">
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-white ">
 
-                        Last Date: {format(new Date(competition.competitionendDate), 'MMMM do yyyy')}
+                      Last Date: {format(new Date(competition.competitionendDate), 'MMMM do yyyy')}
 
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-end space-x-2">
-
+                    </span>
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm text-white ">Votes 200k</span>
                     </div>
                   </div>
+                  <div className="flex items-center justify-end space-x-2">
+
+                  </div>
                 </div>
-              ))
-            ) : (
-              <div className="col-span-full text-center">
-                <p className="text-white/60 text-sm">No competitions found.</p>
               </div>
-            )}
-          </div>
+            ))
+          ) : (
+            <div className="col-span-full text-center">
+              <p className="text-white/60 text-sm">No competitions found.</p>
+            </div>
+          )}
         </div>
       </div>
+
       {isModalOpen && (
         <UpdateRegistrationModal
           isOpen={isModalOpen}
