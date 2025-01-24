@@ -40,7 +40,7 @@ const Home = () => {
     fetchEvents(); 
   }, []);
 
-  const featuredEvents = events.slice(0, 4)
+  const featuredEvents = events.slice(0, 9)
 
   const handleView = (id) => {
     navigate(`/events_details/${id}`);
@@ -58,7 +58,7 @@ const Home = () => {
     setIsExpanded(!isExpanded); // Toggle between showing full text and a single paragraph
   };
 
-
+console.log(featuredEvents)
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Ultra Modern Hero Section */}
@@ -235,30 +235,62 @@ const Home = () => {
             {/* {featuredEvents.map(event => (
               <EventCard key={event.id} {...event} />
             ))} */}
-            {featuredEvents.length > 0 ? (
-              featuredEvents.map(event => (
-                <EventCard
-                  // key={event.id}
-                  id={event._id}
-                  bannerImage={event.bannerImage}
-                  title={event.title}
-                  handleView={handleView}
-
-                />
-              ))
-            ) : (
-              <p>
-              {/* Loading events... */}
-              No data Found
-              </p> // Show loading text until the events are fetched
-            )}
+            {events.length > 0 ? (
+  events
+    .filter(event => event.eventType === null || event.eventType === 'present').slice(0, 4) // Limit to the first 4 events// Filter events with eventType null or present
+    .map(event => (
+      <EventCard
+        key={event._id} // Adding a unique key for each component
+        id={event._id}
+        bannerImage={event.bannerImage}
+        title={event.title}
+        handleView={handleView}
+      />
+    ))
+) : (
+  <p>No events available.</p>
+)}
 
           </div>
 
         </div>
       </div>
 
+      <div className="py-20 bg-gradient-to-b from-black to-purple-900/20">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mb-12">
+            <div>
+              <h2 className="text-4xl font-bold mb-4">Past Events</h2>
+              <p className="text-white/60">Discover the most exciting  experiences</p>
+            </div>
+            <button onClick={handleViewAllClick} className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+              View All <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* {featuredEvents.map(event => (
+              <EventCard key={event.id} {...event} />
+            ))} */}
+            {events.length > 0 ? (
+  events
+    .filter(event => event.eventType === 'past').slice(0, 4) // Limit to the first 4 events// Filter events with eventType null or present
+    .map(event => (
+      <EventCard
+        key={event._id} // Adding a unique key for each component
+        id={event._id}
+        bannerImage={event.bannerImage}
+        title={event.title}
+        handleView={handleView}
+      />
+    ))
+) : (
+  <p>No events available.</p>
+)}
 
+          </div>
+
+        </div>
+      </div>
 
       {/* CTA Section */}
       <div className="relative py-32 bg-gradient-to-b from-purple-900/20 to-black overflow-hidden">
