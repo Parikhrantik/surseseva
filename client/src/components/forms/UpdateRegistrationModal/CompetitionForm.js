@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import useCompetitionAuth from '../../../hooks/useCompetionAuth';
 
 const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitionId, eventStartDate, eventEndDate, eventDate, updatedAt }) => {
-  // debugger
+  // 
   console.log(competitionId, "competitionIdupdatedAt");
 
   const userId = localStorage.getItem('userId');
@@ -26,7 +26,7 @@ const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitio
   useEffect(() => {
     if (competitionId) {
       getCompetitionDetailsId(competitionId).then((data) => {
-        debugger
+
         if (data?.success) {
           setFormData({
             userId: data.data.userId,
@@ -62,7 +62,7 @@ const CompetitionForm = ({ onNext, onClose, eventId, competitionData, competitio
 
 
     if (eventDateDate < currentDate) {
-      // debugger
+      // 
       setIsButtonDisabled(true);
     } else {
       // Check if the updatedAt date is in the past

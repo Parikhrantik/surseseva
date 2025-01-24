@@ -10,8 +10,8 @@ const MyCompetitions = () => {
   const { setId, loading, userEvents } = useCompetitionAuth();
   const userId = localStorage.getItem('userId');
   // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
-  const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-  // const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+  // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+  const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,7 +57,7 @@ const MyCompetitions = () => {
     setIsModalOpen(true);
     const performance = await getParticipantPerformanceById(event._id, event.userId);
     setPerformance(performance.data);
-    debugger
+
 
   };
   const navigateHandler = (competitionId) => {
@@ -80,7 +80,7 @@ const MyCompetitions = () => {
                   key={competition._id}
                   style={{ cursor: 'pointer' }}
                   className="group bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transform hover:-translate-y-2 transition-all duration-300"
-                  onClick={() => navigateHandler(competition._id)}
+
 
                 >
 
@@ -106,7 +106,7 @@ const MyCompetitions = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-6" onClick={() => navigateHandler(competition._id)}>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
                         {index + 1}

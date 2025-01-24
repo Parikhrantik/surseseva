@@ -43,9 +43,9 @@ export default function Myprofile() {
         ...userData,
         ...data, // Merge form data with existing userData
       };
-      debugger
+
       const res = await updateUser(id, updatedData);
-      debugger
+
       if (res.success) {
         toast.success('Profile updated successfully!');
         setIsEditing(false);
@@ -65,7 +65,7 @@ export default function Myprofile() {
     if (file) {
       const url = URL.createObjectURL(file);
       setTempProfilePicture(url);
-      debugger
+
       setUserData((prev) => ({
         ...prev,
         profilePicture: file, // Store the file

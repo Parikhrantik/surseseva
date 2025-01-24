@@ -5,7 +5,7 @@ import useCompetitionAuth from '../../../hooks/useCompetionAuth';
 import usePerformanceAuth, { updateParticipantPerformanceById } from '../../../hooks/usePerformanceAuth';
 
 const RegistrationModal = ({ isOpen, onClose, eventId, competitionId, performanceId, competiId, eventDate, eventStartDate, eventEndDate, updatedAt, isEditing, performance }) => {
-  // debugger
+  // 
   // console.log(updatedAt,"updatedAtupdatedAtupdatedAtupdatedAtupdatedAt")
   const [step, setStep] = useState(1);
   const [competitionData, setCompetitionData] = useState();
@@ -28,7 +28,7 @@ const RegistrationModal = ({ isOpen, onClose, eventId, competitionId, performanc
 
 
   const handlePerformanceSubmit = async (data) => {
-    debugger
+
     try {
       const response = await updateParticipantPerformanceById(performanceId, performance.userId, data);
       setPerformanceData(response.data);
