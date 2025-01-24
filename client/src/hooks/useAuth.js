@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
 // eslint-disable-next-line no-undef
 // const API_URL = process.env.LIVE_BASE_URL|| LOCAL_BASE_URL;
 
