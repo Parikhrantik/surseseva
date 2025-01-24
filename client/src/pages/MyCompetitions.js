@@ -9,11 +9,10 @@ import { getParticipantPerformanceById } from '../hooks/usePerformanceAuth';
 const MyCompetitions = () => {
   const { setId, loading, userEvents } = useCompetitionAuth();
   const userId = localStorage.getItem('userId');
-  // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
-  // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-  // const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
-  const API_URL = process.env.LOCAL_BASE_URL || 'http://localhost:5000';
-  // const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+  
+  const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
+  // const API_URL = process.env.LOCAL_BASE_URL || 'http://localhost:5000';
+
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
