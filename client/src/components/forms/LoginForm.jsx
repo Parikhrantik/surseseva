@@ -102,7 +102,7 @@ const LoginForm = () => {
           </div>
         </div>
 
-        <div className="flex items-center mt-6">
+        {/* <div className="flex items-center mt-6">
           <input
             {...register("agreeToTerms", { required: "You must agree to the terms" })}
             type="checkbox"
@@ -116,7 +116,7 @@ const LoginForm = () => {
             </Link>
           </label>
         </div>
-        {errors.agreeToTerms && <p className="text-red-500 text-sm">{errors.agreeToTerms.message}</p>}
+        {errors.agreeToTerms && <p className="text-red-500 text-sm">{errors.agreeToTerms.message}</p>} */}
 
         <div className="mt-12">
           <Button text={isLoading ? <Spinner /> : "Login"} style={{ width: "100%" }} />
