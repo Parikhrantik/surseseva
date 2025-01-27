@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ThumbsUp, Share2, Calendar, MapPin, Heart, UserPlus } from 'lucide-react';
 import RegistrationModal from '../../forms/RegistrationModal';
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
-const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
+const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node';
 const EventCard = ({
   id,
   title,

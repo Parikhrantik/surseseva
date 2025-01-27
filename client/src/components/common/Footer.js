@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white pt-20 pb-6">
       <div className="container mx-auto px-4">
         {/* Newsletter Section */}
-        <div className="max-w-4xl mx-auto text-center mb-20">
+        {/* <div className="max-w-4xl mx-auto text-center mb-20">
           <h3 className="text-3xl font-bold mb-4">Stay Updated</h3>
           <p className="text-gray-400 mb-8">
             Subscribe to our newsletter for the latest events and exclusive offers
@@ -23,7 +23,7 @@ const Footer = () => {
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-md-12 mb-16">
           {/* Company Info */}
@@ -60,7 +60,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center">
+                <Link to="/about" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center"
+                >
                   <ArrowRight className="h-4 w-4 mr-2" />
                   About Us
                 </Link>
@@ -85,27 +86,51 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-6">Event Categories</h4>
             <ul className="space-y-4">
               <li>
-                <Link to="/events/music" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center">
+                <Link to="#allevents"
+                  className="text-gray-400 hover:text-purple-500 transition-colors flex items-center"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const presentEventSection = document.getElementById('presentEvent-section');
+                    if (presentEventSection) {
+                      presentEventSection.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      console.error('Present Event section not found');
+                    }
+                  }}>
                   <ArrowRight className="h-4 w-4 mr-2" />
-                  Music Events
+                  Present Events
                 </Link>
               </li>
               <li>
-                <Link to="/events/tech" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center">
+                <Link to="#allevents" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const pastEventSection = document.getElementById('pastEvent-section');
+                    pastEventSection.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
                   <ArrowRight className="h-4 w-4 mr-2" />
-                  Tech Events
+                  Past Events
                 </Link>
               </li>
               <li>
-                <Link to="/events/sports" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center">
+                <Link to="#allevents" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center"
+
+                >
                   <ArrowRight className="h-4 w-4 mr-2" />
-                  Sports Events
+                  Future Events
                 </Link>
               </li>
               <li>
-                <Link to="/events/art" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center">
+                <Link to="#competition-section" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const aboutSection = document.getElementById('competition-section');
+                    aboutSection.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
                   <ArrowRight className="h-4 w-4 mr-2" />
-                  Art & Culture
+                  Competition
                 </Link>
               </li>
             </ul>
@@ -150,9 +175,17 @@ const Footer = () => {
               Copyright © {new Date().getFullYear()} SurSeSeva. All Rights Reserved.
             </p>
             <div className="footer-inner flex space-x-6 text-sm text-gray-400">
-              <a href="#" className="hover:text-purple-500 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-purple-500 transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-purple-500 transition-colors">Cookie Policy</a>
+              <Link to="/privacy-policy" className="hover:text-purple-500 transition-colors">
+                Privacy Policy
+              </Link>
+
+              <Link to="/terms-and-conditions" className="hover:text-purple-500 transition-colors">
+                Terms of Service
+              </Link>
+
+              <Link to="/cookie-policy" className="hover:text-purple-500 transition-colors">
+                Cookie Policy
+              </Link>
             </div>
           </div>
         </div>

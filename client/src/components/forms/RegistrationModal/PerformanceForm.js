@@ -8,7 +8,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
 
 
   // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-  const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
+  const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node';
   const competitionRegId = competitionData._id;
   const userid = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -180,6 +180,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
               Provide URL
             </label>
           </div>
+          <h4 className="mb-2 text-gray-800" style={{ color: "#000000", fontSize:"12px",fontWeight:"700" }}>To Attach a Video URL, Please Click on the "Provide URL" Button</h4>
 
           {formData.mediaType === 'file' ? (
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">

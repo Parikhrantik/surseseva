@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
+const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node';
 // eslint-disable-next-line no-undef
 // const API_URL = process.env.LIVE_BASE_URL|| LOCAL_BASE_URL;
 
@@ -47,7 +47,7 @@ const useAuth = () => {
 
         // Navigate to login page if registration is successful
         if (url === `${API_URL}/auth/register`) {
-          navigate('/login');
+          // navigate('/login');
         }
 
         return response;

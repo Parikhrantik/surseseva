@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 export default function Myevents() {
   // const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
   // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-  const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node';
+  const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node';
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);

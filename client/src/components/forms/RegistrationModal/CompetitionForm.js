@@ -1,6 +1,7 @@
 import React from 'react';
 import { X } from 'lucide-react';
 import useCompetitionMangementAuth from '../../../hooks/useCompetitionMangementAuth';
+import { Link, useNavigate } from "react-router-dom";
 
 
 const CompetitionForm = ({ onNext, onClose, competitionId, competitionstartDate, competitionendDate }) => {
@@ -26,7 +27,7 @@ const CompetitionForm = ({ onNext, onClose, competitionId, competitionstartDate,
   };
 
   return (
-    <div className="bg-white rounded-xl p-6 w-full max-w-md">
+    <div className="bg-white rounded-xl  p-6 w-full max-w-md">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Competition Registration</h2>
         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
@@ -93,7 +94,12 @@ const CompetitionForm = ({ onNext, onClose, competitionId, competitionstartDate,
             className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
           />
           <label htmlFor="rules" className="text-sm text-gray-600">
-            I agree to the competition rules and terms
+          I Agree to{" "}
+          {/* <a href="/competition-terms-and-conditions" rel="noopener noreferrer" className="text-blue-500 font-semibold hover:underline ml-1">
+           competition rules and terms
+          </a> */}
+         <Link  to="/competition-terms-and-conditions" className="text-blue-500 font-semibold hover:underline ml-1">Terms and Conditions</Link>
+
           </label>
         </div>
 

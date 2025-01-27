@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Calendar, Star } from 'lucide-react';
 import useCompetitionMangementAuth from '../hooks/useCompetitionMangementAuth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RegistrationModal from '../components/forms/RegistrationModal';
 import { format } from 'date-fns';
+import { toast } from 'react-toastify';
 
 const CompetitionEvents = () => {
   const { competitions, isLoading, error } = useCompetitionMangementAuth();
@@ -11,13 +12,48 @@ const CompetitionEvents = () => {
   const [selectedCompetitionId, setSelectedCompetitionId] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [timer, setTimer] = useState(3);
+  const navigate = useNavigate();
+  let toastId = null;
 
-  const openRegistrationModal = (competitionId, startDate, endDate) => {
-    setSelectedCompetitionId(competitionId);
-    setSelectedStartDate(startDate);
-    setSelectedEndDate(endDate);
-    setIsRegistrationOpen(true);
-  };
+    const openRegistrationModal = (competitionId, startDate, endDate) => {
+      setSelectedCompetitionId(competitionId);
+      setSelectedStartDate(startDate);
+      setSelectedEndDate(endDate);
+      setIsRegistrationOpen(true);
+    };
+
+    const handleParticipateClick = (competitionId, startDate, endDate) => {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        // User is logged in, show registration modal
+        openRegistrationModal(competitionId, startDate, endDate);
+      } else {
+        startRedirectCountdown();
+      }
+    };
+
+    const startRedirectCountdown = () => {
+      let countdown = 3;
+      // Show the initial toast with no autoClose
+      toastId = toast.error(`You need to login first! Redirecting to Login Page in ${countdown}...`, {
+        autoClose: false, // Don't close the toast automatically
+      });
+      const intervalId = setInterval(() => {
+        if (countdown === 0) {
+          clearInterval(intervalId);
+          navigate('/login'); // Redirect to login page
+          toast.dismiss(toastId); // Dismiss the toast before redirect
+        } else {
+          // Update the existing toast message with the countdown
+          toast.update(toastId, {
+            render: `You need to login first! Redirecting to Login Page in ${countdown}...`,
+            autoClose: false, // Keep the toast open
+          });
+          countdown--;
+        }
+      }, 1000);
+    };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -103,7 +139,11 @@ const CompetitionEvents = () => {
                       </button> */}
                       <button className='px-2 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-500/25'
 
-                        onClick={() => openRegistrationModal(competition._id, competition.startDate, competition.endDate)}>
+                        // onClick={() => openRegistrationModal(competition._id, competition.startDate, competition.endDate)}
+                        onClick={() =>
+                          handleParticipateClick(competition._id, competition.startDate, competition.endDate)
+                        }
+                        >
                         Participate
                       </button>
                       {/* <button className="bg-white/10 px-4 py-2 rounded-full text-sm text-white/60 hover:bg-purple-500/20 transition-colors" onClick={() => openRegistrationModal(competition._id, competition.startDate, competition.endDate)}>
