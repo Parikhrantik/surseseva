@@ -28,8 +28,8 @@ const Home = () => {
     const fetchEvents = async () => {
       try {
         const allEvents = await getAllEvents();
-        setEvents(allEvents);  // Store events in state
-        setLoading(false);  // Set loading state to false after events are fetched
+        setEvents(allEvents);  
+        setLoading(false);  
       } catch (error) {
         console.error('Error fetching events:', error);
         setLoading(false);
@@ -207,8 +207,6 @@ const Home = () => {
              from-purple-600 to-blue-600 shadow-lg shadow-purple-500/25"> {isExpanded ? 'Show Less' : 'Read More'}</button>
 
           </div>
-          {/* </div> */}
-
         </div>
 
         {/* Scroll Indicator */}
@@ -220,7 +218,7 @@ const Home = () => {
       </div>
       <CompetitionEvents />
       {/* Present Events Section */}
-      <div className="py-20 bg-gradient-to-b from-black to-purple-900/20">
+      <div className="py-20 bg-gradient-to-b from-black to-purple-900/20" id="presentEvent-section">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <div>
@@ -237,7 +235,7 @@ const Home = () => {
             ))} */}
             {events.length > 0 ? (
               events
-                .filter(event => event.eventType === null || event.eventType === 'present').slice(0, 4) // Limit to the first 4 events// Filter events with eventType null or present
+                .filter(event => event.eventType === 'present').slice(0, 4)
                 .map(event => (
                   <EventCard
                     key={event._id} // Adding a unique key for each component
@@ -250,7 +248,7 @@ const Home = () => {
             ) : (
               <p>No events available.</p>
             )}
-            {featuredEvents.length > 0 ? (
+            {/* {featuredEvents.length > 0 ? (
               featuredEvents.map(event => (
                 <EventCard
                   // key={event.id}
@@ -263,17 +261,17 @@ const Home = () => {
               ))
             ) : (
               <p>
-                {/* Loading events... */}
                 No data Found
-              </p> // Show loading text until the events are fetched
-            )}
+              </p> 
+            )} */}
 
           </div>
 
         </div>
       </div>
 
-      <div className="py-20 bg-gradient-to-b from-black to-purple-900/20">
+      {/* Past Events Section */}
+      <div className="py-20 bg-gradient-to-b from-black to-purple-900/20" id="pastEvent-section">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <div>

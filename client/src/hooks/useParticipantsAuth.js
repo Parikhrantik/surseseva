@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Role, AuthToken } from '../utils/constants';
 
 // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node'
+const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node'
 
 
 const useParticipantsAuth = () => {
@@ -28,6 +28,7 @@ const useParticipantsAuth = () => {
       if (id) {
         try {
           const response = await axios.get(`${API_URL}/user/getAllUserDetails`, config);
+          console.log(response,'response0000')
           setParticipants(response.data);
         } catch (error) {
           toast.error('Error fetching participants data');
@@ -48,7 +49,8 @@ const useParticipantsAuth = () => {
           const response = await axios.get(`${API_URL}/user/getUserById/${id}`, config);
           setParticipant(response.data);
         } catch (error) {
-          toast.error('Error fetching participant data');
+          // toast.error('Error fetching participant data1');
+          console.error(error)
         } finally {
           setLoading(false);
         }

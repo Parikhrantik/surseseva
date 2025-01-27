@@ -138,4 +138,17 @@ p{
 footer h4{
   margin-bottom: 20px !important;
 }
+.pt-4 {
+  padding-top: 1rem;
+  display: flex;
+  gap: 22px;
+  position: relative;
+  align-items: center;
+  justify-content: space-evenly;
+  align-content: stretch;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  margin-right: -60px;
 }
+}
+

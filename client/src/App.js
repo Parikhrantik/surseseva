@@ -19,6 +19,8 @@ import AllEvents from './pages/allevents/allevents';
 import EventDetail from './pages/allevents/eventdetails';
 import ContactUs from './pages/contactUs';
 import ResetPasswordForm from './components/forms/ResetPassword';
+import Termsandcondition from './pages/termsandcondition';
+import Competitiontermsandcondition from './pages/competitiontermsandcondition';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -36,7 +38,7 @@ const App = () => {
   // Conditionally render Navbar and Footer
   const ConditionalLayout = ({ children }) => {
     const location = useLocation();
-    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions", "/allevents", "/events_details", '/contact-us'].includes(location.pathname) ||
+    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions", "/allevents", "/events_details", '/contact-us', '/terms-and-conditions', '/competition-terms-and-conditions'].includes(location.pathname) ||
       location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details") || location.pathname.startsWith("/events_details");
 
     return (
@@ -84,7 +86,23 @@ const App = () => {
             }
           />
 
+          <Route
+            path="/terms-and-conditions"
+            element={
+              <ConditionalLayout>
+                <Termsandcondition />
+              </ConditionalLayout>
+            }
+          />
 
+          <Route
+            path="/competition-terms-and-conditions"
+            element={
+              <ConditionalLayout>
+                <Competitiontermsandcondition />
+              </ConditionalLayout>
+            }
+          />
 
           <Route
             path="/allevents"
@@ -171,7 +189,7 @@ const App = () => {
             }
           />
 
-<Route
+          <Route
             path="/reset-password"
             element={
               <PublicRoute>

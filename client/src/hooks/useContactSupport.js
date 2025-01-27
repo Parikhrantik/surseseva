@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 // Define the base API URL
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000'; // Replace with your actual API URL
-const API_URL = process.env.BASE_URL || 'http://34.122.208.248/node'
+const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node'
 
 const useContactSupport = () => {
   const [isLoading, setIsLoading] = useState(false);
