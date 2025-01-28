@@ -80,14 +80,14 @@ export default function Myprofile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 py-20">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+    <div className="my-profile-sec min-h-screen ">
+      <div className="main-profile max-w-6xl mx-auto px-4 py-20">
+        <div className="profile-box rounded-3xl shadow-xl overflow-hidden">
           <div className="p-8">
             <div className="flex flex-col md:flex-row gap-8">
               {/* Left Column - Profile Info */}
               <div className="md:w-1/3">
-                <div className="relative">
+                <div className="profile-image relative">
                   {tempProfilePicture ? (
                     <img
                       src={tempProfilePicture}
@@ -142,7 +142,7 @@ export default function Myprofile() {
 
               {/* Right Column - Main Content */}
               <div className="md:w-2/3">
-                <div className="flex justify-between items-start">
+                <div className="name-email-box flex justify-between items-start">
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900">{participant.name}</h1>
                     <span className="mt-2 text-gray-600"><Mail size={16} className="inline-block mr-2" />{participant.email}</span>
@@ -158,7 +158,7 @@ export default function Myprofile() {
                   )}
                 </div>
 
-                <div className="mt-8 grid grid-cols-3 gap-4">
+                <div className="box-items mt-8 grid grid-cols-3 gap-4">
                   <div className="bg-purple-50 rounded-2xl p-4 text-center">
                     <div className="text-2xl font-bold text-purple-600">{participant.stats?.eventsCreated || 0}</div>
                     <div className="text-sm text-gray-600">Participated Competition</div>
@@ -202,7 +202,7 @@ export default function Myprofile() {
                     </div>
 
                     {/* Genre Preferences */}
-                    <div>
+                    <div className='profile-dropdown'>
                       <label className="block text-gray-700 font-medium text-sm">Singing Genre Preferences</label>
                       <Select
                         options={[
@@ -232,7 +232,7 @@ export default function Myprofile() {
                     </div>
 
                     {/* Buttons */}
-                    <div className="flex space-x-4">
+                    <div className="main-profile-btn flex space-x-4">
                       <button
                         type="submit"
                         className="flex-1 bg-purple-600 text-white rounded-lg px-4 py-2 hover:bg-purple-700 transition-colors"

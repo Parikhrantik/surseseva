@@ -44,7 +44,7 @@ const App = () => {
     return (
       <>
         {showLayout && <Navbar />}
-        <main className="flex-grow">{children}</main>
+        <main className="main-wrapper flex-grow">{children}</main>
         {showLayout && <Footer />}
       </>
     );

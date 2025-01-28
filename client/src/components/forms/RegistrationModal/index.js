@@ -49,7 +49,7 @@ const RegistrationModal = ({ isOpen, onClose, competitionId, competitionstartDat
         />
 
         {/* Modal panel */}
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div className="mainModel-box  inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           {step === 1 ? (
             <CompetitionForm
               onNext={handleCompetitionSubmit}

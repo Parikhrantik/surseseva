@@ -138,17 +138,204 @@ p{
 footer h4{
   margin-bottom: 20px !important;
 }
-.pt-4 {
+.invition-date {
   padding-top: 1rem;
   display: flex;
-  gap: 22px;
-  position: relative;
-  align-items: center;
-  justify-content: space-evenly;
-  align-content: stretch;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  margin-right: -60px;
+  gap: 20px;
+}
+.invition-date span{
+  font-size: 14px;
 }
 }
 
+/*****************************************/
+.mainModel-box {
+  max-width: 450px !important;
+}
+
+.main-wrapper{
+  overflow-x: hidden !important;
+}
+body{
+  overflow-x: hidden !important;
+  background-color: black;
+}
+html{
+  overflow-x: hidden !important;
+}
+.main-event-right h1{
+  color: #fff;
+}
+.my-competition-sec .invition-card span {
+  font-size: 17px;
+}
+.my-competition-sec .invition-card h3{
+  padding-left: 0;
+}
+.edit-option button:first-child{
+  margin-right: 10px ;
+}
+.my-competition-sec {
+  padding-top: 150px;
+}
+.competition-main-sec {
+  padding: 50px 0;
+}
+.Competition-details .Competition-details-items {
+  background-color: #8a2be252;
+  color: #fff !important;
+}
+.Competition-details * {
+  color: #fff !important;
+}
+.Competition-details h2{
+  font-size: 20px;
+}
+.Competition-details .latested-date span{ 
+  margin-right: 15px;
+}
+.main-event-sec{
+  padding-top: 150px;
+}
+.termsandcondition *, .comptetion-termsandcondition *{
+  color: #fff !important;
+}
+.termsandcondition ul, .comptetion-termsandcondition ul{
+  margin-left: 30px;
+}
+.address_section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.my-profile-sec  .main-profile *{
+  color: #fff !important;
+}
+.my-profile-sec  .main-profile  .profile-box{
+  background-color: #8a2be252;
+  margin-top: 80px;
+}
+.my-profile-sec  .main-profile  .profile-image img {
+  width: 100%;
+  min-height: 330px;
+  object-fit: cover;
+}
+.my-profile-sec  .main-profile .box-items *{
+  color: #000 !important;
+}
+.contact-section{
+  background-color: #8a2be252;
+}
+
+.contact-section *{
+  color: #fff !important;
+}
+@media (max-width:1024px){
+  .address_section h4 span{
+    font-size:16px;
+  }
+  .address_section {
+    padding-top: 20px;
+    flex-direction: column;
+    gap: 10px;
+}
+.address_section .name{
+  font-size: 16px;
+  margin-top: 0;
+  line-height: 24px;
+}
+
+}
+@media (max-width:600px){
+  .mobile-btn-items {
+    padding-top: 0;
+    padding-right: 0;
+    display: flex;
+    gap: 10px;
+}
+  .toggle-menu {
+    margin-left: 10px;
+  }
+  .Eevent-creators h2{
+    font-size: 25px;
+  }
+  .scroll-indicator {
+    bottom: 2px;
+}
+.my-competition-sec {
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+.Competition-details .Competition-details-items {
+  padding: 20px;
+}
+.Competition-details .latested-date span {
+  font-size: 15px;
+}
+.main-event-sec {
+  padding-top: 70px;
+}
+.termsandcondition h1, .comptetion-termsandcondition h1{
+  margin-bottom: 0;
+}
+.my-profile-sec  .main-profile  .profile-box {
+  background-color: #8a2be252;
+  margin-top: 80px;
+  margin-bottom: 40px;
+}
+.name-email-box{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+}
+}
+
+
+@media (max-width:380px){
+  .present-event-sec .main-top-title, .pase-event-sec .main-title-sec {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important;
+    align-items: flex-start;
+    gap: 10px;
+}
+.mainModel-box h2{
+  font-size: 20px !important;
+}
+.mainbtn-group{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.my-profile-sec  .main-profile  .profile-image img {
+  min-height: 250px;
+}
+.my-profile-sec .box-items {
+  flex-direction: column;
+  display: flex;
+}
+.main-profile-btn{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.main-profile-btn button{
+  width: 100%;
+  margin-left :0 !important;
+}
+}
+
+.my-profile-sec .main-profile form input, .my-profile-sec .main-profile form textarea, .contact-section form input, .contact-section form textarea, .contact-section form select, .contact-section form select option, .my-profile-sec .main-profile form select, .my-profile-sec .main-profile form select option{
+  color: #000 !important;
+}
+.my-profile-sec .main-profile .profile-dropdown *{
+  color: #000 !important;
+}
+.my-profile-sec .main-profile button + button {
+  color: #fff !important;
+  background: #9333ea;
+}

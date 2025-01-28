@@ -118,7 +118,7 @@ const CompetitionEvents = () => {
                     )}
                   </p>
 
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                  <div className="invition-date pt-4 border-t border-white/10 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {/* <span className="text-sm">
                         {new Intl.DateTimeFormat('en-US', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(competition.startDate))} - {new Intl.DateTimeFormat('en-US', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(competition.endDate))}

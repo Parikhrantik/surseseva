@@ -37,7 +37,7 @@ const AllEvents = () => {
     return (
         <div className="min-h-screen bg-black text-white p-8">
             {/* Ultra Modern Hero Section */}
-            <div className="relative min-f-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-purple-900 to-blue-900">
+            <div className="relative min-f-screen flex items-center justify-center overflow-hidden ">
                 <div className="py-20 bg-gradient-to-b from-black to-purple-900/20">
                     <div className="container mx-auto px-4">
                         <div className="flex justify-between items-center mb-12">
