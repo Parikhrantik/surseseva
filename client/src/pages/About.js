@@ -59,64 +59,60 @@ const About = () => {
               valued. Click on the link below to become a member and join our Elite and most happening music and art group.
             </p>
           </div>
-        </div>
+            <div className='container'>
+            <div
+              className="address_section  address-tab  text-white"
+              style={{ zIndex: 10 }}
+            >
+              <div className="animate-fadeIn text-left">
+                <h4 className=" font-medium flex items-center">
+                  <MapPin className="h-5 w-5 mr-3 text-white-500" />
+                  <span>P.O. Box 4514, Warren, NJ 07059</span>
+                </h4>
+                <h4 className="text-lg font-medium flex items-center mt-2">
+                  <Phone className="h-5 w-5 mr-3 text-white-500" />
+                  <span>+91 732-803-1119</span>
+                </h4>
+              </div>
 
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          <div className="text-center animate-fadeIn">
-            <h1 className="text-lg font-medium text-white" style={{ fontFamily: 'cursive', fontSize: '2.0rem', marginTop: '10px' }}>
-              <span className="font-normal">Founder:</span>
-              <br />
-            </h1>
-            <h2 className="text-lg font-medium text-white" style={{ fontFamily: 'cursive', fontSize: '2.0rem', marginTop: '12px' }}>
-              <span className="font-bold-text-4xl  "> Rantik Parikh</span></h2>
+              <div className="animate-fadeIn text-center">
+                <h4
+                  className=" font-medium"
+                  style={{ fontFamily: "cursive", fontSize: "1.8rem" }}
+                >
+                  <span className="font-normal">Founder:</span>
+                </h4>
+                <h4
+                  className="name font-medium mt-4"
+                  style={{ fontFamily: "cursive", fontSize: "2.0rem" }}
+                >
+                  <span className="font-bold text-4xl">Rantik Parikh</span>
+                </h4>
+              </div>
+
+              <div className="animate-fadeIn text-right">
+                <h4 className=" font-medium flex items-center">
+                  <Mail className="h-5 w-5 mr-3 text-white-500" />
+                  <span className='text-left'>
+                    For any details related to SurSeSeva,
+                    <br />
+                    Email us: surseseva@gmail.com
+                  </span>
+                </h4>
+              </div>
+            </div>
           </div>
         </div>
+
+       
+
+      </div >
+     
 
 
         {/* commented code */}
-        {/* <div
-          className="address_section absolute bottom-10 left-1/2 transform -translate-x-1/2 address-tab pb-12 grid grid-cols-3 gap-6 items-center px-12 text-white"
-          style={{ zIndex: 10 }}
-        >
-          <div className="animate-fadeIn text-left">
-            <h1 className="text-lg font-medium flex items-center">
-              <MapPin className="h-5 w-5 mr-3 text-white-500" />
-              <span>P.O. Box 4514, Warren, NJ 07059</span>
-            </h1>
-            <h2 className="text-lg font-medium flex items-center mt-2">
-              <Phone className="h-5 w-5 mr-3 text-white-500" />
-              <span>+91 732-803-1119</span>
-            </h2>
-          </div>
-
-          <div className="animate-fadeIn text-center">
-            <h1
-              className="text-lg font-medium"
-              style={{ fontFamily: "cursive", fontSize: "1.8rem" }}
-            >
-              <span className="font-normal">Founder:</span>
-            </h1>
-            <h2
-              className="text-lg font-medium mt-4"
-              style={{ fontFamily: "cursive", fontSize: "2.0rem" }}
-            >
-              <span className="font-bold text-4xl">Rantik Parikh</span>
-            </h2>
-          </div>
-
-          <div className="animate-fadeIn text-right">
-            <h2 className="text-lg font-medium flex items-center">
-              <Mail className="h-5 w-5 mr-3 text-white-500" />
-              <span>
-                For any details related to SurSeSeva,
-                <br />
-                Email us: surseseva@gmail.com
-              </span>
-            </h2>
-          </div>
-        </div> */}
-
-      </div >
+        
+        
       {/* <div className="address-tab pb-12">
         <div className="text-center animate-fadeIn">
           <h1 className="text-lg font-medium text-white">

@@ -85,13 +85,13 @@ export default function Myevents() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
+    <div className="main-event-sec min-h-screen ">
+      <div className="max-w-7xl mx-auto px-4 py-12 ">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Events</h1>
-            <p className="text-gray-600 mt-2">Manage and track your events</p>
+            <h1 className="text-3xl font-bold text-white">My Events</h1>
+            <p className="text-white mt-2">Manage and track your events</p>
           </div>
           <button className="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors shadow-lg hover:shadow-xl">
             <Plus size={20} />

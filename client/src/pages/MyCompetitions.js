@@ -66,7 +66,7 @@ const MyCompetitions = () => {
   }
   return (
 
-    <div className="py-20 bg-black">
+    <div className="my-competition-sec py-20 bg-black">
       <div className="container mx-auto px-4">
 
 
@@ -76,7 +76,7 @@ const MyCompetitions = () => {
           <p className="text-white mt-2">Manage and track your events</p>
 
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" >
+        <div className="text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" >
           {competitionEvents.length > 0 ? (
             competitionEvents.map((competition, index) => (
               <div
@@ -87,8 +87,8 @@ const MyCompetitions = () => {
 
               >
 
-                <div className="flex items-center justify-end space-x-2">
-                  <div>
+                <div className=" flex items-center justify-end space-x-2">
+                  <div className='edit-option'>
                     {!competition.competitionendDate ||
                       new Date(competition.competitionendDate) > new Date() ? (
                       <button
@@ -109,7 +109,7 @@ const MyCompetitions = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mb-6" onClick={() => navigateHandler(competition._id)}>
+                <div className="flex items-center  mb-6" onClick={() => navigateHandler(competition._id)}>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
                       {index + 1}

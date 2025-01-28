@@ -1,8 +1,9 @@
 import React from 'react';
 import { Facebook, Twitter, Instagram, Mail, MapPin, Phone, Globe, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className="bg-gray-900 text-white pt-20 pb-6">
       <div className="container mx-auto px-4">
@@ -66,12 +67,12 @@ const Footer = () => {
                   About Us
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/events" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center">
                   <ArrowRight className="h-4 w-4 mr-2" />
                   Events
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/contact-us" className="text-gray-400 hover:text-purple-500 transition-colors flex items-center">
                   <ArrowRight className="h-4 w-4 mr-2" />
@@ -94,7 +95,7 @@ const Footer = () => {
                     if (presentEventSection) {
                       presentEventSection.scrollIntoView({ behavior: 'smooth' });
                     } else {
-                      console.error('Present Event section not found');
+                      navigate('/allevents');
                     }
                   }}>
                   <ArrowRight className="h-4 w-4 mr-2" />
@@ -106,7 +107,11 @@ const Footer = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     const pastEventSection = document.getElementById('pastEvent-section');
-                    pastEventSection.scrollIntoView({ behavior: 'smooth' });
+                    if (pastEventSection) {
+                      pastEventSection.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      navigate('/allevents');
+                    }
                   }}
                 >
                   <ArrowRight className="h-4 w-4 mr-2" />
@@ -126,7 +131,11 @@ const Footer = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     const aboutSection = document.getElementById('competition-section');
-                    aboutSection.scrollIntoView({ behavior: 'smooth' });
+                    if (aboutSection) {
+                      aboutSection.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      navigate('/');
+                    }
                   }}
                 >
                   <ArrowRight className="h-4 w-4 mr-2" />

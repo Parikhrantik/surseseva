@@ -210,7 +210,7 @@ const Home = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="scroll-indicator absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-8 h-12 rounded-full border-2 border-white/20 flex items-center justify-center">
             <div className="w-1 h-3 bg-white rounded-full animate-pulse"></div>
           </div>
@@ -218,12 +218,12 @@ const Home = () => {
       </div>
       <CompetitionEvents />
       {/* Present Events Section */}
-      <div className="py-20 bg-gradient-to-b from-black to-purple-900/20" id="presentEvent-section">
+      <div className="present-event-sec py-20 bg-gradient-to-b from-black to-purple-900/20" id="presentEvent-section">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-12">
+          <div className="main-top-title flex justify-between items-center mb-12">
             <div>
               <h2 className="text-4xl font-bold mb-4">Present Events</h2>
-              <p className="text-white/60">Discover the most exciting  experiences</p>
+              <p className="text-white">Discover the most exciting  experiences</p>
             </div>
             <button onClick={handleViewAllClick} className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
               View All <ArrowRight className="h-4 w-4" />
@@ -271,12 +271,12 @@ const Home = () => {
       </div>
 
       {/* Past Events Section */}
-      <div className="py-20 bg-gradient-to-b from-black to-purple-900/20" id="pastEvent-section">
+      <div className="pase-event-sec py-20 bg-gradient-to-b from-black to-purple-900/20" id="pastEvent-section">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-12">
+          <div className="main-title-sec flex justify-between items-center mb-12">
             <div>
               <h2 className="text-4xl font-bold mb-4">Past Events</h2>
-              <p className="text-white/60">Discover the most exciting  experiences</p>
+              <p className="text-white">Discover the most exciting  experiences</p>
             </div>
             <button onClick={handleViewAllClick} className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
               View All <ArrowRight className="h-4 w-4" />
@@ -314,7 +314,7 @@ const Home = () => {
           <div className="absolute w-[400px] h-[400px] bg-blue-500 rounded-full blur-3xl opacity-20 animate-pulse bottom-0 left-20"></div>
         </div>
 
-        <div className="relative container mx-auto px-4 text-center">
+        <div className="Eevent-creators relative container mx-auto px-4 text-center">
           <span className="inline-block px-6 py-2 bg-white/5 backdrop-blur-lg rounded-full text-sm mb-8">
             🎉 Join 50,000+ Event Creators
           </span>
@@ -324,7 +324,7 @@ const Home = () => {
             Join the future of event hosting and reach millions of potential attendees
           </p>
 
-          <div className="flex justify-center gap-6">
+          <div className="mainbtn-group flex justify-center gap-6">
             <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-medium hover:opacity-90 transition-opacity transform hover:-translate-y-1">
               Get Started Now
             </button>

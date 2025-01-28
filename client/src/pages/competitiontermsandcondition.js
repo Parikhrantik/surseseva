@@ -2,7 +2,7 @@ import React from 'react'
 
 const Competitiontermsandcondition = () => {
   return (
-    <div class="comptetion-termsandcondition bg-white text-black dark:bg-black dark:text-white">
+    <div class="comptetion-termsandcondition ">
     <div class="container mx-auto px-4 py-8" style={{marginTop: '90px', marginBottom: '40px'}}>
         <div class='w-full flex' >
             <h1 class="text-3xl font-bold mb-4 text-purple-600">Competition Terms and Conditions </h1>
