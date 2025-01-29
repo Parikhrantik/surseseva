@@ -181,7 +181,7 @@ const App = () => {
             }
           />
           <Route
-            path="/forgotpwd"
+            path="/forgotpassword"
             element={
               // <PublicRoute>
                 <ForgotPasswordForm />
