@@ -42,7 +42,7 @@ const Header = () => {
         localStorage.removeItem('role');
         setIsLoggedIn(false);
         // navigate('/login');
-        navigate('/login', { replace: true });
+        navigate('/login');
     };
 
     useEffect(() => {
