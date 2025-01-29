@@ -167,9 +167,9 @@ const App = () => {
           <Route
             path="/login"
             element={
-              <PublicRoute>
+              // <PublicRoute>
                 <LoginPage />
-              </PublicRoute>
+              // </PublicRoute>
             }
           />
           <Route
@@ -183,18 +183,18 @@ const App = () => {
           <Route
             path="/forgotpwd"
             element={
-              <PublicRoute>
+              // <PublicRoute>
                 <ForgotPasswordForm />
-              </PublicRoute>
+              // </PublicRoute>
             }
           />
 
           <Route
             path="/reset-password"
             element={
-              <PublicRoute>
+              // <PublicRoute>
                 <ResetPasswordForm />
-              </PublicRoute>
+              // </PublicRoute>
             }
           />
 
