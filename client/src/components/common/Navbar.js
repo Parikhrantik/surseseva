@@ -369,8 +369,10 @@ const Header = () => {
                                                 // presentEventSection.scrollIntoView({ behavior: 'smooth' });
                                                 if (presentEventSection) {
                                                     presentEventSection.scrollIntoView({ behavior: 'smooth' });
+                                                    setIsOpen(!isOpen)
                                                 } else {
                                                     navigate('/allevents');
+                                                    setIsOpen(!isOpen)
                                                 }
                                             }}>
                                             <p className="font-medium group-hover:text-purple-600">Present Events</p>
@@ -381,8 +383,10 @@ const Header = () => {
                                                 const pastEventSection = document.getElementById('pastEvent-section');
                                                 if (pastEventSection) {
                                                     pastEventSection.scrollIntoView({ behavior: 'smooth' });
+                                                    setIsOpen(!isOpen)
                                                 } else {
                                                     navigate('/allevents');
+                                                    setIsOpen(!isOpen)
                                                 }
                                             }}>
                                             <p className="font-medium group-hover:text-purple-600">Past Events</p>
@@ -394,12 +398,20 @@ const Header = () => {
                                 )}
                             </div>
 
-                            <Link to="/about" className="px-4 py-2 hover:bg-purple-600/20 transition-colors">
-                                About
-                            </Link>
-                            <Link to="/competitions" className="px-4 py-2 hover:bg-purple-600/20 transition-colors">
-                                Competitions
-                            </Link>
+                            <Link
+              to="/about"
+              className="px-4 py-2 hover:bg-purple-600/20 transition-colors"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              About
+            </Link>
+            <Link
+              to="/competitions"
+              className="px-4 py-2 hover:bg-purple-600/20 transition-colors"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              Competitions
+            </Link>
                         </div>
                     </div>
                 )}
