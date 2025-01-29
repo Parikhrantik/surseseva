@@ -120,7 +120,7 @@ const LoginForm = () => {
 
         <div className="mt-12">
           <Button text={isLoading ? <Spinner /> : "Login"} style={{ width: "100%" }} />
-          <p class="text-xs mt-6 text-gray-800 text-end"> <Link to="/forgotpwd" class="text-blue-500 font-semibold hover:underline ml-1">Forgot password?</Link></p>
+          <p class="text-xs mt-6 text-gray-800 text-end"> <Link to="/forgotpassword" class="text-blue-500 font-semibold hover:underline ml-1">Forgot password?</Link></p>
           <p class="text-sm mt-6 text-gray-800 text-center">Don't have an account? <Link to="/register" class="text-blue-500 font-semibold hover:underline ml-1">Register here</Link></p>
         </div>
       </form>
