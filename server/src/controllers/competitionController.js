@@ -4,6 +4,7 @@ const { ObjectId } = mongoose.Types;
 
 const Competition = require('../models/Competition');
 const Performance = require('../models/Performance');
+const Vote = require('../models/vote');
 
 
 exports.competitionRegistration = async (req, res) => {
@@ -277,6 +278,7 @@ exports.getUserCompetationRegistration = async (req, res) => {
         message: 'Invalid or missing User ID.',
       });
     }
+
     // Fetch events from competition registrations
     const competitionEvents = await Competition.find({
       userId: new mongoose.Types.ObjectId(userId),
@@ -286,12 +288,61 @@ exports.getUserCompetationRegistration = async (req, res) => {
     const performanceEvents = await Performance.find({
       userId: new mongoose.Types.ObjectId(userId),
     });
+
+    // Fetch vote counts for competitions (for each competition_id)
+    const competitionVotes = await Vote.aggregate([
+      {
+        $group: {
+          _id: "$competitionId",
+          totalVotes: { $sum: 1 },
+          feedbackCount: { $sum: 1 } // Count total feedbacks for each competition
+        },
+      },
+    ]);
+
+    // Fetch vote counts for performances (for each participant_id)
+    const performanceVotes = await Vote.aggregate([
+      {
+        $group: {
+          _id: "$participant_id",
+          totalVotes: { $sum: 1 },
+          feedbackCount: { $sum: 1 } // Count total feedbacks for each performance
+        },
+      },
+    ]);
+
+    // Map vote counts to competition events
+    const competitionEventsWithVotes = competitionEvents.map((competition) => {
+      const voteData = competitionVotes.find((vote) =>
+        competition.competitionId &&
+        vote._id.toString() === competition.competitionId.toString()
+      );
+      return {
+        ...competition.toObject(),
+        totalVotes: voteData ? voteData.totalVotes : 0,
+        feedbackCount: voteData ? voteData.feedbackCount : 0, // Adding feedback count
+      };
+    });
+
+    // Map vote counts to performance events
+    const performanceEventsWithVotes = performanceEvents.map((performance) => {
+      const voteData = performanceVotes.find((vote) =>
+        performance.participant_id &&
+        vote._id.toString() === performance.participant_id.toString()
+      );
+      return {
+        ...performance.toObject(),
+        totalVotes: voteData ? voteData.totalVotes : 0,
+        feedbackCount: voteData ? voteData.feedbackCount : 0, // Adding feedback count
+      };
+    });
+
     return res.status(200).json({
       success: true,
       message: 'User events retrieved successfully.',
       data: {
-        competitionEvents,
-        performanceEvents,
+        competitionEvents: competitionEventsWithVotes,
+        performanceEvents: performanceEventsWithVotes,
       },
     });
   } catch (error) {
@@ -302,3 +353,81 @@ exports.getUserCompetationRegistration = async (req, res) => {
     });
   }
 };
+
+
+
+exports.getApprovedCompetitions = async (req, res) => {
+  try {
+    // Fetch all competition events
+    const competitionEvents = await Competition.find();
+
+    // Fetch all performance events
+    const performanceEvents = await Performance.find();
+
+    // Fetch vote counts along with voter feedback for competitions
+    const competitionVotes = await Vote.aggregate([
+      {
+        $group: {
+          _id: "$competitionId",
+          totalVotes: { $sum: 1 }, // Count total votes
+          feedbackCount: { $sum: 1 } // Count total feedbacks
+        }
+      }
+    ]);
+
+    // Fetch vote counts along with voter feedback for performances
+    const performanceVotes = await Vote.aggregate([
+      {
+        $group: {
+          _id: "$participant_id",
+          totalVotes: { $sum: 1 }, // Count total votes
+          feedbackCount: { $sum: 1 } // Count total feedbacks
+        }
+      }
+    ]);
+
+    // Map vote counts and feedback count to competitions
+    const competitionEventsWithVotes = competitionEvents.map((competition) => {
+      const voteData = competitionVotes.find(vote => 
+        competition.competitionId && vote._id.toString() === competition.competitionId.toString()
+      );
+      return { 
+        ...competition.toObject(), 
+        totalVotes: voteData ? voteData.totalVotes : 0, // Total vote count
+        feedbackCount: voteData ? voteData.feedbackCount : 0 // Feedback count only
+      };
+    });
+
+    // Map vote counts and feedback count to performances
+    const performanceEventsWithVotes = performanceEvents.map((performance) => {
+      const voteData = performanceVotes.find(vote => 
+        performance.participant_id && vote._id.toString() === performance.participant_id.toString()
+      );
+      return { 
+        ...performance.toObject(), 
+        totalVotes: voteData ? voteData.totalVotes : 0, // Total vote count
+        feedbackCount: voteData ? voteData.feedbackCount : 0 // Feedback count only
+      };
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'All competition and performance events retrieved successfully.',
+      data: {
+        competitionEvents: competitionEventsWithVotes,
+        performanceEvents: performanceEventsWithVotes,
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching all events:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error: ' + error.message,
+    });
+  }
+};
+
+
+
+
+

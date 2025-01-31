@@ -11,6 +11,7 @@ const competitionRoutes = require('./src/routes/competitionRoutes');
 const performanceRoutes = require('./src/routes/performanceRoutes');
 const contactUsRoutes = require('./src/routes/contactUsRoutes');
 const competitionManagemenRoutes = require('./src/routes/competitionManagemenRoutes');
+const voteRoutes = require('./src/routes/voteRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 dotenv.config();
@@ -43,6 +44,7 @@ app.use('/contact', contactUsRoutes);
 app.use('/competition', competitionRoutes);
 app.use('/performance', performanceRoutes);
 app.use('/competitionMangement', competitionManagemenRoutes);
+app.use('/vote', voteRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {

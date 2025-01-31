@@ -31,7 +31,7 @@ const useParticipantsAuth = () => {
           console.log(response,'response0000')
           setParticipants(response.data);
         } catch (error) {
-          toast.error('Error fetching participants data');
+          // toast.error('Error fetching participants data');
         } finally {
           setLoading(false);
         }

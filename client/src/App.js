@@ -21,6 +21,7 @@ import ContactUs from './pages/contactUs';
 import ResetPasswordForm from './components/forms/ResetPassword';
 import Termsandcondition from './pages/termsandcondition';
 import Competitiontermsandcondition from './pages/competitiontermsandcondition';
+import MyPrevious from './pages/MyPrevious';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -38,7 +39,7 @@ const App = () => {
   // Conditionally render Navbar and Footer
   const ConditionalLayout = ({ children }) => {
     const location = useLocation();
-    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions", "/allevents", "/events_details", '/contact-us', '/terms-and-conditions', '/competition-terms-and-conditions'].includes(location.pathname) ||
+    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions","/my-previous", "/allevents", "/events_details", '/contact-us', '/terms-and-conditions', '/competition-terms-and-conditions'].includes(location.pathname) ||
       location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details") || location.pathname.startsWith("/events_details");
 
     return (
@@ -133,6 +134,14 @@ const App = () => {
             element={
               <ConditionalLayout>
                 <MyCompetitions />
+              </ConditionalLayout>
+            }
+          />
+          <Route
+            path="/my-previous"
+            element={
+              <ConditionalLayout>
+                <MyPrevious />
               </ConditionalLayout>
             }
           />

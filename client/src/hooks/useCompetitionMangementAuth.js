@@ -83,6 +83,10 @@ const useCompetitionMangementAuth = () => {
     }
   }, []);
 
+
+
+
+
   return {
     competitions,
     getCompetitionDetailsId,

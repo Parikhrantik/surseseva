@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect ,useCallback} from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,8 @@ const useCompetitionAuth = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [competitionData, setCompetitionData] = useState([]);
-  // console.log(competitionData,",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
+  const [Performances, setPerformances] = useState([]);
+  console.log(Performances,",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
   const [competitionDetails, setCompetitionDetails] = useState(null);
   const [userEvents, setUserEvents] = useState([]);
 
@@ -154,6 +155,29 @@ const useCompetitionAuth = () => {
   }, [competitionId]);
 
 
+
+  
+
+  
+
+  const fetchCompetitionsandPerformances = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${API_URL}/competition/approved-Competitons`);
+      setPerformances(response.data);
+     
+    } catch (err) {
+      setError('Failed to fetch competitions');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCompetitionsandPerformances();
+  }, [fetchCompetitionsandPerformances]);
+
   return {
     competitionRegistration,
     isLoading,
@@ -162,6 +186,7 @@ const useCompetitionAuth = () => {
     setcompetitionId,
     success,
     userEvents,
+    Performances,
     competitionData,
     updateCompetition,
     getCompetitionDetailsId,

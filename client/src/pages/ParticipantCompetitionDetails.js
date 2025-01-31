@@ -28,6 +28,9 @@ const ParticipantCompetitionDetails = () => {
   }
 
 console.log('userEvents',userEvents)
+const handleBack = (competitionId) => {
+  navigate("/my-competitions");
+}
   return (
 
 <div className='container mx-auto px-4'>
@@ -95,12 +98,12 @@ console.log('userEvents',userEvents)
 
         {/* Second Column - 4/12 width */}
         <div className="Competition-video">
-          <iframe
+          <video
             src={`${userEvents?.performanceEvents && userEvents?.performanceEvents[0]?.performanceFile}`}
-            title="Iframe Example"
+            controls
             className="w-full h-full rounded-lg shadow-md"
             style={{ minHeight: '300px' }}
-          ></iframe>
+          ></video>
         </div>
       </div>
     </div>

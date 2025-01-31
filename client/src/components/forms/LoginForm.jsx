@@ -54,7 +54,7 @@ const LoginForm = () => {
               {...register("email", {
                 required: "Email is required",
                 pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/i,
                   message: "Invalid email address",
                 },
               })}
@@ -102,6 +102,7 @@ const LoginForm = () => {
           </div>
         </div>
 
+
         {/* <div className="flex items-center mt-6">
           <input
             {...register("agreeToTerms", { required: "You must agree to the terms" })}
@@ -110,13 +111,13 @@ const LoginForm = () => {
           />
           <label htmlFor="remember-me" className="ml-3 block text-sm text-gray-800">
             Agree to{" "}
-          
             <Link to="/terms-and-conditions" className="text-blue-500 font-semibold hover:underline ml-1">
               Terms and Conditions
             </Link>
           </label>
         </div>
         {errors.agreeToTerms && <p className="text-red-500 text-sm">{errors.agreeToTerms.message}</p>} */}
+
 
         <div className="mt-12">
           <Button text={isLoading ? <Spinner /> : "Login"} style={{ width: "100%" }} />

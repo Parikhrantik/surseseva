@@ -10,6 +10,7 @@ import events from "../utils/events.json"
 import CompetitionEvents from './CompetitionEvents';
 import usePresentEventApi from '../hooks/presentEvent';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 // import MissionPage from './MissionPage';
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -216,6 +217,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+    
       <CompetitionEvents />
       {/* Present Events Section */}
       <div className="present-event-sec py-20 bg-gradient-to-b from-black to-purple-900/20" id="presentEvent-section">
@@ -262,7 +264,7 @@ const Home = () => {
             ) : (
               <p>
                 No data Found
-              </p> 
+              </p>
             )} */}
 
           </div>
@@ -306,7 +308,7 @@ const Home = () => {
 
         </div>
       </div>
-
+      {/* <Hero/> */}
       {/* CTA Section */}
       <div className="relative py-32 bg-gradient-to-b from-purple-900/20 to-black overflow-hidden">
         <div className="absolute inset-0">

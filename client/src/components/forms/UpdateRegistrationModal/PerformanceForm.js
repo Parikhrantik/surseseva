@@ -118,6 +118,7 @@ const PerformanceForm = ({
     //     submissionData.append(key, formData[key]);
     //   }
     // });
+    debugger
     const response = await updateParticipantPerformanceById(performanceId, userId, submissionData)
     if (response.success) {
       toast.success('Updated successfully')

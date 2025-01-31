@@ -2,7 +2,7 @@ const Performance = require('../models/Performance');
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 exports.submitPerformance = async (req, res) => {
-
+console.log('req.body', req.body)
   try {
 
     const { userId, competitionId, performanceTitle, description, tags, videoLink, competitionRegId } = req.body;

@@ -12,7 +12,7 @@ const Header = () => {
     const id = localStorage.getItem('userId');
     const isHomePage = window.location.pathname === '/';
     const [isMobileEventsOpen, setIsMobileEventsOpen] = useState(false);
-
+    const role = localStorage.getItem('role');
     const { setId, loading, participant } = useParticipantsAuth();
     useEffect(() => {
         const handleScroll = () => {
@@ -306,6 +306,7 @@ const Header = () => {
                                                 <p className="font-medium group-hover:text-purple-600">My Profile</p>
                                             </div>
                                         </Link>
+                                        {(role !== "Voter") && (
                                         <Link
                                             to="/my-competitions"
                                             className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 group"
@@ -315,6 +316,8 @@ const Header = () => {
                                                 <p className="font-medium group-hover:text-purple-600">My Competitions</p>
                                             </div>                                 </Link>
 
+
+                                        )}
                                         <hr className="my-2 border-gray-200" />
                                         <button
                                             className="flex items-center space-x-2 px-4 py-3 rounded-full  text-purple-600 hover:bg-purple-600 hover:text-white transition-colors"
