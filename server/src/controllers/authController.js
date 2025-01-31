@@ -53,20 +53,31 @@ const registerUser = async (req, res) => {
     const verificationToken = jwtUtils.generateVerificationToken(newUser._id);
     newUser.verificationToken = verificationToken;
 
-    // Save the user
-    await newUser.save();
+
 
     // Send verification email
     const verificationUrl = `${process.env.BASE_URL}/auth/verifyemail?token=${encodeURIComponent(verificationToken)}`;
     console.log(verificationUrl, 'Verification URL');
 
-    await sendEmail.sendVerificationEmail(email, verificationUrl);
+    await sendEmail.sendVerificationEmail(email, verificationUrl).then(async (res) => {
+      if (res) {
+        // Save the user
+        await newUser.save();
 
-    // Respond with success message
-    return res.status(201).json({
-      status: '201',
-      message: 'Registration successful. Check your email for verification.',
+        // Respond with success message
+        return res.status(201).json({
+          status: '201',
+          message: 'Registration successful. Check your email for verification.',
+        });
+      } else {
+        return res.status(201).json({
+          status: '500',
+          message: 'Something went wrong please try again later',
+        });
+      }
     });
+
+
   } catch (error) {
     console.error('Error during registration:', error);
     if (error.name === 'ValidationError') {
@@ -77,6 +88,10 @@ const registerUser = async (req, res) => {
     return res.status(500).json({ message: 'Something went wrong, please try again later.' });
   }
 };
+
+const ResendRegistrationLink = async () => {
+
+}
 const sendVerificationLink = async (req, res) => {
   const { email, userId } = req.body;
   try {
@@ -180,7 +195,7 @@ const forgotPassword = async (req, res) => {
 
     // Send reset email
     await sendEmail.sendResetPasswordEmail(email, resetToken);
-    
+
 
     res.status(200).json({ message: 'Password reset link sent to your email' });
   } catch (error) {
@@ -227,4 +242,4 @@ const resetPassword = async (req, res) => {
 
 
 // module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink };
-module.exports = { registerUser, verifyEmail,loginUser,sendVerificationLink,resetPassword,forgotPassword };
+module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink, resetPassword, forgotPassword };
