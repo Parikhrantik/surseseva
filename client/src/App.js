@@ -18,6 +18,10 @@ import ParticipantCompetitionDetails from './pages/ParticipantCompetitionDetails
 import AllEvents from './pages/allevents/allevents';
 import EventDetail from './pages/allevents/eventdetails';
 import ContactUs from './pages/contactUs';
+import ResetPasswordForm from './components/forms/ResetPassword';
+import Termsandcondition from './pages/termsandcondition';
+import Competitiontermsandcondition from './pages/competitiontermsandcondition';
+import MyPrevious from './pages/MyPrevious';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -35,13 +39,13 @@ const App = () => {
   // Conditionally render Navbar and Footer
   const ConditionalLayout = ({ children }) => {
     const location = useLocation();
-    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions", "/allevents", "/events_details",'/contact-us'].includes(location.pathname) ||
+    const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions","/my-previous", "/allevents", "/events_details", '/contact-us', '/terms-and-conditions', '/competition-terms-and-conditions'].includes(location.pathname) ||
       location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details") || location.pathname.startsWith("/events_details");
 
     return (
       <>
         {showLayout && <Navbar />}
-        <main className="flex-grow">{children}</main>
+        <main className="main-wrapper flex-grow">{children}</main>
         {showLayout && <Footer />}
       </>
     );
@@ -74,7 +78,7 @@ const App = () => {
             }
           />
 
-<Route
+          <Route
             path="/contact-us"
             element={
               <ConditionalLayout>
@@ -83,7 +87,23 @@ const App = () => {
             }
           />
 
+          <Route
+            path="/terms-and-conditions"
+            element={
+              <ConditionalLayout>
+                <Termsandcondition />
+              </ConditionalLayout>
+            }
+          />
 
+          <Route
+            path="/competition-terms-and-conditions"
+            element={
+              <ConditionalLayout>
+                <Competitiontermsandcondition />
+              </ConditionalLayout>
+            }
+          />
 
           <Route
             path="/allevents"
@@ -118,6 +138,14 @@ const App = () => {
             }
           />
           <Route
+            path="/my-previous"
+            element={
+              <ConditionalLayout>
+                <MyPrevious />
+              </ConditionalLayout>
+            }
+          />
+          <Route
             path="/competition-events-details/:id"
             element={
               <ConditionalLayout>
@@ -137,9 +165,9 @@ const App = () => {
             path="/profile"
             element={
               <ConditionalLayout>
-                <ProtectedRoute>
-                  <Myprofile />
-                </ProtectedRoute>
+
+                <Myprofile />
+
               </ConditionalLayout>
             }
           />
@@ -148,9 +176,9 @@ const App = () => {
           <Route
             path="/login"
             element={
-              <PublicRoute>
+              // <PublicRoute>
                 <LoginPage />
-              </PublicRoute>
+              // </PublicRoute>
             }
           />
           <Route
@@ -162,11 +190,20 @@ const App = () => {
             }
           />
           <Route
-            path="/forgotpwd"
+            path="/forgotpassword"
             element={
-              <PublicRoute>
+              // <PublicRoute>
                 <ForgotPasswordForm />
-              </PublicRoute>
+              // </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/reset-password"
+            element={
+              // <PublicRoute>
+                <ResetPasswordForm />
+              // </PublicRoute>
             }
           />
 

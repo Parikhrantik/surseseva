@@ -3,7 +3,7 @@ import React from "react";
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="bg-white md:h-screen">
+    <div className="main-form bg-white md:h-screen">
       <div className="grid md:grid-cols-2 items-center gap-8 h-full">
         {/* Common Section */}
         <div className="max-md:order-1 bg-gray-50 h-full md:h-[100vh]">

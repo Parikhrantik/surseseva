@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
-const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node';
 
 const usePresentEventApi = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,12 +21,12 @@ const usePresentEventApi = () => {
         headers: { 'Content-Type': 'application/json' },
       });
 
-    //   toast.success(response.data.message || 'Success!');
+      //   toast.success(response.data.message || 'Success!');
       return response.data;
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || 'Something went wrong!';
-    //   toast.error(errorMessage);
+      //   toast.error(errorMessage);
       throw error;
     } finally {
       setIsLoading(false);

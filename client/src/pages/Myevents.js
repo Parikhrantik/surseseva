@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 export default function Myevents() {
   // const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
-  const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
-  // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
+  // const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+  const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node';
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -45,7 +45,7 @@ export default function Myevents() {
       }
     }
   }, [userEvents, loading, updatedEvent,]);
- 
+
 
   const handleEdit = (event) => {
     setSelectedEvent(event);
@@ -85,13 +85,13 @@ export default function Myevents() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-12 pt-24">
+    <div className="main-event-sec min-h-screen ">
+      <div className="max-w-7xl mx-auto px-4 py-12 ">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Events</h1>
-            <p className="text-gray-600 mt-2">Manage and track your events</p>
+            <h1 className="text-3xl font-bold text-white">My Events</h1>
+            <p className="text-white mt-2">Manage and track your events</p>
           </div>
           <button className="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors shadow-lg hover:shadow-xl">
             <Plus size={20} />
@@ -135,8 +135,8 @@ export default function Myevents() {
               event.status === 'Upcoming'
                 ? 'bg-green-100 text-green-800'
                 : event.status === 'Open'
-                ? 'bg-blue-100 text-blue-800'
-                : 'bg-purple-100 text-purple-800';
+                  ? 'bg-blue-100 text-blue-800'
+                  : 'bg-purple-100 text-purple-800';
 
 
             return (
@@ -145,9 +145,9 @@ export default function Myevents() {
                 className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="relative h-48">
-                <div className="mb-4 rounded-lg overflow-hidden">
-                <iframe src={`https://www.youtube.com/embed/${event.mediaUrl.split('v=')[1]}?autoplay=1`} width="640" height="210" allowFullScreen autoplay></iframe>
-            </div>
+                  <div className="mb-4 rounded-lg overflow-hidden">
+                    <iframe src={`https://www.youtube.com/embed/${event.mediaUrl.split('v=')[1]}?autoplay=1`} width="640" height="210" allowFullScreen autoplay></iframe>
+                  </div>
                   <div className="">
                     {isEditable && (
                       <button

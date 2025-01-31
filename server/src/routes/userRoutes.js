@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 const { participantMiddleware } = require('../middleware/participant');
+const GCPuploader = require('../middleware/GCPBucket');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads'); // Folder to store uploaded files
@@ -15,12 +16,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
+// router.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 
 router.get('/getUserById/:id', participantMiddleware, userController.getUserById);
 router.get('/getAllUserDetails', participantMiddleware, userController.getAllUserDetails);
 router.delete('/deleteUser/:id', participantMiddleware, userController.deleteUser);
-router.put('/update/:id', participantMiddleware, upload.single('profilePicture'), userController.updateUser);
+router.put('/update/:id', participantMiddleware, GCPuploader('profilePicture'), userController.updateUser);
 
 router.get('/get-file/:filename', (req, res) => {
     const { filename } = req.params;

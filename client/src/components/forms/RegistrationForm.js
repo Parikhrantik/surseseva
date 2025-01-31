@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthLayout from "../common/AuthLayout";
 import Button from "../common/Button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth.js";
 import Spinner from "../common/Spinner.js";
+import { toast } from "react-toastify";
 
 
 const RegistrationForm = () => {
   const { registerUser, isLoading } = useAuth();
   const { control, handleSubmit, register, formState: { errors } } = useForm();
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+      setShowConfirmPassword(!showConfirmPassword);
+    };
 
   const onSubmit = async (formData) => {
 
@@ -24,6 +36,10 @@ const RegistrationForm = () => {
     try {
       const response = await registerUser(registerData, formData);
       console.log(response);
+      toast.success("Verification email sent successfully! Please check your email for verification!");
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
     } catch (error) {
       console.error("Registration failed", error);
     }
@@ -96,11 +112,12 @@ const RegistrationForm = () => {
           <div className="relative flex items-center">
             <input
               {...register("password", { required: "Password is required" })}
-              type="password"
+              // type="password"
+              type={showPassword ? "text" : "password"}
               className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 px-2 py-3 outline-none"
               placeholder="Enter password"
             />
-            <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
+            <svg onClick={togglePasswordVisibility} xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
               <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
             </svg>
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
@@ -112,11 +129,12 @@ const RegistrationForm = () => {
           <div className="relative flex items-center">
             <input
               {...register("confirmPassword", { required: "Confirm Password is required" })}
-              type="password"
+              // type="password"
+              type={showConfirmPassword ? "text" : "password"}
               className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 px-2 py-3 outline-none"
               placeholder="Confirm your password"
             />
-            <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
+            <svg   onClick={toggleConfirmPasswordVisibility} xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 cursor-pointer" viewBox="0 0 128 128">
               <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
             </svg>
             {errors.confirmPassword && (
@@ -148,9 +166,9 @@ const RegistrationForm = () => {
           />
           <label htmlFor="remember-me" className="ml-3 block text-sm text-gray-800">
             Agree to{" "}
-            <a href="#" className="text-blue-500 font-semibold hover:underline ml-1">
+            <Link to="/terms-and-conditions" className="text-blue-500 font-semibold hover:underline ml-1">
               Terms and Conditions
-            </a>
+            </Link>
           </label>
         </div>
         {errors.agreeToTerms && <p className="text-red-500 text-sm">{errors.agreeToTerms.message}</p>}
@@ -166,7 +184,7 @@ const RegistrationForm = () => {
           </Button>
           <p className="text-sm mt-6 text-gray-800">
             Already have an account?{" "}
-            <Link to="/" className="text-blue-500 font-semibold hover:underline ml-1">
+            <Link to="/login" className="text-blue-500 font-semibold hover:underline ml-1">
               Login
             </Link>
           </p>

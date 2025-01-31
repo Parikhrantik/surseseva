@@ -9,5 +9,7 @@ router.post('/login', authController.loginUser);
 // Verify email route
 router.get('/verifyemail', authController.verifyEmail);
 router.get('/send-verification', authController.sendVerificationLink);
+router.post('/forgot-password', authController.forgotPassword);
+router.post('/reset-password', authController.resetPassword);
 
 module.exports = router;

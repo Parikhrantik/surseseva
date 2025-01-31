@@ -10,6 +10,7 @@ import events from "../utils/events.json"
 import CompetitionEvents from './CompetitionEvents';
 import usePresentEventApi from '../hooks/presentEvent';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 // import MissionPage from './MissionPage';
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -22,13 +23,14 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { getAllEvents } = usePresentEventApi();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const allEvents = await getAllEvents();
-        setEvents(allEvents);  // Store events in state
-        setLoading(false);  // Set loading state to false after events are fetched
+        setEvents(allEvents);  
+        setLoading(false);  
       } catch (error) {
         console.error('Error fetching events:', error);
         setLoading(false);
@@ -36,10 +38,10 @@ const Home = () => {
       }
     };
 
-    fetchEvents(); 
+    fetchEvents();
   }, []);
 
-  const featuredEvents = events.slice(0, 3)
+  const featuredEvents = events.slice(0, 9)
 
   const handleView = (id) => {
     navigate(`/events_details/${id}`);
@@ -53,7 +55,11 @@ const Home = () => {
     }
   };
 
+  const toggleReadMore = () => {
+    setIsExpanded(!isExpanded); // Toggle between showing full text and a single paragraph
+  };
 
+  console.log(featuredEvents)
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Ultra Modern Hero Section */}
@@ -66,10 +72,10 @@ const Home = () => {
         </div>
 
         {/* Content */}
-        <div className="relative container mx-auto px-4 text-center">
+        <div className="hero-section relative container mx-auto px-4 text-center" id="about-section">
           {/* Floating Badge */}
           <div className="inline-block animate-bounce mb-8">
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-1">
+            <div className="mission-btn bg-white/10 backdrop-blur-lg border border-white/20 rounded-full p-1">
               <div className="flex items-center gap-2 px-4 py-2">
                 <Sparkles className="h-4 w-4 text-yellow-400" />
                 <span className="text-sm font-medium">Mission</span>
@@ -163,7 +169,7 @@ const Home = () => {
 
 
           {/* Main Content */}
-          <div className="space-y-8 text-lg leading-relaxed" style={{ textAlign: 'justify' }}>
+          <div className="space-y-8 text-lg leading-relaxed" style={{ textAlign: 'justify' }} >
             <p className="text-white/90">
               Sur Se Seva is a non-profit New Jersey entity, an Art and Musicloving community that is dedicated to promoting and empowering
               the arts in all its forms. Music and Aart are gifts from God and have the power to heal and unite people across cultures, Language,
@@ -172,68 +178,79 @@ const Home = () => {
               focus is music, we also aim to promote dance, painting, theater, drama, poetry, literature, comedy, spirituality, and more.
             </p>
 
-            <p className="text-white/90">
-              When we organize an event, after covering all expenses associated with the event, any surplus funds that we generate are donated
-              back to the community thru our Non-Profit Sur Se Seva Foundation. This will ensure that any charitable cause in the community
-              that requires our assistance can benefit from the resources generated through our events and performances. Our sole purpose is
-              to use Sur (or any other form of Indian art and craft) to do Seva and to give back to the community, both locally and internationally.
-            </p>
+            {isExpanded && (
+              <>
 
-            <p className="text-white/90">
-              Our events and performances are not just a showcase of talent but a celebration of diversity and inclusivity. We believe that
-              everyone has something unique to offer, and our community is a platform where all voices can be heard. We are committed to
-              promoting emerging artists and providing them with opportunities to showcase their talent. We believe that by nurturing young
-              artists, we can create a community that is passionate about the arts and committed to promoting them. Working together, we can
-              make a difference in the world and create a more harmonious and beautiful society.
-            </p>
+                <p className="text-white/90 mt-2">
+                  When we organize an event, after covering all expenses associated with the event, any surplus funds that we generate are donated
+                  back to the community thru our Non-Profit Sur Se Seva Foundation. This will ensure that any charitable cause in the community
+                  that requires our assistance can benefit from the resources generated through our events and performances. Our sole purpose is
+                  to use Sur (or any other form of Indian art and craft) to do Seva and to give back to the community, both locally and internationally.
+                </p>
 
-            <p className="text-white/90">
-              We invite all music and art lovers from USA and beyond to join us in celebrating the beauty of the arts. Whether you're a musician,
-              dancer, artist, poet, or simply a music enthusiast, there's a place for you in our community. So, join us in celebrating the beauty of
-              the arts and the power of Sur Seva. Let us come together to create a world where art and music are celebrated, respected, and
-              valued. Click on the link below to become a member and join our Elite and most happening music and art group.
-            </p>
-            <p className="text-white/90">
-              <a
-                href=" https://forms.gle/rdXPgGcivvNWvknL6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underlin"
-              >
-                <span> https://forms.gle/rdXPgGcivvNWvknL6</span>
-              </a>
-            </p>
+                <p className="text-white/90">
+                  Our events and performances are not just a showcase of talent but a celebration of diversity and inclusivity. We believe that
+                  everyone has something unique to offer, and our community is a platform where all voices can be heard. We are committed to
+                  promoting emerging artists and providing them with opportunities to showcase their talent. We believe that by nurturing young
+                  artists, we can create a community that is passionate about the arts and committed to promoting them. Working together, we can
+                  make a difference in the world and create a more harmonious and beautiful society.
+                </p>
+
+                <p className="text-white/90">
+                  We invite all music and art lovers from USA and beyond to join us in celebrating the beauty of the arts. Whether you're a musician,
+                  dancer, artist, poet, or simply a music enthusiast, there's a place for you in our community. So, join us in celebrating the beauty of
+                  the arts and the power of Sur Seva. Let us come together to create a world where art and music are celebrated, respected, and
+                  valued. Click on the link below to become a member and join our Elite and most happening music and art group.
+                </p>
+              </>
+            )}
+            <button onClick={toggleReadMore} class="px-2 py-2 rounded-full transition-all transform hover:scale-105 bg-gradient-to-r
+             from-purple-600 to-blue-600 shadow-lg shadow-purple-500/25"> {isExpanded ? 'Show Less' : 'Read More'}</button>
 
           </div>
-          {/* </div> */}
-
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="scroll-indicator absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-8 h-12 rounded-full border-2 border-white/20 flex items-center justify-center">
             <div className="w-1 h-3 bg-white rounded-full animate-pulse"></div>
           </div>
         </div>
       </div>
+    
       <CompetitionEvents />
       {/* Present Events Section */}
-      <div className="py-20 bg-gradient-to-b from-black to-purple-900/20">
+      <div className="present-event-sec py-20 bg-gradient-to-b from-black to-purple-900/20" id="presentEvent-section">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-12">
+          <div className="main-top-title flex justify-between items-center mb-12">
             <div>
               <h2 className="text-4xl font-bold mb-4">Present Events</h2>
-              <p className="text-white/60">Discover the most exciting  experiences</p>
+              <p className="text-white">Discover the most exciting  experiences</p>
             </div>
             <button onClick={handleViewAllClick} className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
               View All <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* {featuredEvents.map(event => (
               <EventCard key={event.id} {...event} />
             ))} */}
-            {featuredEvents.length > 0 ? (
+            {events.length > 0 ? (
+              events
+                .filter(event => event.eventType === 'present').slice(0, 4)
+                .map(event => (
+                  <EventCard
+                    key={event._id} // Adding a unique key for each component
+                    id={event._id}
+                    bannerImage={event.bannerImage}
+                    title={event.title}
+                    handleView={handleView}
+                  />
+                ))
+            ) : (
+              <p>No events available.</p>
+            )}
+            {/* {featuredEvents.length > 0 ? (
               featuredEvents.map(event => (
                 <EventCard
                   // key={event.id}
@@ -246,18 +263,52 @@ const Home = () => {
               ))
             ) : (
               <p>
-              {/* Loading events... */}
-              No data Found
-              </p> // Show loading text until the events are fetched
-            )}
+                No data Found
+              </p>
+            )} */}
 
           </div>
 
         </div>
       </div>
 
+      {/* Past Events Section */}
+      <div className="pase-event-sec py-20 bg-gradient-to-b from-black to-purple-900/20" id="pastEvent-section">
+        <div className="container mx-auto px-4">
+          <div className="main-title-sec flex justify-between items-center mb-12">
+            <div>
+              <h2 className="text-4xl font-bold mb-4">Past Events</h2>
+              <p className="text-white">Discover the most exciting  experiences</p>
+            </div>
+            <button onClick={handleViewAllClick} className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors">
+              View All <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* {featuredEvents.map(event => (
+              <EventCard key={event.id} {...event} />
+            ))} */}
+            {events.length > 0 ? (
+              events
+                .filter(event => event.eventType === 'past').slice(0, 4) // Limit to the first 4 events// Filter events with eventType null or present
+                .map(event => (
+                  <EventCard
+                    key={event._id} // Adding a unique key for each component
+                    id={event._id}
+                    bannerImage={event.bannerImage}
+                    title={event.title}
+                    handleView={handleView}
+                  />
+                ))
+            ) : (
+              <p>No events available.</p>
+            )}
 
+          </div>
 
+        </div>
+      </div>
+      {/* <Hero/> */}
       {/* CTA Section */}
       <div className="relative py-32 bg-gradient-to-b from-purple-900/20 to-black overflow-hidden">
         <div className="absolute inset-0">
@@ -265,7 +316,7 @@ const Home = () => {
           <div className="absolute w-[400px] h-[400px] bg-blue-500 rounded-full blur-3xl opacity-20 animate-pulse bottom-0 left-20"></div>
         </div>
 
-        <div className="relative container mx-auto px-4 text-center">
+        <div className="Eevent-creators relative container mx-auto px-4 text-center">
           <span className="inline-block px-6 py-2 bg-white/5 backdrop-blur-lg rounded-full text-sm mb-8">
             🎉 Join 50,000+ Event Creators
           </span>
@@ -275,11 +326,11 @@ const Home = () => {
             Join the future of event hosting and reach millions of potential attendees
           </p>
 
-          <div className="flex justify-center gap-6">
+          <div className="mainbtn-group flex justify-center gap-6">
             <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-medium hover:opacity-90 transition-opacity transform hover:-translate-y-1">
               Get Started Now
             </button>
-            <button className="px-8 py-4 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl font-medium hover:bg-white/10 transition-all transform hover:-translate-y-1">
+            <button className="demo-btn px-8 py-4 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl font-medium hover:bg-white/10 transition-all transform hover:-translate-y-1">
               <Play className="h-5 w-5 inline mr-2" />
               Watch Demo
             </button>

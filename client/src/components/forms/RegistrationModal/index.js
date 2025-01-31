@@ -5,14 +5,14 @@ import useCompetitionAuth from '../../../hooks/useCompetionAuth';
 import usePerformanceAuth from '../../../hooks/usePerformanceAuth';
 
 
-const RegistrationModal = ({ isOpen, onClose,competitionId,competitionstartDate,competitionendDate}) => {
-  console.log(competitionendDate,"competitioncompetitioncompetition")
-  // debugger
+const RegistrationModal = ({ isOpen, onClose, competitionId, competitionstartDate, competitionendDate }) => {
+  console.log(competitionendDate, "competitioncompetitioncompetition")
+  // 
   const [step, setStep] = useState(1);
   const [competitionData, setCompetitionData] = useState(null);
   const { competitionRegistration, isLoading: isCompetitionLoading } = useCompetitionAuth();
   const { submitPerformance, isLoading: isPerformanceLoading } = usePerformanceAuth();
-// console.log('submitPerformance', submitPerformance)
+  // console.log('submitPerformance', submitPerformance)
   if (!isOpen) return null;
 
   const handleCompetitionSubmit = async (data) => {
@@ -26,7 +26,7 @@ const RegistrationModal = ({ isOpen, onClose,competitionId,competitionstartDate,
   };
 
   const handlePerformanceSubmit = async (data) => {
-    // debugger
+    // 
     try {
       await submitPerformance(data);
       console.log('Performance Data:', data);
@@ -49,14 +49,14 @@ const RegistrationModal = ({ isOpen, onClose,competitionId,competitionstartDate,
         />
 
         {/* Modal panel */}
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div className="mainModel-box  inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           {step === 1 ? (
             <CompetitionForm
               onNext={handleCompetitionSubmit}
               onClose={onClose}
               isLoading={isCompetitionLoading}
-              competitionId={competitionId} 
-              competitionstartDate={competitionstartDate} 
+              competitionId={competitionId}
+              competitionstartDate={competitionstartDate}
               competitionendDate={competitionendDate}
             />
           ) : (
@@ -65,9 +65,9 @@ const RegistrationModal = ({ isOpen, onClose,competitionId,competitionstartDate,
               onBack={() => setStep(1)}
               onClose={onClose}
               isLoading={isPerformanceLoading}
-              competitionId={competitionId} 
+              competitionId={competitionId}
               competitionData={competitionData} // Pass competitionDat
-           
+
             />
           )}
         </div>

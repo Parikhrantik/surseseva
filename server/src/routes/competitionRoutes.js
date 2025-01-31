@@ -13,6 +13,7 @@ router.delete('/delete-competition-registration', competitionController.deleteCo
 router.get('/get-all-competition-registrations', competitionController.getAllCompetitionRegistrations);
 router.put('/update-competition-registration/:id', competitionController.updateCompetitionRegistration);
 router.get('/user-registration/:userId', competitionController.getUserCompetationRegistration);
+router.get('/approved-Competitons', competitionController.getApprovedCompetitions);
 
 module.exports = router;
 

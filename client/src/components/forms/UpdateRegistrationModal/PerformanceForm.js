@@ -108,7 +108,7 @@ const PerformanceForm = ({
     submissionData.append('tags', JSON.stringify(formData.tags));
     submissionData.append('videoLink', formData.videoLink);
     submissionData.append('mediaType', formData.mediaType);
-    debugger
+
     // Object.keys(formData).forEach(key => {
     //   if (key === 'tags') {
     //     submissionData.append(key, JSON.stringify(formData[key]));
@@ -118,6 +118,7 @@ const PerformanceForm = ({
     //     submissionData.append(key, formData[key]);
     //   }
     // });
+    debugger
     const response = await updateParticipantPerformanceById(performanceId, userId, submissionData)
     if (response.success) {
       toast.success('Updated successfully')

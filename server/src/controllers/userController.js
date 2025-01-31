@@ -15,7 +15,7 @@ const getUserById = async (req, res) => {
 
     res.status(200).json({
       ...user._doc,
-      profilePicture: filePath,
+      // profilePicture: filePath,
     });
   } catch (error) {
     console.error('Error fetching user by ID:', error);
@@ -53,8 +53,8 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const { name, email, role, bio, genrePreferences, contactInfo, profilePicture } = req.body;
-  console.log(req.body, "uuuuuuuuuuuuuuuuu")
-  const profilePic = req.file ? req.file.filename : profilePicture;
+
+  const profilePic = req.fileUrl ? req.fileUrl : profilePicture;
 
   // Validate role if provided
   const validRoles = ['Participant', 'Organizer', 'Voter'];

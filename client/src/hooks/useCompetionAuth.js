@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect ,useCallback} from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Role, AuthToken } from '../utils/constants';
 
-// const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
-const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node';
+// const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
 
 // const API_URL = process.env.BASE_URL || 'http://localhost:5000';
 
@@ -14,7 +14,8 @@ const useCompetitionAuth = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [competitionData, setCompetitionData] = useState([]);
-  // console.log(competitionData,",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
+  const [Performances, setPerformances] = useState([]);
+  console.log(Performances,",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
   const [competitionDetails, setCompetitionDetails] = useState(null);
   const [userEvents, setUserEvents] = useState([]);
 
@@ -84,15 +85,15 @@ const useCompetitionAuth = () => {
   }, [id]);
 
   const competitionRegistration = async (competitionData) => {
-    debugger
+
 
     try {
 
-      debugger
+
       return await apiCall(`${API_URL}/competition/register-competition`, competitionData);
 
     } catch (error) {
-      debugger
+
 
       console.error(error);
       throw error;
@@ -107,11 +108,11 @@ const useCompetitionAuth = () => {
         setIsLoading(true);
         const response = await axios.get(`${API_URL}/competition/get-competition-registration/${competitionId}`);
         if (response.status === 200) {
-          // debugger
+          // 
           setCompetitionData(response.data?.data || null);
           return response.data;
         } else if (response.status === 404) {
-          // debugger
+          // 
           setError(response.data.message);
           toast.error(response.data.message);
           return null;
@@ -129,7 +130,7 @@ const useCompetitionAuth = () => {
 
   // Function to update competition details
   const updateCompetition = async (competitionId, data) => {
-    // debugger
+    // 
     try {
       setIsLoading(true);
       const response = await axios.put(
@@ -154,6 +155,29 @@ const useCompetitionAuth = () => {
   }, [competitionId]);
 
 
+
+  
+
+  
+
+  const fetchCompetitionsandPerformances = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${API_URL}/competition/approved-Competitons`);
+      setPerformances(response.data);
+     
+    } catch (err) {
+      setError('Failed to fetch competitions');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCompetitionsandPerformances();
+  }, [fetchCompetitionsandPerformances]);
+
   return {
     competitionRegistration,
     isLoading,
@@ -162,6 +186,7 @@ const useCompetitionAuth = () => {
     setcompetitionId,
     success,
     userEvents,
+    Performances,
     competitionData,
     updateCompetition,
     getCompetitionDetailsId,

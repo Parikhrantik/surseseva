@@ -11,6 +11,7 @@ const competitionRoutes = require('./src/routes/competitionRoutes');
 const performanceRoutes = require('./src/routes/performanceRoutes');
 const contactUsRoutes = require('./src/routes/contactUsRoutes');
 const competitionManagemenRoutes = require('./src/routes/competitionManagemenRoutes');
+const voteRoutes = require('./src/routes/voteRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 dotenv.config();
@@ -32,7 +33,9 @@ app.get('/', (req, res) => {
 app.use(userRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+// Increase the body size limit for incoming requests (default 100kb)
+app.use(bodyParser.json({ limit: '100mb' })); // or '100mb' based on your file size
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
@@ -41,6 +44,7 @@ app.use('/contact', contactUsRoutes);
 app.use('/competition', competitionRoutes);
 app.use('/performance', performanceRoutes);
 app.use('/competitionMangement', competitionManagemenRoutes);
+app.use('/vote', voteRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {

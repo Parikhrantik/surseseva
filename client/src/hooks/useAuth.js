@@ -4,12 +4,12 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-// const API_URL = process.env.BASE_URL || 'http://35.208.79.246/node';
+const API_URL = process.env.REACT_APP_BASE_URL || 'http://34.122.208.248/node';
 // eslint-disable-next-line no-undef
 // const API_URL = process.env.LIVE_BASE_URL|| LOCAL_BASE_URL;
 
 
-const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
+// const API_URL = process.env.LIVE_BASE_URL || 'http://localhost:5000';
 console.log('Using API_URL:', API_URL);
 
 //  = process.env.BASE_URL || 'http://localhost:5000';
@@ -47,7 +47,7 @@ const useAuth = () => {
 
         // Navigate to login page if registration is successful
         if (url === `${API_URL}/auth/register`) {
-          navigate('/login');
+          // navigate('/login');
         }
 
         return response;
@@ -76,14 +76,26 @@ const useAuth = () => {
 
   // Forgot Password API Call
 
+  const forgotPassword = async (emailData) => {
+    return await apiCall(`${API_URL}/auth/forgot-password`, emailData);
+  };
+
+  // Reset Password API Call
+  const resetPassword = async (resetData) => {
+    // debugger
+    return await apiCall(`${API_URL}/auth/reset-password`, resetData);
+  };
 
   return {
     loginUser,
     registerUser,
+    forgotPassword,
+    resetPassword,
     isLoading,
     error,
     success,
   };
 };
+
 
 export default useAuth;
