@@ -4,12 +4,24 @@ const path = require('path');
 const stream = require('stream');
 const { Storage } = require('@google-cloud/storage');
 
-
+const keyFilePath = path.resolve(__dirname, '../../googlekey.json');
+console.log('Key file path:', keyFilePath);
 // Initialize Google Cloud Storage
 const storage = new Storage({ keyFilename: '../../googlekey.json' });
 const bucketName = 'surseseva'; // Replace with your GCP bucket name
 const bucket = storage.bucket(bucketName);
 
+
+async function testAuth() {
+    try {
+        const [buckets] = await storage.getBuckets();
+        console.log('Buckets:', buckets.map(bucket => bucket.name));
+    } catch (err) {
+        console.error('Authentication error:', err);
+    }
+}
+
+testAuth();
 // Custom Multer Storage Engine for GCP
 const multerStorage = multer({
     storage: multer.memoryStorage(), // Use memoryStorage for multer

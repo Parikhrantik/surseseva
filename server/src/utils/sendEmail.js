@@ -33,7 +33,7 @@ const sendVerificationEmail = async (to, token) => {
       html: emailHTML,
     });
     console.log('Email sent:', info.messageId);
-    return info.messageId
+    return info
   } catch (error) {
     console.error('Error sending email:', error);
   }

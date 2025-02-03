@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Vote = require('../models/vote');
+const Vote = require('../models/Vote');
 
 exports.Vote = async (req, res) => {
   try {

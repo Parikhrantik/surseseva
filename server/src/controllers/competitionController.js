@@ -4,7 +4,7 @@ const { ObjectId } = mongoose.Types;
 
 const Competition = require('../models/Competition');
 const Performance = require('../models/Performance');
-const Vote = require('../models/vote');
+const Vote = require('../models/Vote');
 
 
 exports.competitionRegistration = async (req, res) => {
@@ -35,6 +35,7 @@ exports.competitionRegistration = async (req, res) => {
     // Check if competitionId exists in Competition model
     const existingCompetition = await Competition.findOne({
       competitionId: eventObjectId,
+      userId: new mongoose.Types.ObjectId(userId)
     })
     console.log('existingCompetition', existingCompetition)
     // Check if the user is already registered for the same event
@@ -177,14 +178,14 @@ exports.deleteCompetitionRegistration = async (req, res) => {
 
     const deletedRegistration = await Competition.findOneAndDelete({
       userId: new mongoose.Types.ObjectId(userId),
-       _id: new mongoose.Types.ObjectId(competitionId),
+      _id: new mongoose.Types.ObjectId(competitionId),
     });
 
-const deletePerfomance = await Performance.findOneAndDelete({
-  competitionRegId: new mongoose.Types.ObjectId(competitionId),
-  
-});
-      console.log(deletePerfomance,'hyyyyyy')
+    const deletePerfomance = await Performance.findOneAndDelete({
+      competitionRegId: new mongoose.Types.ObjectId(competitionId),
+
+    });
+    console.log(deletePerfomance, 'hyyyyyy')
     if (!deletedRegistration) {
       return res.status(404).json({
         success: false,
@@ -388,11 +389,11 @@ exports.getApprovedCompetitions = async (req, res) => {
 
     // Map vote counts and feedback count to competitions
     const competitionEventsWithVotes = competitionEvents.map((competition) => {
-      const voteData = competitionVotes.find(vote => 
+      const voteData = competitionVotes.find(vote =>
         competition.competitionId && vote._id.toString() === competition.competitionId.toString()
       );
-      return { 
-        ...competition.toObject(), 
+      return {
+        ...competition.toObject(),
         totalVotes: voteData ? voteData.totalVotes : 0, // Total vote count
         feedbackCount: voteData ? voteData.feedbackCount : 0 // Feedback count only
       };
@@ -400,11 +401,11 @@ exports.getApprovedCompetitions = async (req, res) => {
 
     // Map vote counts and feedback count to performances
     const performanceEventsWithVotes = performanceEvents.map((performance) => {
-      const voteData = performanceVotes.find(vote => 
+      const voteData = performanceVotes.find(vote =>
         performance.participant_id && vote._id.toString() === performance.participant_id.toString()
       );
-      return { 
-        ...performance.toObject(), 
+      return {
+        ...performance.toObject(),
         totalVotes: voteData ? voteData.totalVotes : 0, // Total vote count
         feedbackCount: voteData ? voteData.feedbackCount : 0 // Feedback count only
       };
