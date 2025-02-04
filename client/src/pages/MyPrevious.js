@@ -35,7 +35,7 @@ const MyPrevious = () => {
   const handleDelete = (competitionId) => {
     const userId = localStorage.getItem('userId');
     const data = { userId, competitionId };
-    // debugger
+    // singer-auditions
     fetch(`${API_URL}/competition/delete-competition-registration`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },

@@ -60,4 +60,31 @@ const sendResetPasswordEmail = async (to, resetToken) => {
   }
 };
 
-module.exports = { sendVerificationEmail, sendResetPasswordEmail };
+const sendParticipantEmail = async (to, subject, voterFeedback, participantName) => {
+  try {
+    const templatePath = path.join(__dirname, '../views/voteNotification.ejs');
+
+    // Render the EJS template with dynamic data
+    const emailHTML = await ejs.renderFile(templatePath, { 
+      voterFeedback, 
+      participantName 
+    });
+
+    // Send the email
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to,
+      subject,
+      html: emailHTML,
+    });
+
+    console.log('Vote notification email sent:', info.messageId);
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+};
+
+
+
+
+module.exports = { sendVerificationEmail, sendResetPasswordEmail,sendParticipantEmail };

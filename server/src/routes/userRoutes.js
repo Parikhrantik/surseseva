@@ -18,10 +18,12 @@ const upload = multer({ storage });
 
 // router.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 
-router.get('/getUserById/:id', participantMiddleware, userController.getUserById);
-router.get('/getAllUserDetails', participantMiddleware, userController.getAllUserDetails);
+// router.get('/getUserById/:id', participantMiddleware, userController.getUserById);
+router.get('/getUserById/:id',  userController.getUserById);
+// router.get('/getAllUserDetails', participantMiddleware, userController.getAllUserDetails);
+router.get('/getAllUserDetails',  userController.getAllUserDetails);
 router.delete('/deleteUser/:id', participantMiddleware, userController.deleteUser);
-router.put('/update/:id', participantMiddleware, GCPuploader('profilePicture'), userController.updateUser);
+router.put('/update/:id', GCPuploader('profilePicture'), userController.updateUser);
 
 router.get('/get-file/:filename', (req, res) => {
     const { filename } = req.params;

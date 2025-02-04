@@ -30,7 +30,7 @@ const id = competitionId;
   useEffect(() => {
     if (id) {
       getCompetitionDetailsId(id).then((response) => {
-        debugger
+        // singer-auditions
         if (response?.success) {
           setFormData({
             ...formData,

@@ -26,6 +26,7 @@ const useVote = () => {
         const successMessage = response.data.message || 'Feedback submitted successfully';
         setSuccess(successMessage);
         toast.success(successMessage);
+        window.location.reload();
         return response.data;
       } else {
         throw new Error(`Unexpected response status: ${response.status}`);
@@ -41,7 +42,7 @@ const useVote = () => {
   };
 
   const voterFeedback = async (feedbackData) => {
-    debugger
+    // singer-auditions
     return await apiCall(`${API_URL}/vote/vote`, feedbackData);
   };
 

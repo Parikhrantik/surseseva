@@ -258,12 +258,12 @@ const Header = () => {
                     {/* Right Section - Desktop */}
                     <div className="hidden lg:flex items-center space-x-6">
                         {/* Notifications */}
-                        <button className="relative group">
+                        {/* <button className="relative group">
                             <Bell className="h-6 w-6 hover:text-purple-500 transition-colors" />
                             <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
                                 3
                             </span>
-                        </button>
+                        </button> */}
 
                         {/* Auth Buttons */}
                         {!isLoggedIn &&

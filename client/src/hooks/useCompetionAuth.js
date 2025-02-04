@@ -14,6 +14,7 @@ const useCompetitionAuth = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [competitionData, setCompetitionData] = useState([]);
+  const [approvedParticipantCompitions, setApprovedParticipantCompitions] = useState([]);
   const [Performances, setPerformances] = useState([]);
   console.log(Performances,",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
   const [competitionDetails, setCompetitionDetails] = useState(null);
@@ -67,8 +68,33 @@ const useCompetitionAuth = () => {
     if (userId) {
       try {
         setIsLoading(true);
+       
         const response = await axios.get(`${API_URL}/competition/user-registration/${userId}`);
+        // const response =  await axios.get(`${API_URL}/competition/approved-Competitons/${userId}`,config);
         setUserEvents(response.data?.data || []);
+      } catch (error) {
+        console.error('Error fetching participant data:', error);
+        toast.error('Error fetching participant data');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+  const getApprovedParticipantCompitions = async (userId) => {
+    if (userId) {
+      try {
+        setIsLoading(true);
+        const config = {
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${AuthToken}` || localStorage.getItem('authToken'),
+            'role': Role || localStorage.getItem('role')
+          },
+        };
+        
+        const response =  await axios.get(`${API_URL}/competition/approved-Competitons/${userId}`,config);
+        setApprovedParticipantCompitions(response.data?.data || []);
       } catch (error) {
         console.error('Error fetching participant data:', error);
         toast.error('Error fetching participant data');
@@ -81,15 +107,12 @@ const useCompetitionAuth = () => {
   useEffect(() => {
     if (id) {
       getUserEvents(id);
+      getApprovedParticipantCompitions(id);
     }
   }, [id]);
 
   const competitionRegistration = async (competitionData) => {
-
-
     try {
-
-
       return await apiCall(`${API_URL}/competition/register-competition`, competitionData);
 
     } catch (error) {
@@ -137,7 +160,7 @@ const useCompetitionAuth = () => {
         `${API_URL}/competition/update-competition-registration/${competitionId}`,
         data
       );
-      setCompetitionData(response.data?.data || null); // Update competition data after success
+      setCompetitionData(response.data?.data || null);
       return response.data;
     } catch (error) {
       console.error('Error updating competition:', error);
@@ -154,18 +177,12 @@ const useCompetitionAuth = () => {
     }
   }, [competitionId]);
 
-
-
-  
-
-  
-
   const fetchCompetitionsandPerformances = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`${API_URL}/competition/approved-Competitons`);
       setPerformances(response.data);
-     
+
     } catch (err) {
       setError('Failed to fetch competitions');
       console.error(err);
@@ -190,6 +207,8 @@ const useCompetitionAuth = () => {
     competitionData,
     updateCompetition,
     getCompetitionDetailsId,
+  
+    approvedParticipantCompitions
   };
 };
 
