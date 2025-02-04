@@ -82,7 +82,7 @@ const useAuth = () => {
 
   // Reset Password API Call
   const resetPassword = async (resetData) => {
-    // debugger
+    // singer-auditions
     return await apiCall(`${API_URL}/auth/reset-password`, resetData);
   };
 

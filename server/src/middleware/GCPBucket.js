@@ -5,10 +5,12 @@ const stream = require('stream');
 const { Storage } = require('@google-cloud/storage');
 
 const keyFilePath = path.resolve(__dirname, '../../googlekey.json');
+// const keyFilePath = path.resolve(__dirname, './googlekey.json');
 console.log('Key file path:', keyFilePath);
 // Initialize Google Cloud Storage
 const storage = new Storage({ keyFilename: '../../googlekey.json' });
-const bucketName = 'surseseva'; // Replace with your GCP bucket name
+// const storage = new Storage({ keyFilename: './googlekey.json' });
+const bucketName = 'surseseva';
 const bucket = storage.bucket(bucketName);
 
 

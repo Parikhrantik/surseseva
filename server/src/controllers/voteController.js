@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Vote = require('../models/Vote');
+const { sendParticipantEmail } = require('../utils/sendEmail');
+const User = require('../models/User');
 
 exports.Vote = async (req, res) => {
   try {
@@ -33,7 +35,22 @@ exports.Vote = async (req, res) => {
 
     await newVote.save();
 
-    res.status(201).json({ message: "Vote submitted successfully." });
+    // Fetch participant's email
+    // Fetch participant's email and name
+    const participant = await User.findById(participantObjectId);
+    if (!participant || !participant.email) {
+      return res.status(404).json({ message: "Participant email not found." });
+    }
+
+    // Send email with participant's name
+    await sendParticipantEmail(
+      participant.email,
+      "New Vote Received",
+      voterFeedback,
+      participant.name || "Participant"
+    );
+
+    res.status(201).json({ message: "Vote submitted successfully, and email sent to participant." });
 
   } catch (error) {
     console.error("Error submitting Vote:", error);

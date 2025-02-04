@@ -3,7 +3,8 @@ import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import useVote from '../../hooks/useVote';
 
-const VoterModal = ({ isOpen, onClose, competitionId, participantId }) => {
+
+const VoterModal = ({ isOpen, onClose, competition_Id,onSubmit, participantId }) => {
   // console.log(participantId, "eddddddddddddddd");
   const voter_id = localStorage.getItem('userId');
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -19,16 +20,19 @@ const VoterModal = ({ isOpen, onClose, competitionId, participantId }) => {
   const onSubmitForm = async (formData) => {
     const feedbackData = {
       voter_id,
-      competitionId: competitionId,
+      competitionId: competition_Id,
       participant_id: participantId,
       voterFeedback: formData.voterFeedback,
     };
     
     try {
       await voterFeedback(feedbackData);
-      reset();
+      onSubmit("submitted");
+      handleClose();
     } catch (error) {
       console.error("Feedback submission failed", error);
+      handleClose();
+      // navigate('/')
     }
   };
 

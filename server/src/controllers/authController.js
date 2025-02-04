@@ -59,23 +59,23 @@ const registerUser = async (req, res) => {
     const verificationUrl = `${process.env.BASE_URL}/auth/verifyemail?token=${encodeURIComponent(verificationToken)}`;
     console.log(verificationUrl, 'Verification URL');
 
-    const emailresponse = await sendEmail.sendVerificationEmail(email, verificationUrl)
-    if (emailresponse.messageId) {
-      // Save the user
-      await newUser.save();
+    await sendEmail.sendVerificationEmail(email, verificationUrl).then(async (res) => {
+      if (res) {
+        // Save the user
+        await newUser.save();
 
-      // Respond with success message
-      return res.status(201).json({
-        status: '201',
-        message: 'Registration successful. Check your email for verification.',
-      });
-    } else {
-      return res.status(201).json({
-        status: '500',
-        message: 'Something went wrong please try again later',
-      });
-    }
-
+        // Respond with success message
+        return res.status(201).json({
+          status: '201',
+          message: 'Registration successful. Check your email for verification.',
+        });
+      } else {
+        return res.status(201).json({
+          status: '500',
+          message: 'Something went wrong please try again later',
+        });
+      }
+    });
 
 
   } catch (error) {

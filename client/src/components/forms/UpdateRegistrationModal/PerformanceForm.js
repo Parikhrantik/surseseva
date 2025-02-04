@@ -118,7 +118,7 @@ const PerformanceForm = ({
     //     submissionData.append(key, formData[key]);
     //   }
     // });
-    debugger
+    singer-auditions
     const response = await updateParticipantPerformanceById(performanceId, userId, submissionData)
     if (response.success) {
       toast.success('Updated successfully')
