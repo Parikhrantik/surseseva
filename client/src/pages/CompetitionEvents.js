@@ -266,7 +266,7 @@ const CompetitionEvents = () => {
                   eventsToDisplay.map((event, index) => {
                     // Find the corresponding competitionEvent for the current performanceEvent
                     const correspondingCompetitionEvent = competitionEvents.find(
-                      (compEvent) => compEvent.competitionId === event.competitionId
+                      (compEvent) => compEvent._id === event.competitionRegId
                     );
 
                     // Get totalVotes from the corresponding competitionEvent or default to 0

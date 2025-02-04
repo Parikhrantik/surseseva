@@ -183,7 +183,7 @@ export const getParticipantPerformanceById = async (competitionId, userID) => {
   }
 };
 export const updateParticipantPerformanceById = async (competitionId, userID, data) => {
-singer-auditions
+  // singer-auditions
   if (competitionId) {
     try {
       const config = {
