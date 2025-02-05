@@ -13,7 +13,6 @@ const storage = new Storage({ keyFilename: '../../googlekey.json' });
 const bucketName = 'surseseva';
 const bucket = storage.bucket(bucketName);
 
-
 async function testAuth() {
     try {
         const [buckets] = await storage.getBuckets();

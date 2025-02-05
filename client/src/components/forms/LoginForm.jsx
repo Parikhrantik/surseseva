@@ -121,10 +121,15 @@ const LoginForm = () => {
 
         <div className="mt-12">
           <Button text={isLoading ? <Spinner /> : "Login"} style={{ width: "100%" }} />
-          <p class="text-xs mt-6 text-gray-800 text-end"> <Link to="/forgotpassword" class="text-blue-500 font-semibold hover:underline ml-1">Forgot password?</Link></p>
+          <div className=" mt-6" style={{ display: "flex", justifyContent: "space-between" }}>
+            <p class="text-xs text-gray-800"> <Link to="/forgotpassword" class="text-blue-500 font-semibold hover:underline ml-1">Forgot password?</Link></p>
+            <p class="text-xs text-gray-800"> <Link to="/resendemail-verification" class="text-blue-500 font-semibold hover:underline ml-1">Resend Verification Email</Link></p>
+          </div>
           <p class="text-sm mt-6 text-gray-800 text-center">Don't have an account? <Link to="/register" class="text-blue-500 font-semibold hover:underline ml-1">Register here</Link></p>
         </div>
+
       </form>
+     
     </AuthLayout>
   );
 };

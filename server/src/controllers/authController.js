@@ -54,29 +54,18 @@ const registerUser = async (req, res) => {
     newUser.verificationToken = verificationToken;
 
 
-
     // Send verification email
     const verificationUrl = `${process.env.BASE_URL}/auth/verifyemail?token=${encodeURIComponent(verificationToken)}`;
-    console.log(verificationUrl, 'Verification URL');
+    await sendEmail.sendVerificationEmail(email, verificationUrl);
 
-    await sendEmail.sendVerificationEmail(email, verificationUrl).then(async (res) => {
-      if (res) {
-        // Save the user
-        await newUser.save();
+    // Save the user
+    await newUser.save();
 
-        // Respond with success message
-        return res.status(201).json({
-          status: '201',
-          message: 'Registration successful. Check your email for verification.',
-        });
-      } else {
-        return res.status(201).json({
-          status: '500',
-          message: 'Something went wrong please try again later',
-        });
-      }
+    // Respond with success message
+    return res.status(201).json({
+      status: '201',
+      message: 'Registration successful. Check your email for verification.',
     });
-
 
   } catch (error) {
     console.error('Error during registration:', error);
@@ -89,9 +78,43 @@ const registerUser = async (req, res) => {
   }
 };
 
-const ResendRegistrationLink = async () => {
+const resendVerificationEmail = async (req, res) => {
+  const { email } = req.body;
+  // console.log("heyyyyyyyyyyyyyyyyy",req.body)
+  // console.log(`Resend verification email requested for: ${email}`);
 
-}
+  try {
+    // Find user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    // Check if user is already verified
+    if (user.isVerified) {
+      return res.status(400).json({ message: "Email is already verified" });
+    }
+
+    // Generate new verification token
+    const verificationToken = jwtUtils.generateVerificationToken(user._id);
+    user.verificationToken = verificationToken;
+    await user.save();
+
+    // Construct verification link
+    const verificationUrl = `${process.env.BASE_URL}/auth/verifyemail?token=${encodeURIComponent(verificationToken)}`;
+
+    // Send verification email
+    await sendEmail.sendVerificationEmail(email, verificationUrl);
+
+    return res.status(200).json({ message: "Verification email resent successfully" });
+  } catch (error) {
+    console.error("Error resending verification email:", error.message);
+    return res.status(500).json({ message: "Something went wrong, please try again later." });
+  }
+};
+
+
 const sendVerificationLink = async (req, res) => {
   const { email, userId } = req.body;
   try {
@@ -144,15 +167,16 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
+     // Check if the user is verified
+    if (!user.isVerified) {
+      return res.status(400).json({ message: 'Please verify your email' });
+    }
     // Check if the password is correct
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-    // Check if the user is verified
-    if (!user.isVerified) {
-      return res.status(400).json({ message: 'Please verify your email' });
-    }
+   
     // Generate JWT token
     const tokenId = crypto.randomBytes(16).toString('hex'); // generate a unique token id
     const token = jwt.sign({ userId: user._id, role: user.role, tokenId }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -242,4 +266,4 @@ const resetPassword = async (req, res) => {
 
 
 // module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink };
-module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink, resetPassword, forgotPassword };
+module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink, resetPassword, forgotPassword,resendVerificationEmail };
