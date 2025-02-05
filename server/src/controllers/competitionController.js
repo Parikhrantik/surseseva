@@ -419,7 +419,7 @@ exports.getApprovedCompetitions = async (req, res) => {
     // Fetch all competition events
     const competitionEvents = await Competition.find({ userId: new mongoose.Types.ObjectId(req.params.userId) });
     const ParticipantVotes = await Vote.find({ participant_id: new mongoose.Types.ObjectId(req.params.userId) });
-    
+
     console.log('ParticipantVotes', ParticipantVotes)
     console.log('competitionEvents', competitionEvents)
     // Fetch vote counts along with voter feedback for competitions
@@ -468,7 +468,7 @@ exports.getApprovedCompetitions = async (req, res) => {
               return {
                 feedbackComment: vote.voterFeedback,
                 voterName: voter?.name || '',
-                
+
               };
             })
         );

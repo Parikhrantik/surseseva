@@ -56,16 +56,30 @@ const registerUser = async (req, res) => {
 
     // Send verification email
     const verificationUrl = `${process.env.BASE_URL}/auth/verifyemail?token=${encodeURIComponent(verificationToken)}`;
-    await sendEmail.sendVerificationEmail(email, verificationUrl);
+    console.log(verificationUrl, 'Verification URL');
 
-    // Save the user
-    await newUser.save();
+    try {
+      const emailResponse = await sendEmail.sendVerificationEmail(email, verificationUrl);
 
-    // Respond with success message
-    return res.status(201).json({
-      status: '201',
-      message: 'Registration successful. Check your email for verification.',
-    });
+      if (emailResponse) {
+        await newUser.save();
+        return res.status(201).json({
+          status: '201',
+          message: 'Registration successful. Check your email for verification.',
+        });
+      } else {
+        return res.status(500).json({
+          status: '500',
+          message: 'Something went wrong, please try again later',
+        });
+      }
+    } catch (error) {
+      console.error('Email sending failed:', error);
+      return res.status(500).json({
+        status: '500',
+        message: 'Internal server error',
+      });
+    }
 
   } catch (error) {
     console.error('Error during registration:', error);
@@ -80,8 +94,7 @@ const registerUser = async (req, res) => {
 
 const resendVerificationEmail = async (req, res) => {
   const { email } = req.body;
-  // console.log("heyyyyyyyyyyyyyyyyy",req.body)
-  // console.log(`Resend verification email requested for: ${email}`);
+
 
   try {
     // Find user by email
@@ -167,7 +180,7 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
-     // Check if the user is verified
+    // Check if the user is verified
     if (!user.isVerified) {
       return res.status(400).json({ message: 'Please verify your email' });
     }
@@ -176,7 +189,7 @@ const loginUser = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-   
+
     // Generate JWT token
     const tokenId = crypto.randomBytes(16).toString('hex'); // generate a unique token id
     const token = jwt.sign({ userId: user._id, role: user.role, tokenId }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -266,4 +279,4 @@ const resetPassword = async (req, res) => {
 
 
 // module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink };
-module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink, resetPassword, forgotPassword,resendVerificationEmail };
+module.exports = { registerUser, verifyEmail, loginUser, sendVerificationLink, resetPassword, forgotPassword, resendVerificationEmail };
