@@ -23,6 +23,7 @@ import Termsandcondition from './pages/termsandcondition';
 import Competitiontermsandcondition from './pages/competitiontermsandcondition';
 import MyPrevious from './pages/MyPrevious';
 import SingerOrdinations from './pages/SingerOrdinations';
+import Resendemail from './components/forms/Resendemail';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -205,6 +206,14 @@ const App = () => {
             element={
               // <PublicRoute>
                 <ForgotPasswordForm />
+              // </PublicRoute>
+            }
+          />
+          <Route
+            path="/resendemail-verification"
+            element={
+              // <PublicRoute>
+                <Resendemail />
               // </PublicRoute>
             }
           />

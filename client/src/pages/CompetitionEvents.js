@@ -157,8 +157,9 @@ const CompetitionEvents = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                {Array.isArray(competitions?.data) && competitions.data.length > 0 ? (
-                  competitions.data.map((competition) => (
+              {Array.isArray(competitions?.data) && competitions.data.length > 0 ? (
+                competitions.data.filter((competition) => new Date(competition.endDate) >= new Date()).map((competition) => (
+                    
                     <div
                       key={competition._id}
                       className="invition-card group bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transform hover:-translate-y-2 transition-all duration-300"
@@ -250,14 +251,15 @@ const CompetitionEvents = () => {
                 <h3 className="text-4xl font-bold">Singer Auditions</h3>
                 <div className="main-title-sec flex justify-between items-center">
                   <div></div>
-                  {(showAll && performanceEvents.length > 3) && (
+                  {(performanceEvents.length > eventsToDisplay.length) && (
                     <button
                       className="flex items-center gap-2 text-purple-400 hover:text-purple-300 transition-colors"
                       onClick={handleViewAllClick}
                     >
-                      Show Fewer <ArrowRight className="h-4 w-4" />
+                      View All <ArrowRight className="h-4 w-4" />
                     </button>
                   )}
+
                 </div>
               </div>
 
@@ -333,7 +335,7 @@ const CompetitionEvents = () => {
                                   </button>
                                 </div>
                               </div>
-
+                              {role !== "judge" && (
                               <div className="flex items-center gap-2">
                                 <button
                                   className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 text-white font-semibold shadow-md hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500"
@@ -343,6 +345,7 @@ const CompetitionEvents = () => {
                                   {hasVoted ? 'Voted' : 'Vote'}
                                 </button>
                               </div>
+                            )}
                             </div>
                           </>
                         )}

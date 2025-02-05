@@ -24,7 +24,7 @@ const SingerOrdinations = () => {
     let toastId = null;
 
 
-
+    const role = localStorage.getItem('role');
 
 
     const openvoterModal = (competition_Id, userId) => {
@@ -194,7 +194,7 @@ const SingerOrdinations = () => {
                                                                 </button>
                                                             </div>
                                                         </div>
-
+                                                        {role !== "judge" && (
                                                         <div className="flex items-center gap-2">
                                                             <button
                                                                 className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 text-white font-semibold shadow-md hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500"
@@ -205,6 +205,7 @@ const SingerOrdinations = () => {
                                                             </button>
 
                                                         </div>
+                                                    )}
                                                     </div>
                                                 </>
                                             )}

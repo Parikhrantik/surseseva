@@ -19,8 +19,10 @@ const useAuth = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
+  const [isVerified, setIsVerified] = useState(false);
 
   const apiCall = async (url, data) => {
+    debugger
     setIsLoading(true);
     setError(null);
     setSuccess(null);
@@ -66,6 +68,7 @@ const useAuth = () => {
 
   // Login API Call
   const loginUser = async (loginData) => {
+    debugger
     return await apiCall(`${API_URL}/auth/login`, loginData);
   };
 
@@ -86,14 +89,39 @@ const useAuth = () => {
     return await apiCall(`${API_URL}/auth/reset-password`, resetData);
   };
 
+
+
+  const handleResendEmail = async (email) => {
+    if (!email) {
+      toast.error("Please enter your email.");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/auth/resend-verification`, { email });
+      toast.success(response.data.message);
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || "Failed to resend verification email.";
+      toast.error(errorMessage);
+      if (error.response?.data?.message.includes("already registered")) {
+        setIsVerified(true);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+ 
+
   return {
     loginUser,
     registerUser,
     forgotPassword,
     resetPassword,
+    handleResendEmail,
     isLoading,
     error,
     success,
+    isVerified,
   };
 };
 
