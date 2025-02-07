@@ -57,7 +57,7 @@ const PerformanceForm = ({
               description: data.description || '',
               tags: data.tags || [],
               mediaType: mediaType,
-              videoLink: videoLink,
+              videoLink: data.videoLink || videoLink,
               performanceFile: data.performanceFile || null, // Reset file input
             });
 
@@ -77,6 +77,10 @@ const PerformanceForm = ({
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
+    if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+      setError("PNG and JPG files are not allowed");
+      return;
+    }
     if (file) {
       const fileSizeInMB = file.size / (1024 * 1024);
       if (fileSizeInMB > 100) {
@@ -93,7 +97,7 @@ const PerformanceForm = ({
     };
   }
 
-  console.log('formData', formData)
+  // console.log('formData', formData)
   const handleSubmit = async (e) => {
     e.preventDefault();
 

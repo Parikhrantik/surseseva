@@ -69,6 +69,10 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
 
   const handleFileChange = (e) => {
     const file = e.target?.files[0];
+    if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+      setError("PNG and JPG files are not allowed");
+      return;
+    }
     if (file) {
       const fileSizeInMB = file.size / (1024 * 1024);
       if (fileSizeInMB > 100) {
@@ -78,6 +82,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
       setFormData((prevData) => ({
         ...prevData,
         performanceFile: file,
+        videoLink: "", 
         uploadProgress: 0,
       }));
       setError(null);
@@ -161,7 +166,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
                 value="file"
                 checked={formData.mediaType === 'file'}
                 onChange={(e) =>
-                  setFormData({ ...formData, mediaType: e.target.value, videoLink: '' })
+                  setFormData({ ...formData, mediaType: e.target.value, videoLink: '',performanceFile: null, })
                 }
                 className="mr-2"
               />
@@ -173,7 +178,7 @@ const PerformanceForm = ({ onSubmit, onBack, onClose, competitionId, competition
                 value="url"
                 checked={formData.mediaType === 'url'}
                 onChange={(e) =>
-                  setFormData({ ...formData, mediaType: e.target.value, performanceFile: null })
+                  setFormData({ ...formData, mediaType: e.target.value, performanceFile: null ,  videoLink: "",})
                 }
                 className="mr-2"
               />
