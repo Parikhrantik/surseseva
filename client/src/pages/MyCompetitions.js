@@ -108,7 +108,6 @@ const MyCompetitions = () => {
   (performance) => performance.competitionRegId === competition._id
 );
 
-              debugger
               console.log("isRegistered", isRegistered)
               return (
 

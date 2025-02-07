@@ -22,7 +22,7 @@ const useAuth = () => {
   const [isVerified, setIsVerified] = useState(false);
 
   const apiCall = async (url, data) => {
-    debugger
+    
     setIsLoading(true);
     setError(null);
     setSuccess(null);
@@ -68,7 +68,7 @@ const useAuth = () => {
 
   // Login API Call
   const loginUser = async (loginData) => {
-    debugger
+  
     return await apiCall(`${API_URL}/auth/login`, loginData);
   };
 

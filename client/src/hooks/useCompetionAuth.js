@@ -177,20 +177,50 @@ const useCompetitionAuth = () => {
     }
   }, [competitionId]);
 
-  const fetchCompetitionsandPerformances = useCallback(async () => {
+  const fetchCompetitionsandPerformances = useCallback(async (searchName, category) => {
+  
     setIsLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/competition/approved-Competitons`);
-      setPerformances(response.data);
-
+      // Construct the query parameters dynamically based on the passed values
+      const queryParams = new URLSearchParams();
+      
+      if (searchName) queryParams.append('searchName', searchName);
+      if (category) queryParams.append('category', category);
+  
+      // Append the query parameters to the API URL
+      const url = `${API_URL}/competition/approved-Competitons/?${queryParams.toString()}`;
+  
+      // Make the API call to fetch approved competitions
+      const response = await axios.get(url);
+      
+      // Set the response data to the performances state
+      if (response.data) {
+        setPerformances(response.data);
+      } else {
+        setError('No competitions data available.');
+      }
+  
     } catch (err) {
+      // Enhanced error handling with detailed logging
       setError('Failed to fetch competitions');
-      console.error(err);
+      console.error('Error fetching competitions and performances:', err);
+  
+      // Optionally, you can show a more descriptive error to the user.
+      if (err.response) {
+        // Server responded with a status other than 2xx
+        console.error('Server Error:', err.response.data);
+      } else if (err.request) {
+        // Request was made but no response was received
+        console.error('No response received:', err.request);
+      } else {
+        // Something else triggered an error
+        console.error('Unexpected error:', err.message);
+      }
     } finally {
+      // Set loading to false once the fetch operation is complete
       setIsLoading(false);
     }
   }, []);
-
   useEffect(() => {
     fetchCompetitionsandPerformances();
   }, [fetchCompetitionsandPerformances]);

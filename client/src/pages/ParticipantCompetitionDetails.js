@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
@@ -19,8 +20,8 @@ const ParticipantCompetitionDetails = () => {
 
   const filteredCompetationData = approvedParticipantCompitions?.competitionEvents?.filter((item) => item._id === id);
   const filteredPerformanceData = approvedParticipantCompitions?.performanceEvents?.filter((item) => item.competitionRegId === id);
-  // console.log('filteredCompetationData', filteredCompetationData)
-  // console.log('filteredPerformanceData', filteredPerformanceData)
+  console.log('filteredCompetationData', filteredCompetationData)
+  console.log('filteredPerformanceData', filteredPerformanceData)
   useEffect(() => {
     if (setId) {
       setId(userId);
@@ -48,6 +49,66 @@ const ParticipantCompetitionDetails = () => {
     ? filteredCompetationData?.[0]?.feedbackDetails
     : filteredCompetationData?.[0]?.feedbackDetails?.slice(0, 3);
 
+
+    const VideoPlayer = ({ performanceFile, videoLink }) => {
+      const getYoutubeEmbedUrl = (url) => {
+        if (!url) return null;
+        try {
+          // Handle different YouTube URL formats
+          if (url.includes('youtube.com/watch?v=')) {
+            return `https://www.youtube.com/embed/${url.split('v=')[1].split('&')[0]}`;
+          } else if (url.includes('youtu.be/')) {
+            return `https://www.youtube.com/embed/${url.split('youtu.be/')[1]}`;
+          }
+          return null;
+        } catch (error) {
+          console.error('Error parsing YouTube URL:', error);
+          return null;
+        }
+      };
+    
+      if (performanceFile && performanceFile !== "null") {
+        return (
+          <video 
+            width="100%" 
+            height="300" 
+            controls 
+            className="rounded-lg"
+          >
+            <source src={performanceFile} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        );
+      }
+    
+      if (videoLink) {
+        const embedUrl = getYoutubeEmbedUrl(videoLink);
+        if (embedUrl) {
+          return (
+            <iframe
+              width="100%"
+              height="300"
+              src={embedUrl}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="rounded-lg"
+            />
+          );
+        }
+      }
+    
+      return (
+        <div className="flex items-center justify-center h-full bg-gray-700 rounded-lg">
+          <p className="text-gray-300">No video available</p>
+        </div>
+      );
+    };
+
+
+
+
+
   return (
 
     <div className="container mx-auto px-4 bg-black">
@@ -67,13 +128,11 @@ const ParticipantCompetitionDetails = () => {
           {/* First Column - 4/12 width */}
           <div className="md:col-span-5">
             <div className="competition-details-items rounded-lg shadow-lg p-6" style={{ backgroundColor: '#8a2be252' }}>
-              <div className="flex items-center justify-center bg-gray-500 rounded-lg h-80">
-                <video
-                  src={filteredPerformanceData?.[0]?.performanceFile}
-                  controls
-                  className="w-full h-full rounded-lg"
-                  style={{ minHeight: "300px" }}
-                ></video>
+            <div className="flex items-center justify-center bg-gray-500 rounded-lg h-80">
+                <VideoPlayer
+                  performanceFile={filteredPerformanceData?.[0]?.performanceFile}
+                  videoLink={filteredPerformanceData?.[0]?.videoLink}
+                />
               </div>
             </div>
           </div>

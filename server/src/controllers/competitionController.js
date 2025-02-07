@@ -511,12 +511,16 @@ exports.getApprovedCompetitions = async (req, res) => {
 };
 
 
-
 // exports.getPublicApprovedCompetitions = async (req, res) => {
 //   try {
-//     // Fetch all approved performance events
-//     const performanceEvents = await Performance.find({ status: "approved" });
-//     const competitionEvents = await Competition.find();
+//     // Fetch all approved performance events and populate user details
+//     const performanceEvents = await Performance.find({ status: "approved" })
+//       .populate("userId", "name email"); // Fetch user details (e.g., name, email)
+
+//     // Fetch all competition events and populate user details
+//     const competitionEvents = await Competition.find().populate("userId", "name email profilePicture");
+
+//     // Fetch all votes
 //     const participantVotes = await Vote.find();
 
 //     // Match competitionEvents._id with votes.competitionId and attach details
@@ -527,10 +531,10 @@ exports.getApprovedCompetitions = async (req, res) => {
 //         );
 //         const voteDetails = await Promise.all(
 //           relatedVotes.map(async (vote) => {
-//             const voter = await User.findById(vote.voter_id).select('name');
+//             const voter = await User.findById(vote.voter_id).select("name");
 //             return {
 //               voterId: vote.voter_id,
-//               voterName: voter.name,
+//               voterName: voter ? voter.name : "Unknown",
 //               participantId: vote.participant_id,
 //               feedback: vote.voterFeedback,
 //             };
@@ -550,33 +554,62 @@ exports.getApprovedCompetitions = async (req, res) => {
 //       message: "All competition and performance events retrieved successfully.",
 //       data: {
 //         competitionEvents: competitionEventsWithVotes,
-//         performanceEvents: performanceEvents,
+//         performanceEvents,
 //       },
 //     });
 //   } catch (error) {
-//     console.error('Error fetching competition events:', error);
+//     console.error("Error fetching competition events:", error);
 //     return res.status(500).json({
 //       success: false,
-//       message: 'Internal server error: ' + error.message,
+//       message: "Internal server error: " + error.message,
 //     });
 //   }
 // };
-
-
-
 exports.getPublicApprovedCompetitions = async (req, res) => {
   try {
-    // Fetch all approved performance events and populate user details
-    const performanceEvents = await Performance.find({ status: "approved" })
-      .populate("userId", "name email"); // Fetch user details (e.g., name, email)
+    const { searchName, category } = req.query; // Extract searchName and category query params
 
-    // Fetch all competition events and populate user details
-    const competitionEvents = await Competition.find().populate("userId", "name email profilePicture");
+    // Create filters for performance and competition events
+    const performanceFilter = { status: "approved" };
+    const competitionFilter = {};
+
+    if (category) {
+      // Add category filter
+      performanceFilter.category = category;
+      competitionFilter.category = category;
+    }
+
+    if (searchName) {
+      // Search users by name
+      const userSearchRegex = new RegExp(searchName, "i"); // Case-insensitive search
+      const users = await User.find({ name: userSearchRegex }).select("_id");
+
+      if (users.length > 0) {
+        const userIds = users.map(user => user._id);
+        performanceFilter.userId = { $in: userIds };
+        competitionFilter.userId = { $in: userIds };
+      } else {
+        // If no matching users are found, return empty results
+        return res.status(200).json({
+          success: true,
+          message: "No matching events found.",
+          data: { competitionEvents: [], performanceEvents: [] },
+        });
+      }
+    }
+
+    // Fetch performance events
+    const performanceEvents = await Performance.find(performanceFilter)
+      .populate("userId", "name email");
+
+    // Fetch competition events
+    const competitionEvents = await Competition.find(competitionFilter)
+      .populate("userId", "name email profilePicture");
 
     // Fetch all votes
     const participantVotes = await Vote.find();
 
-    // Match competitionEvents._id with votes.competitionId and attach details
+    // Process competition events with votes
     const competitionEventsWithVotes = await Promise.all(
       competitionEvents.map(async (competition) => {
         const relatedVotes = participantVotes.filter(
@@ -604,7 +637,7 @@ exports.getPublicApprovedCompetitions = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "All competition and performance events retrieved successfully.",
+      message: "Filtered competition and performance events retrieved successfully.",
       data: {
         competitionEvents: competitionEventsWithVotes,
         performanceEvents,
@@ -618,3 +651,4 @@ exports.getPublicApprovedCompetitions = async (req, res) => {
     });
   }
 };
+
