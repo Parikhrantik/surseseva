@@ -16,6 +16,10 @@ body {
 
 }
 
+p.power-no-events {
+  text-align: center;
+  margin-top: 116px;
+}
 
 /*****************24-01-25***************/
 .mission-btn{
