@@ -94,6 +94,7 @@ const useCompetitionAuth = () => {
         };
         
         const response =  await axios.get(`${API_URL}/competition/approved-Competitons/${userId}`,config);
+        console.log(response,"competition/approved-Competitons")
         setApprovedParticipantCompitions(response.data?.data || []);
       } catch (error) {
         console.error('Error fetching participant data:', error);
@@ -192,7 +193,7 @@ const useCompetitionAuth = () => {
   
       // Make the API call to fetch approved competitions
       const response = await axios.get(url);
-      
+      console.log("API Response fetchCompetitionsandPerformances:", response.data);
       // Set the response data to the performances state
       if (response.data) {
         setPerformances(response.data);
@@ -238,7 +239,9 @@ const useCompetitionAuth = () => {
     updateCompetition,
     getCompetitionDetailsId,
   
-    approvedParticipantCompitions
+    approvedParticipantCompitions,
+    fetchCompetitionsandPerformances,
+    getApprovedParticipantCompitions
   };
 };
 

@@ -25,6 +25,7 @@ import MyPrevious from './pages/MyPrevious';
 import SingerOrdinations from './pages/SingerOrdinations';
 import Resendemail from './components/forms/Resendemail';
 import Presentcompetition from './pages/Presentcompetition';
+import CompetitionParticipentDetails from './pages/comptetionParticipentDetails';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -43,7 +44,7 @@ const App = () => {
   const ConditionalLayout = ({ children }) => {
     const location = useLocation();
     const showLayout = ["/", "/about", "/events", "/profile", "/my-competitions","/singer-auditions","/my-previous", "/allevents","/present-competition", "/events_details", '/contact-us', '/terms-and-conditions', '/competition-terms-and-conditions'].includes(location.pathname) ||
-      location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details") || location.pathname.startsWith("/events_details");
+      location.pathname.startsWith("/competition-events-details") || location.pathname.startsWith("/competition-details") || location.pathname.startsWith("/events_details") || location.pathname.startsWith("/singer-auditions-details");
 
     return (
       <>
@@ -123,6 +124,15 @@ const App = () => {
                 <SingerOrdinations />
               </ConditionalLayout>
             }
+          />
+          <Route
+          path='singer-auditions-details/:competitionId'
+          element={
+            <ConditionalLayout>
+              <CompetitionParticipentDetails/>
+            </ConditionalLayout>
+          }
+
           />
 
           <Route
